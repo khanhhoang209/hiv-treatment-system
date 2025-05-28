@@ -10,6 +10,10 @@
       <ProjectReference Include="..\Service\Service.csproj">
         <Private>True</Private>
       </ProjectReference>
+	    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.16">
+		    <PrivateAssets>all</PrivateAssets>
+		    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	    </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
