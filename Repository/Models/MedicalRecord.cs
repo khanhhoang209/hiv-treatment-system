@@ -11,32 +11,17 @@ namespace Repository.Models
     [Table("MedicalRecords")]
     public class MedicalRecord
     {
-        [Key]
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
+        public DateTime RecordDate { get; set; }
+        public string Diagnosis { get; set; }
+        public string Treatment { get; set; }
+        public string Notes { get; set; }
         public Guid DoctorId { get; set; }
-        //public Guid PrescriptionId { get; set; }
-        public decimal ExaminationFee { get; set; }
-
-
-        [ForeignKey("UserId")]
-        [InverseProperty("MedicalRecords")]
-        public virtual ApplicationUser User { get; set; }
-        
-
-        [ForeignKey("DoctorId")]
-        [InverseProperty("MedicalRecords")]
-        public virtual Doctor Doctor { get; set; }
-
-        [InverseProperty("MedicalRecord")]
-        public virtual Prescription Prescription { get; set; }
-
-
-        [InverseProperty("MedicalRecord")]
+        public Doctor Doctor { get; set; }
+        public Guid UserId { get; set; }
+        public ApplicationUser User { get; set; }
+        public Prescription Prescription { get; set; }
         public ICollection<TestResult> TestResults { get; set; }
-
-
-        [InverseProperty("MedicalRecord")]
         public ICollection<Order> Orders { get; set; }
     }
 }

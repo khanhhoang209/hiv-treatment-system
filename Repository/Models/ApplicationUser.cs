@@ -3,26 +3,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repository.Models;
 
-[Table("ApplicationUsers")]
-public class ApplicationUser 
+public class ApplicationUser
 {
-    [Key]
     public Guid Id { get; set; }
+    public string Username { get; set; }
+    public string Password { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+    public string Address { get; set; }
+    public DateTime DateOfBirth { get; set; }
+    public string Gender { get; set; }
+    public string Status { get; set; }
     public Guid RoleId { get; set; }
-
-    [ForeignKey("RoleId")]
-    [InverseProperty("Users")]
-    public virtual Role Role { get; set; }
-
-    [InverseProperty("User")]
+    public Role Role { get; set; }
     public ICollection<Employee> Employees { get; set; }
-
-    [InverseProperty("User")]
     public ICollection<Appointment> Appointments { get; set; }
-
-    [InverseProperty("User")]
     public ICollection<MedicalRecord> MedicalRecords { get; set; }
-
-    [InverseProperty("User")]
     public ICollection<Order> Orders { get; set; }
 }

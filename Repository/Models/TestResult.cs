@@ -11,23 +11,15 @@ namespace Repository.Models
     [Table("TestResults")]
     public class TestResult
     {
-        [Key]
         public Guid Id { get; set; }
+        public DateTime TestDate { get; set; }
+        public string Result { get; set; }
+        public string Notes { get; set; }
         public Guid MedicalRecordId { get; set; }
+        public MedicalRecord MedicalRecord { get; set; }
         public Guid TypeId { get; set; }
-        public Guid? ArvRegimentId { get; set; }
-        public decimal BoughtPrice { get; set; }
-
-        [ForeignKey("MedicalRecordId")]
-        [InverseProperty("TestResults")]
-        public virtual MedicalRecord MedicalRecord { get; set; }
-
-        [ForeignKey("TypeId")]
-        [InverseProperty("TestResults")]
-        public virtual Type Type { get; set; }
-
-        [ForeignKey("ArvRegimentId")]
-        [InverseProperty("TestResults")]
-        public virtual ArvRegimen ArvRegimen { get; set; }
+        public Type Type { get; set; }
+        public Guid ArvRegimentId { get; set; }
+        public ArvRegimen ArvRegimen { get; set; }
     }
 }

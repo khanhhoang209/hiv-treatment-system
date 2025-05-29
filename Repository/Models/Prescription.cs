@@ -11,15 +11,11 @@ namespace Repository.Models
     [Table("Prescriptions")]
     public class Prescription
     {
-        [Key]
         public Guid Id { get; set; }
+        public DateTime PrescriptionDate { get; set; }
+        public string Notes { get; set; }
         public Guid MedicalRecordId { get; set; }
-
-        [ForeignKey("MedicalRecordId")]
-        [InverseProperty("Prescription")]
-        public virtual MedicalRecord MedicalRecord { get; set; }
-
-        [InverseProperty("Prescription")]
+        public MedicalRecord MedicalRecord { get; set; }
         public ICollection<PrescriptionMedicine> PrescriptionMedicines { get; set; }
     }
 }

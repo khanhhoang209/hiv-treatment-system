@@ -11,7 +11,6 @@ namespace Repository.Models
     [Table("Roles")]
     public class Role
     {
-        [Key]
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string NormalizedName { get; set; }

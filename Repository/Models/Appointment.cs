@@ -11,21 +11,13 @@ namespace Repository.Models
     [Table("Appointments")]
     public class Appointment
     {
-        [Key]
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
+        public DateTime AppointmentDate { get; set; }
+        public string Status { get; set; }
+        public string Notes { get; set; }
         public Guid DoctorId { get; set; }
-        public DateTimeOffset ScheduledAt { get; set; }
-        public string Reason { get; set; }
-        public bool IsAnonymous { get; set; }
-        public bool IsOnline { get; set; }
-
-        [ForeignKey("UserId")]
-        [InverseProperty("Appointments")]
-        public virtual ApplicationUser User { get; set; }
-
-        [ForeignKey("DoctorId")]
-        [InverseProperty("Appointments")]
-        public virtual Doctor Doctor { get; set; }
+        public Doctor Doctor { get; set; }
+        public Guid UserId { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

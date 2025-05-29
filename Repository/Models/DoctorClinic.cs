@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Repository.Models
 {
     [Table("DoctorClinics")]
     public class DoctorClinic
     {
-
         public Guid DoctorId { get; set; }
         public Guid ClinicId { get; set; }
         public DateTimeOffset StartAt { get; set; }

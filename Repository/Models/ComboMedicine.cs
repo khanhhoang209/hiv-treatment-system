@@ -11,7 +11,6 @@ namespace Repository.Models
     [Table("ComboMedicines")]
     public class ComboMedicine
     {
-        [Key]
         public Guid Id { get; set; }
         public Guid ArvRegimenId { get; set; }
         public Guid MedicineId { get; set; }
