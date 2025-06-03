@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace Repository.Models
 {
-    [Table("Employees")]
+    [Table("Employee")]
     public class Employee
     {
         public Guid Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string Address { get; set; }
+        public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string Phone { get; set; } = null!;
+        public string Address { get; set; } = null!;
         public DateTime DateOfBirth { get; set; }
-        public string Gender { get; set; }
-        public string Status { get; set; }
+        public string Gender { get; set; } = null!;
+        public string Status { get; set; } = null!;
         public Guid UserId { get; set; }
-        public ApplicationUser User { get; set; }
-        public Doctor Doctor { get; set; }
-        public Staff Staff { get; set; }
-        public ICollection<Qualification> Qualifications { get; set; }
+        public ApplicationUser User { get; set; } = null!;
+        public Doctor Doctor { get; set; } = null!;
+        public Staff Staff { get; set; } = null!;
+        public ICollection<Qualification> Qualifications { get; set; } = null!;
     }
 }

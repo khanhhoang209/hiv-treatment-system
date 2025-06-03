@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace Repository.Models
 {
-    [Table("Medicines")]
+    [Table("Medicine")]
     public class Medicine
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
         public decimal Price { get; set; }
         public int Stock { get; set; }
 
         [InverseProperty("Medicine")]
-        public ICollection<ComboMedicine> ComboMedicines { get; set; }
+        public ICollection<ComboMedicine> ComboMedicines { get; set; }  = null!;
 
         [InverseProperty("Medicine")]
-        public ICollection<PrescriptionMedicine> PrescriptionMedicines { get; set; }
+        public ICollection<PrescriptionMedicine> PrescriptionMedicines { get; set; } = null!;
     }
 }

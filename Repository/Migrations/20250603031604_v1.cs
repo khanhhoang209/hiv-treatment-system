@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class v2 : Migration
+    public partial class v1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ArvRegimens",
+                name: "ArvRegimen",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -22,11 +22,11 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ArvRegimens", x => x.Id);
+                    table.PrimaryKey("PK_ArvRegimen", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Clinics",
+                name: "Clinic",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -37,11 +37,11 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clinics", x => x.Id);
+                    table.PrimaryKey("PK_Clinic", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Medicines",
+                name: "Medicine",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -52,11 +52,11 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Medicines", x => x.Id);
+                    table.PrimaryKey("PK_Medicine", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "Role",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -65,11 +65,11 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
+                    table.PrimaryKey("PK_Role", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Types",
+                name: "Type",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -79,11 +79,11 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Types", x => x.Id);
+                    table.PrimaryKey("PK_Type", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ComboMedicines",
+                name: "ComboMedicine",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -93,17 +93,17 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ComboMedicines", x => x.Id);
+                    table.PrimaryKey("PK_ComboMedicine", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ComboMedicines_ArvRegimens_ArvRegimenId",
+                        name: "FK_ComboMedicine_ArvRegimen_ArvRegimenId",
                         column: x => x.ArvRegimenId,
-                        principalTable: "ArvRegimens",
+                        principalTable: "ArvRegimen",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ComboMedicines_Medicines_MedicineId",
+                        name: "FK_ComboMedicine_Medicine_MedicineId",
                         column: x => x.MedicineId,
-                        principalTable: "Medicines",
+                        principalTable: "Medicine",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -127,15 +127,15 @@ namespace Repository.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Roles_RoleId",
+                        name: "FK_Users_Role_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Roles",
+                        principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employees",
+                name: "Employee",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -151,9 +151,9 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.PrimaryKey("PK_Employee", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Employees_Users_UserId",
+                        name: "FK_Employee_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -161,7 +161,7 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Doctors",
+                name: "Doctor",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -171,17 +171,17 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Doctors", x => x.Id);
+                    table.PrimaryKey("PK_Doctor", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Doctors_Employees_EmployeeId",
+                        name: "FK_Doctor_Employee_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "Employees",
+                        principalTable: "Employee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Qualifications",
+                name: "Qualification",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -193,17 +193,17 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Qualifications", x => x.Id);
+                    table.PrimaryKey("PK_Qualification", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Qualifications_Employees_EmployeeId",
+                        name: "FK_Qualification_Employee_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "Employees",
+                        principalTable: "Employee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Staffs",
+                name: "Staff",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -213,17 +213,17 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Staffs", x => x.Id);
+                    table.PrimaryKey("PK_Staff", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Staffs_Employees_EmployeeId",
+                        name: "FK_Staff_Employee_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "Employees",
+                        principalTable: "Employee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Appointments",
+                name: "Appointment",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -235,14 +235,14 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.PrimaryKey("PK_Appointment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Appointments_Doctors_DoctorId",
+                        name: "FK_Appointment_Doctor_DoctorId",
                         column: x => x.DoctorId,
-                        principalTable: "Doctors",
+                        principalTable: "Doctor",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Appointments_Users_UserId",
+                        name: "FK_Appointment_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -250,7 +250,7 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DoctorClinics",
+                name: "DoctorClinic",
                 columns: table => new
                 {
                     DoctorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -260,23 +260,23 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DoctorClinics", x => new { x.DoctorId, x.ClinicId });
+                    table.PrimaryKey("PK_DoctorClinic", x => new { x.DoctorId, x.ClinicId });
                     table.ForeignKey(
-                        name: "FK_DoctorClinics_Clinics_ClinicId",
+                        name: "FK_DoctorClinic_Clinic_ClinicId",
                         column: x => x.ClinicId,
-                        principalTable: "Clinics",
+                        principalTable: "Clinic",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DoctorClinics_Doctors_DoctorId",
+                        name: "FK_DoctorClinic_Doctor_DoctorId",
                         column: x => x.DoctorId,
-                        principalTable: "Doctors",
+                        principalTable: "Doctor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "MedicalRecords",
+                name: "MedicalRecord",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -289,14 +289,14 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MedicalRecords", x => x.Id);
+                    table.PrimaryKey("PK_MedicalRecord", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MedicalRecords_Doctors_DoctorId",
+                        name: "FK_MedicalRecord_Doctor_DoctorId",
                         column: x => x.DoctorId,
-                        principalTable: "Doctors",
+                        principalTable: "Doctor",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_MedicalRecords_Users_UserId",
+                        name: "FK_MedicalRecord_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -304,7 +304,7 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StaffClinics",
+                name: "StaffClinic",
                 columns: table => new
                 {
                     StaffId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -314,23 +314,23 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StaffClinics", x => new { x.StaffId, x.ClinicId });
+                    table.PrimaryKey("PK_StaffClinic", x => new { x.StaffId, x.ClinicId });
                     table.ForeignKey(
-                        name: "FK_StaffClinics_Clinics_ClinicId",
+                        name: "FK_StaffClinic_Clinic_ClinicId",
                         column: x => x.ClinicId,
-                        principalTable: "Clinics",
+                        principalTable: "Clinic",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StaffClinics_Staffs_StaffId",
+                        name: "FK_StaffClinic_Staff_StaffId",
                         column: x => x.StaffId,
-                        principalTable: "Staffs",
+                        principalTable: "Staff",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "Order",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -342,27 +342,27 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_Order", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Doctors_DoctorId",
+                        name: "FK_Order_Doctor_DoctorId",
                         column: x => x.DoctorId,
-                        principalTable: "Doctors",
+                        principalTable: "Doctor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Orders_MedicalRecords_MedicalRecordId",
+                        name: "FK_Order_MedicalRecord_MedicalRecordId",
                         column: x => x.MedicalRecordId,
-                        principalTable: "MedicalRecords",
+                        principalTable: "MedicalRecord",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Orders_Users_UserId",
+                        name: "FK_Order_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Prescriptions",
+                name: "Prescription",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -372,17 +372,17 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Prescriptions", x => x.Id);
+                    table.PrimaryKey("PK_Prescription", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Prescriptions_MedicalRecords_MedicalRecordId",
+                        name: "FK_Prescription_MedicalRecord_MedicalRecordId",
                         column: x => x.MedicalRecordId,
-                        principalTable: "MedicalRecords",
+                        principalTable: "MedicalRecord",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TestResults",
+                name: "TestResult",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -395,29 +395,29 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TestResults", x => x.Id);
+                    table.PrimaryKey("PK_TestResult", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TestResults_ArvRegimens_ArvRegimentId",
+                        name: "FK_TestResult_ArvRegimen_ArvRegimentId",
                         column: x => x.ArvRegimentId,
-                        principalTable: "ArvRegimens",
+                        principalTable: "ArvRegimen",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TestResults_MedicalRecords_MedicalRecordId",
+                        name: "FK_TestResult_MedicalRecord_MedicalRecordId",
                         column: x => x.MedicalRecordId,
-                        principalTable: "MedicalRecords",
+                        principalTable: "MedicalRecord",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TestResults_Types_TypeId",
+                        name: "FK_TestResult_Type_TypeId",
                         column: x => x.TypeId,
-                        principalTable: "Types",
+                        principalTable: "Type",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PrescriptionMedicines",
+                name: "PrescriptionMedicine",
                 columns: table => new
                 {
                     PrescriptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -430,122 +430,122 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrescriptionMedicines", x => new { x.PrescriptionId, x.MedicineId });
+                    table.PrimaryKey("PK_PrescriptionMedicine", x => new { x.PrescriptionId, x.MedicineId });
                     table.ForeignKey(
-                        name: "FK_PrescriptionMedicines_Medicines_MedicineId",
+                        name: "FK_PrescriptionMedicine_Medicine_MedicineId",
                         column: x => x.MedicineId,
-                        principalTable: "Medicines",
+                        principalTable: "Medicine",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PrescriptionMedicines_Prescriptions_PrescriptionId",
+                        name: "FK_PrescriptionMedicine_Prescription_PrescriptionId",
                         column: x => x.PrescriptionId,
-                        principalTable: "Prescriptions",
+                        principalTable: "Prescription",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_DoctorId",
-                table: "Appointments",
+                name: "IX_Appointment_DoctorId",
+                table: "Appointment",
                 column: "DoctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_UserId",
-                table: "Appointments",
+                name: "IX_Appointment_UserId",
+                table: "Appointment",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ComboMedicines_ArvRegimenId",
-                table: "ComboMedicines",
+                name: "IX_ComboMedicine_ArvRegimenId",
+                table: "ComboMedicine",
                 column: "ArvRegimenId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ComboMedicines_MedicineId",
-                table: "ComboMedicines",
+                name: "IX_ComboMedicine_MedicineId",
+                table: "ComboMedicine",
                 column: "MedicineId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DoctorClinics_ClinicId",
-                table: "DoctorClinics",
-                column: "ClinicId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Doctors_EmployeeId",
-                table: "Doctors",
+                name: "IX_Doctor_EmployeeId",
+                table: "Doctor",
                 column: "EmployeeId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_UserId",
-                table: "Employees",
+                name: "IX_DoctorClinic_ClinicId",
+                table: "DoctorClinic",
+                column: "ClinicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employee_UserId",
+                table: "Employee",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MedicalRecords_DoctorId",
-                table: "MedicalRecords",
+                name: "IX_MedicalRecord_DoctorId",
+                table: "MedicalRecord",
                 column: "DoctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MedicalRecords_UserId",
-                table: "MedicalRecords",
+                name: "IX_MedicalRecord_UserId",
+                table: "MedicalRecord",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_DoctorId",
-                table: "Orders",
+                name: "IX_Order_DoctorId",
+                table: "Order",
                 column: "DoctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_MedicalRecordId",
-                table: "Orders",
+                name: "IX_Order_MedicalRecordId",
+                table: "Order",
                 column: "MedicalRecordId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_UserId",
-                table: "Orders",
+                name: "IX_Order_UserId",
+                table: "Order",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrescriptionMedicines_MedicineId",
-                table: "PrescriptionMedicines",
-                column: "MedicineId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Prescriptions_MedicalRecordId",
-                table: "Prescriptions",
+                name: "IX_Prescription_MedicalRecordId",
+                table: "Prescription",
                 column: "MedicalRecordId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Qualifications_EmployeeId",
-                table: "Qualifications",
+                name: "IX_PrescriptionMedicine_MedicineId",
+                table: "PrescriptionMedicine",
+                column: "MedicineId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Qualification_EmployeeId",
+                table: "Qualification",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StaffClinics_ClinicId",
-                table: "StaffClinics",
-                column: "ClinicId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Staffs_EmployeeId",
-                table: "Staffs",
+                name: "IX_Staff_EmployeeId",
+                table: "Staff",
                 column: "EmployeeId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TestResults_ArvRegimentId",
-                table: "TestResults",
+                name: "IX_StaffClinic_ClinicId",
+                table: "StaffClinic",
+                column: "ClinicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestResult_ArvRegimentId",
+                table: "TestResult",
                 column: "ArvRegimentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TestResults_MedicalRecordId",
-                table: "TestResults",
+                name: "IX_TestResult_MedicalRecordId",
+                table: "TestResult",
                 column: "MedicalRecordId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TestResults_TypeId",
-                table: "TestResults",
+                name: "IX_TestResult_TypeId",
+                table: "TestResult",
                 column: "TypeId");
 
             migrationBuilder.CreateIndex(
@@ -558,61 +558,61 @@ namespace Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Appointments");
+                name: "Appointment");
 
             migrationBuilder.DropTable(
-                name: "ComboMedicines");
+                name: "ComboMedicine");
 
             migrationBuilder.DropTable(
-                name: "DoctorClinics");
+                name: "DoctorClinic");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Order");
 
             migrationBuilder.DropTable(
-                name: "PrescriptionMedicines");
+                name: "PrescriptionMedicine");
 
             migrationBuilder.DropTable(
-                name: "Qualifications");
+                name: "Qualification");
 
             migrationBuilder.DropTable(
-                name: "StaffClinics");
+                name: "StaffClinic");
 
             migrationBuilder.DropTable(
-                name: "TestResults");
+                name: "TestResult");
 
             migrationBuilder.DropTable(
-                name: "Medicines");
+                name: "Medicine");
 
             migrationBuilder.DropTable(
-                name: "Prescriptions");
+                name: "Prescription");
 
             migrationBuilder.DropTable(
-                name: "Clinics");
+                name: "Clinic");
 
             migrationBuilder.DropTable(
-                name: "Staffs");
+                name: "Staff");
 
             migrationBuilder.DropTable(
-                name: "ArvRegimens");
+                name: "ArvRegimen");
 
             migrationBuilder.DropTable(
-                name: "Types");
+                name: "Type");
 
             migrationBuilder.DropTable(
-                name: "MedicalRecords");
+                name: "MedicalRecord");
 
             migrationBuilder.DropTable(
-                name: "Doctors");
+                name: "Doctor");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "Employee");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Role");
         }
     }
 }

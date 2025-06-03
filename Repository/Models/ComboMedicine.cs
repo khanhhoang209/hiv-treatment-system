@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Models
 {
-    [Table("ComboMedicines")]
+    [Table("ComboMedicine")]
     public class ComboMedicine
     {
         public Guid Id { get; set; }
@@ -18,10 +18,10 @@ namespace Repository.Models
 
         [ForeignKey("ArvRegimenId")]
         [InverseProperty("ComboMedicines")]
-        public virtual ArvRegimen ArvRegimen { get; set; }
+        public virtual ArvRegimen ArvRegimen { get; set; } = null!;
 
         [ForeignKey("MedicineId")]
         [InverseProperty("ComboMedicines")]
-        public virtual Medicine Medicine { get; set; }
+        public virtual Medicine Medicine { get; set; } = null!;
     }
 }

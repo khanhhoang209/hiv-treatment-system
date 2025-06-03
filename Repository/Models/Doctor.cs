@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Repository.Models
 {
-    [Table("Doctors")]
+    [Table("Doctor")]
     public class Doctor
     {
         public Guid Id { get; set; }
-        public string Specialization { get; set; }
-        public string LicenseNumber { get; set; }
+        public string Specialization { get; set; } = null!;
+        public string LicenseNumber { get; set; } = null!;
         public Guid EmployeeId { get; set; }
-        public Employee Employee { get; set; }
-        public ICollection<Appointment> Appointments { get; set; }
-        public ICollection<DoctorClinic> DoctorClinics { get; set; }
-        public ICollection<MedicalRecord> MedicalRecords { get; set; }
-        public ICollection<Order> Orders { get; set; }
+        public Employee Employee { get; set; } = null!;
+        public ICollection<Appointment> Appointments { get; set; } = null!;
+        public ICollection<DoctorClinic> DoctorClinics { get; set; } = null!;
+        public ICollection<MedicalRecord> MedicalRecords { get; set; } = null!;
+        public ICollection<Order> Orders { get; set; } = null!;
     }
 }

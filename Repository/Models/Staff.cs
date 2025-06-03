@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Repository.Models
 {
-    [Table("Staffs")]
+    [Table("Staff")]
     public class Staff
     {
         public Guid Id { get; set; }
-        public string Position { get; set; }
-        public string Department { get; set; }
+        public string Position { get; set; } = null!;
+        public string Department { get; set; } = null!;
         public Guid EmployeeId { get; set; }
-        public Employee Employee { get; set; }
-        public ICollection<StaffClinic> StaffClinics { get; set; }
+        public Employee Employee { get; set; } = null!;
+        public ICollection<StaffClinic> StaffClinics { get; set; } = null!;
     }
 }

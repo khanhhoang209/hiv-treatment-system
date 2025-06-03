@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace Repository.Models
 {
-    [Table("Types")]
+    [Table("Type")]
     public class Type
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
         public decimal Price { get; set; }
 
         [InverseProperty("Type")]
-        public ICollection<TestResult> TestResults { get; set; }
+        public ICollection<TestResult> TestResults { get; set; } = null!;
     }
 }

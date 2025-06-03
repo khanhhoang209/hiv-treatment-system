@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace Repository.Models
 {
-    [Table("MedicalRecords")]
+    [Table("MedicalRecord")]
     public class MedicalRecord
     {
         public Guid Id { get; set; }
         public DateTime RecordDate { get; set; }
-        public string Diagnosis { get; set; }
-        public string Treatment { get; set; }
-        public string Notes { get; set; }
+        public string Diagnosis { get; set; } = null!;
+        public string Treatment { get; set; } = null!;
+        public string Notes { get; set; } = null!;
         public Guid DoctorId { get; set; }
-        public Doctor Doctor { get; set; }
+        public Doctor Doctor { get; set; } = null!;
         public Guid UserId { get; set; }
-        public ApplicationUser User { get; set; }
-        public Prescription Prescription { get; set; }
-        public ICollection<TestResult> TestResults { get; set; }
-        public ICollection<Order> Orders { get; set; }
+        public ApplicationUser User { get; set; } = null!;
+        public Prescription Prescription { get; set; } = null!;
+        public ICollection<TestResult> TestResults { get; set; } = null!;
+        public ICollection<Order> Orders { get; set; } = null!;
     }
 }

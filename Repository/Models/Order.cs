@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Models
 {
-    [Table("Orders")]
+    [Table("Order")]
     public class Order
     {
         public Guid Id { get; set; }
@@ -20,14 +20,14 @@ namespace Repository.Models
 
         [ForeignKey("UserId")]
         [InverseProperty("Orders")]
-        public virtual ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; } = null!;
 
         [ForeignKey("DoctorId")]
         [InverseProperty("Orders")]
-        public virtual Doctor Doctor { get; set; }
+        public virtual Doctor Doctor { get; set; } = null!;
 
         [ForeignKey("MedicalRecordId")]
         [InverseProperty("Orders")]
-        public virtual MedicalRecord MedicalRecord { get; set; }
+        public virtual MedicalRecord MedicalRecord { get; set; } = null!;
     }
 }

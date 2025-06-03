@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Repository.Models
 {
-    [Table("Appointments")]
+    [Table("Appointment")]
     public class Appointment
     {
         public Guid Id { get; set; }
         public DateTime AppointmentDate { get; set; }
-        public string Status { get; set; }
-        public string Notes { get; set; }
-        public Guid DoctorId { get; set; }
-        public Doctor Doctor { get; set; }
+        public string Status { get; set; } = null!;
+        public string Notes { get; set; } = null!;
+        public Guid DoctorId { get; set; }  
+        public Doctor Doctor { get; set; } = null!;
         public Guid UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        public ApplicationUser User { get; set; } = null!; 
     }
 }

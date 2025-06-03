@@ -98,7 +98,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointment");
                 });
 
             modelBuilder.Entity("Repository.Models.ArvRegimen", b =>
@@ -120,7 +120,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ArvRegimens");
+                    b.ToTable("ArvRegimen");
                 });
 
             modelBuilder.Entity("Repository.Models.Clinic", b =>
@@ -147,7 +147,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clinics");
+                    b.ToTable("Clinic");
                 });
 
             modelBuilder.Entity("Repository.Models.ComboMedicine", b =>
@@ -171,7 +171,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("MedicineId");
 
-                    b.ToTable("ComboMedicines");
+                    b.ToTable("ComboMedicine");
                 });
 
             modelBuilder.Entity("Repository.Models.Doctor", b =>
@@ -196,7 +196,7 @@ namespace Repository.Migrations
                     b.HasIndex("EmployeeId")
                         .IsUnique();
 
-                    b.ToTable("Doctors");
+                    b.ToTable("Doctor");
                 });
 
             modelBuilder.Entity("Repository.Models.DoctorClinic", b =>
@@ -217,7 +217,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("ClinicId");
 
-                    b.ToTable("DoctorClinics");
+                    b.ToTable("DoctorClinic");
                 });
 
             modelBuilder.Entity("Repository.Models.Employee", b =>
@@ -264,7 +264,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("Repository.Models.MedicalRecord", b =>
@@ -300,7 +300,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("MedicalRecords");
+                    b.ToTable("MedicalRecord");
                 });
 
             modelBuilder.Entity("Repository.Models.Medicine", b =>
@@ -325,7 +325,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Medicines");
+                    b.ToTable("Medicine");
                 });
 
             modelBuilder.Entity("Repository.Models.Order", b =>
@@ -357,7 +357,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("Repository.Models.Prescription", b =>
@@ -381,7 +381,7 @@ namespace Repository.Migrations
                     b.HasIndex("MedicalRecordId")
                         .IsUnique();
 
-                    b.ToTable("Prescriptions");
+                    b.ToTable("Prescription");
                 });
 
             modelBuilder.Entity("Repository.Models.PrescriptionMedicine", b =>
@@ -413,7 +413,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("MedicineId");
 
-                    b.ToTable("PrescriptionMedicines");
+                    b.ToTable("PrescriptionMedicine");
                 });
 
             modelBuilder.Entity("Repository.Models.Qualification", b =>
@@ -444,7 +444,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Qualifications");
+                    b.ToTable("Qualification");
                 });
 
             modelBuilder.Entity("Repository.Models.Role", b =>
@@ -463,7 +463,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("Repository.Models.Staff", b =>
@@ -488,7 +488,7 @@ namespace Repository.Migrations
                     b.HasIndex("EmployeeId")
                         .IsUnique();
 
-                    b.ToTable("Staffs");
+                    b.ToTable("Staff");
                 });
 
             modelBuilder.Entity("Repository.Models.StaffClinic", b =>
@@ -509,7 +509,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("ClinicId");
 
-                    b.ToTable("StaffClinics");
+                    b.ToTable("StaffClinic");
                 });
 
             modelBuilder.Entity("Repository.Models.TestResult", b =>
@@ -546,7 +546,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("TestResults");
+                    b.ToTable("TestResult");
                 });
 
             modelBuilder.Entity("Repository.Models.Type", b =>
@@ -568,7 +568,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Types");
+                    b.ToTable("Type");
                 });
 
             modelBuilder.Entity("Repository.Models.ApplicationUser", b =>

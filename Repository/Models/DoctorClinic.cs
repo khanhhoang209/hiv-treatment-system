@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Repository.Models
 {
-    [Table("DoctorClinics")]
+    [Table("DoctorClinic")]
     public class DoctorClinic
     {
         public Guid DoctorId { get; set; }
@@ -18,10 +18,10 @@ namespace Repository.Models
 
         [ForeignKey("DoctorId")]
         [InverseProperty("DoctorClinics")]
-        public virtual Doctor Doctor { get; set; }
+        public virtual Doctor Doctor { get; set; } = null!;
 
         [ForeignKey("ClinicId")]
         [InverseProperty("DoctorClinics")]
-        public virtual Clinic Clinic { get; set; }
+        public virtual Clinic Clinic { get; set; } = null!;
     }
 }
