@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.Implements;
 using Repository.Interfaces;
+using Service.Implements;
+using Service.Interfaces;
 
 namespace Application;
 
@@ -19,10 +21,12 @@ public class Program
         });
 
         // Services
-
+        builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+        builder.Services.AddScoped<IDoctorService, DoctorService>();
+        builder.Services.AddScoped<IUserService, UserService>();
         // Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+        builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
         builder.Services.AddSession(options =>
         {

@@ -13,11 +13,11 @@ namespace Repository.Models
     {
         public Guid Id { get; set; }
         public DateTime AppointmentDate { get; set; }
-        public string Status { get; set; } = null!;
+        public string? Status { get; set; }
         public string Notes { get; set; } = null!;
         public Guid DoctorId { get; set; }  
-        public Doctor Doctor { get; set; } = null!;
+        public Doctor? Doctor { get; set; }
         public Guid UserId { get; set; }
-        public ApplicationUser User { get; set; } = null!; 
+        public ApplicationUser? User { get; set; }
     }
 }
