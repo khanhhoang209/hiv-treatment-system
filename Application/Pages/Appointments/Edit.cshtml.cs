@@ -8,16 +8,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.Models;
+using Service.Interfaces;
 
 namespace Application.Pages.Appointments
 {
     public class EditModel : PageModel
     {
-        private readonly Repository.Context.ApplicationDbContext _context;
+        private readonly IAppointmentService _service;
 
-        public EditModel(Repository.Context.ApplicationDbContext context)
+        public EditModel(IAppointmentService service)
         {
-            _context = context;
+            _service = service;
         }
 
         [BindProperty]
@@ -25,19 +26,27 @@ namespace Application.Pages.Appointments
 
         public async Task<IActionResult> OnGetAsync(Guid? id)
         {
+            var role = HttpContext.Session.GetString("Role");
+            var userIdStr = HttpContext.Session.GetString("Account");
+            if (string.IsNullOrEmpty(role) || string.IsNullOrEmpty(userIdStr))
+            {
+                return RedirectToPage("/Login");
+            }
+            if (role == "User")
+            {
+                return RedirectToPage("/Appointments/Index");
+            }
             if (id == null)
             {
                 return NotFound();
             }
 
-            var appointment =  await _context.Appointments.FirstOrDefaultAsync(m => m.Id == id);
+            var appointment =  await _service.GetAppointmentById(id.Value);
             if (appointment == null)
             {
                 return NotFound();
             }
             Appointment = appointment;
-           ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "LicenseNumber");
-           ViewData["UserId"] = new SelectList(_context.Users, "Id", "Username");
             return Page();
         }
 
@@ -50,17 +59,15 @@ namespace Application.Pages.Appointments
                 return Page();
             }
 
-            _context.Attach(Appointment).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.UpdateAppointmentFields(Appointment);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AppointmentExists(Appointment.Id))
+                if (AppointmentExists(Appointment.Id) == null)
                 {
-                    return NotFound();
+                    return RedirectToPage("/Error");
                 }
                 else
                 {
@@ -71,9 +78,9 @@ namespace Application.Pages.Appointments
             return RedirectToPage("./Index");
         }
 
-        private bool AppointmentExists(Guid id)
+        private Task<Appointment> AppointmentExists(Guid id)
         {
-            return _context.Appointments.Any(e => e.Id == id);
+            return _service.GetAppointmentById(id);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Application.Pages.Appointments
 {
     public class IndexModel : PageModel
     {
+        public string? Role { get; set; }
         private readonly Repository.Context.ApplicationDbContext _context;
         private readonly IAppointmentService _service;
         public IndexModel(Repository.Context.ApplicationDbContext context, IAppointmentService service)
@@ -25,10 +26,14 @@ namespace Application.Pages.Appointments
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var role = HttpContext.Session.GetString("Role");
+            Role = HttpContext.Session.GetString("Role");
             var userIdStr = HttpContext.Session.GetString("Account");
+            if (string.IsNullOrEmpty(Role) || string.IsNullOrEmpty(userIdStr))
+            {
+                return RedirectToPage("/Login");
+            }
 
-            if (role != "Admin" && Guid.TryParse(userIdStr, out var userId))
+            if (Role != "Admin" && Guid.TryParse(userIdStr, out var userId))
             {
                Appointment = await _service.GetAppointmentByUserId(userId);
             }

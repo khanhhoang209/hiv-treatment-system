@@ -27,6 +27,16 @@ namespace Application.Pages.Appointments
 
         public IActionResult OnGet()
         {
+            var role= HttpContext.Session.GetString("Role");
+            var userIdStr = HttpContext.Session.GetString("Account");
+            if (string.IsNullOrEmpty(role) || string.IsNullOrEmpty(userIdStr))
+            {
+                return RedirectToPage("/Login");
+            }
+            if(role=="Admin")
+            {
+                return RedirectToPage("/Appointments/Index");
+            }
             ViewData["DoctorId"] = new SelectList(_doctorService.GetAllDoctors(), "Id", "LicenseNumber");
           //  ViewData["UserId"] = new SelectList(_context.Users, "Id", "Username");
             return Page();

@@ -59,6 +59,6 @@ public class LoginModel : PageModel
         HttpContext.Session.SetString("Role", "User");
         HttpContext.Session.SetString("Account", user.Id.ToString());
 
-        return RedirectToPage("/Appointments/Create");
+        return RedirectToPage("/Appointments/Index");
     }
 }

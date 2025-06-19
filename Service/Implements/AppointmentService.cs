@@ -49,4 +49,15 @@ public class AppointmentService : IAppointmentService
             a => a.User
         );
     }
+    public async Task<bool> UpdateAppointmentFields(Appointment updated)
+    {   
+        // var appointment = await _repo.GetByIdAsync(updated.Id);
+        // if (appointment == null)
+        //     throw new KeyNotFoundException("Appointment not found");
+        //
+        // appointment.AppointmentDate = updated.AppointmentDate;
+        // appointment.Status = updated.Status;
+
+        return await _repo.UpdateAsync(updated);
+    }
 }
