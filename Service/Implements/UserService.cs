@@ -17,8 +17,4 @@ public class UserService : IUserService
         return _repo.GetAll().FirstOrDefault(u => u.Username == username);
     }
     
-    public ApplicationUser? GetByEmailAsync(string email)
-    {
-        throw new NotImplementedException();
-    }
 }

@@ -16,8 +16,4 @@ public class DoctorService : IDoctorService
 
         return _repo.GetAll();
     }
-    public Doctor? GetDoctorById(Guid id)
-    {
-        return _repo.GetById(id);
-    }
 }
