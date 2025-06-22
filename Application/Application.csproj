@@ -17,12 +17,25 @@
 		    <PrivateAssets>all</PrivateAssets>
 		    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	    </PackageReference>
+	    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
+	      <PrivateAssets>all</PrivateAssets>
+	      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	    </PackageReference>
+	    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Update="appsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\Appointment\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Appointment\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Appointment\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Appointment\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Appointment\Index.cshtml" />
     </ItemGroup>
 
 </Project>

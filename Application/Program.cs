@@ -21,11 +21,15 @@ public class Program
         });
 
         // Services
+
+        builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+        builder.Services.AddScoped<IDoctorService, DoctorService>();
+        builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IArvService, ArvService>();
 
         // Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+        builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
         builder.Services.AddSession(options =>
         {

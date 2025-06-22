@@ -21,6 +21,11 @@ public interface IGenericRepository<T> where T : class
     T? GetById(string code);
     T? GetById(Guid code);
 
+    T? GetByIdWithIncludes(Guid id, params Expression<Func<T, object>>[] includes);
+    Task<List<T>> GetListWithConditionAsync(
+        Expression<Func<T, bool>> filter,
+        params Expression<Func<T, object>>[] includes);
+
 // Asynchronous methods
     Task<List<T>> GetAllAsync();
     Task<(IEnumerable<T>, int)> GetFilterAsync(
