@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repository.Models
 {
@@ -17,9 +11,9 @@ namespace Repository.Models
         public int Level { get; set; }
 
         [InverseProperty("ArvRegimen")]
-        public ICollection<TestResult> TestResults { get; set; } = null!;
+        public ICollection<TestResult>? TestResults { get; set; } = null!;
 
         [InverseProperty("ArvRegimen")]
-        public ICollection<ComboMedicine> ComboMedicines { get; set; } = null!;
+        public ICollection<ComboMedicine>? ComboMedicines { get; set; } = null!;
     }
 }

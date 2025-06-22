@@ -9,9 +9,13 @@ public class UnitOfWork : IUnitOfWork
     private readonly ApplicationDbContext _dbContext;
     private readonly IConfiguration _configuration;
 
+    public IArvRepository ArvRepository { get;  }
+
     public UnitOfWork(ApplicationDbContext dbContext, IConfiguration configuration)
     {
         _dbContext = dbContext;
         _configuration = configuration;
+
+        ArvRepository = new ArvRepository(_dbContext);
     }
 }
