@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.Implements;
 using Repository.Interfaces;
+using Service.Implements;
+using Service.Interfaces;
 
 namespace Application;
 
@@ -19,6 +21,7 @@ public class Program
         });
 
         // Services
+        builder.Services.AddScoped<IArvService, ArvService>();
 
         // Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

@@ -2,5 +2,6 @@
 
 public interface IUnitOfWork
 {
-    
+    IArvRepository ArvRepository { get; }
+
 }
