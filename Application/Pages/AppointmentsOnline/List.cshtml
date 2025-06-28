@@ -1,0 +1,41 @@
+﻿@page
+@model ListModel
+@{
+    ViewData["Title"] = "Lịch hẹn của tôi";
+}
+
+<h2>Lịch hẹn đã đặt</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ngày khám</th>
+            @* <th>Bác sĩ</th> *@
+            <th>Ghi chú</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model.Appointments)
+        {
+            <tr>
+                <td>@a.AppointmentDate.ToString("dd/MM/yyyy HH:mm")</td>
+                @* <td>@a.Doctor.Employee.FirstName</td> *@
+                <td>@a.Notes</td>
+                <td>@a.Status</td>
+                <td>
+                    @if (a.Status == "Pending")
+                    {
+                        <a asp-page="Confirm" asp-route-id="@a.Id">Xác nhận | </a> 
+                        <a asp-page="Cancel" asp-route-id="@a.Id">Hủy</a>
+                    }
+                    else
+                    {
+                        <em>Đã xử lý</em>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

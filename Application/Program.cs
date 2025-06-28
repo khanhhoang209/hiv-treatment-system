@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.Implements;
 using Repository.Interfaces;
+using Service.Implements;
+using Service.Interfaces;
 
 namespace Application;
 
@@ -19,9 +21,11 @@ public class Program
         });
 
         // Services
+        builder.Services.AddScoped<IAppointmentOnlService, AppointmentOnlService>();
 
         // Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
 
         builder.Services.AddSession(options =>

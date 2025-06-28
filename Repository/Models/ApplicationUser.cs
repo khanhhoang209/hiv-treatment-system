@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repository.Models;
 
+[Table("User")]
 public class ApplicationUser
 {
     public Guid Id { get; set; }
