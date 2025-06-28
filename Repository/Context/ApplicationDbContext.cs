@@ -9,82 +9,67 @@ public class ApplicationDbContext : DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
-
     public DbSet<ApplicationUser> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
-
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Qualification> Qualifications { get; set; }
-
     public DbSet<Doctor> Doctors { get; set; }
     public DbSet<Staff> Staffs { get; set; }
-
     public DbSet<Appointment> Appointments { get; set; }
-
     public DbSet<Clinic> Clinics { get; set; }
     public DbSet<DoctorClinic> DoctorClinics { get; set; }
     public DbSet<StaffClinic> StaffClinics { get; set; }
-
     public DbSet<MedicalRecord> MedicalRecords { get; set; }
-
+    public DbSet<UserNotification> UserNotifications { get; set; }
     public DbSet<Prescription> Prescriptions { get; set; }
     public DbSet<PrescriptionMedicine> PrescriptionMedicines { get; set; }
-
     public DbSet<TestResult> TestResults { get; set; }
-
     public DbSet<Type> Types { get; set; }
-
     public DbSet<ArvRegimen> ArvRegimens { get; set; }
     public DbSet<ComboMedicine> ComboMedicines { get; set; }
-
     public DbSet<Medicine> Medicines { get; set; }
-
     public DbSet<Order> Orders { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //base.OnModelCreating(modelBuilder);
-        //// Additional model configurations can be added here
-
         modelBuilder.Entity<ApplicationUser>()
             .HasKey(u => u.Id);
 
         modelBuilder.Entity<Role>()
-           .HasKey(r => r.Id);
+            .HasKey(r => r.Id);
 
         modelBuilder.Entity<Order>()
             .HasKey(o => o.Id);
 
         modelBuilder.Entity<Employee>()
-           .HasKey(e => e.Id);
+            .HasKey(e => e.Id);
 
         modelBuilder.Entity<Qualification>()
             .HasKey(q => q.Id);
 
         modelBuilder.Entity<Doctor>()
-           .HasKey(d => d.Id);
+            .HasKey(d => d.Id);
 
         modelBuilder.Entity<Staff>()
             .HasKey(s => s.Id);
 
         modelBuilder.Entity<Appointment>()
-           .HasKey(a => a.Id);
+            .HasKey(a => a.Id);
 
         modelBuilder.Entity<Clinic>()
             .HasKey(c => c.Id);
 
         modelBuilder.Entity<DoctorClinic>()
-           .HasKey(dc => new { dc.DoctorId, dc.ClinicId });
+            .HasKey(dc => new { dc.DoctorId, dc.ClinicId });
 
         modelBuilder.Entity<StaffClinic>()
-           .HasKey(sc => new { sc.StaffId, sc.ClinicId });
+            .HasKey(sc => new { sc.StaffId, sc.ClinicId });
 
-        //Prescription ***
         modelBuilder.Entity<Prescription>()
             .HasKey(p => p.Id);
 
         modelBuilder.Entity<MedicalRecord>()
-           .HasKey(mr => mr.Id);
+            .HasKey(mr => mr.Id);
 
         modelBuilder.Entity<Type>()
             .HasKey(t => t.Id);
@@ -93,9 +78,8 @@ public class ApplicationDbContext : DbContext
             .HasKey(ar => ar.Id);
 
         modelBuilder.Entity<TestResult>()
-           .HasKey(tr => tr.Id);
+            .HasKey(tr => tr.Id);
 
-        //Medicine
         modelBuilder.Entity<Medicine>()
             .HasKey(m => m.Id);
 
@@ -103,53 +87,39 @@ public class ApplicationDbContext : DbContext
             .HasKey(cm => cm.Id);
 
         modelBuilder.Entity<PrescriptionMedicine>()
-           .HasKey(pm => new { pm.PrescriptionId, pm.MedicineId });
+            .HasKey(pm => new { pm.PrescriptionId, pm.MedicineId });
 
-        //Relationships
-        //ApplicationUser
         modelBuilder.Entity<ApplicationUser>()
             .HasOne<Role>(u => u.Role)
             .WithMany(r => r.Users)
             .HasForeignKey(u => u.RoleId);
 
-        //Employee
-       
         modelBuilder.Entity<Employee>()
             .HasOne<ApplicationUser>(e => e.User)
             .WithMany(u => u.Employees)
             .HasForeignKey(e => e.UserId);
 
-
-        //Qualification
-        
         modelBuilder.Entity<Qualification>()
             .HasOne<Employee>(q => q.Employee)
             .WithMany(e => e.Qualifications)
             .HasForeignKey(q => q.EmployeeId);
 
-
-        //Doctor
-       
         modelBuilder.Entity<Doctor>()
             .HasOne<Employee>(d => d.Employee)
             .WithOne(e => e.Doctor)
             .HasForeignKey<Doctor>(d => d.EmployeeId);
 
-
-        //Staff
-        
         modelBuilder.Entity<Staff>()
             .HasOne<Employee>(s => s.Employee)
             .WithOne(e => e.Staff)
             .HasForeignKey<Staff>(s => s.EmployeeId);
 
-        //Appointment **
-       
         modelBuilder.Entity<Appointment>()
             .HasOne<Doctor>(a => a.Doctor)
-            .WithMany(a => a.Appointments)
+            .WithMany(d => d.Appointments)
             .HasForeignKey(a => a.DoctorId)
             .OnDelete(DeleteBehavior.NoAction);
+
         modelBuilder.Entity<Appointment>()
             .HasOne<ApplicationUser>(a => a.User)
             .WithMany(a => a.Appointments)
@@ -217,11 +187,11 @@ public class ApplicationDbContext : DbContext
 
         
         //PrescriptionMedicine **
-       
         modelBuilder.Entity<PrescriptionMedicine>()
             .HasOne<Prescription>(pm => pm.Prescription)
             .WithMany(p => p.PrescriptionMedicines)
             .HasForeignKey(pm => pm.PrescriptionId);
+        
         modelBuilder.Entity<PrescriptionMedicine>()
             .HasOne<Medicine>(pm => pm.Medicine)
             .WithMany(p => p.PrescriptionMedicines)
@@ -245,18 +215,77 @@ public class ApplicationDbContext : DbContext
             .WithMany(o => o.Orders)
             .HasForeignKey(o => o.UserId)
             .OnDelete(DeleteBehavior.NoAction);
-
+        
         modelBuilder.Entity<Order>()
             .HasOne<Doctor>(o => o.Doctor)
             .WithMany(o => o.Orders)
             .HasForeignKey(o => o.DoctorId)
             .OnDelete(DeleteBehavior.Cascade);
+        
         modelBuilder.Entity<Order>()
             .HasOne<MedicalRecord>(o => o.MedicalRecord)
             .WithMany(o => o.Orders)
             .HasForeignKey(o => o.MedicalRecordId)
             .OnDelete(DeleteBehavior.NoAction);
 
+        // Notification entity
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.ToTable("Notification");
+                entity.HasKey(x => x.Id);
 
+                entity.Property(x => x.Id)
+                      .HasColumnName("Id");
+
+                entity.Property(x => x.Title)
+                      .IsRequired()
+                      .HasMaxLength(255);
+
+                entity.Property(x => x.NotificationType)
+                    .HasColumnName("TypeId")
+                    .IsRequired()
+                    .HasConversion<int>();
+                
+                entity.Property(x => x.Message)
+                      .IsRequired();
+
+                entity.Property(x => x.Payload)
+                      .IsRequired();
+
+                entity.Property(x => x.CreatedAt)
+                      .IsRequired();
+
+                entity.Property(x => x.ExpiresAt)
+                      .IsRequired();
+
+                entity.HasMany(x => x.UserNotifications)
+                      .WithOne(un => un.Notification)
+                      .HasForeignKey(un => un.NotificationId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // UserNotification entity
+            modelBuilder.Entity<UserNotification>(entity =>
+            {
+                entity.ToTable("UserNotification");
+
+                entity.HasKey(x => new { x.NotificationId, x.UserId });
+
+                entity.Property(x => x.IsRead)
+                      .IsRequired();
+
+                entity.Property(x => x.ReadAt);
+
+                entity.Property(x => x.DeliveredAt);
+
+                entity.HasOne(x => x.Notification)
+                      .WithMany(n => n.UserNotifications)
+                      .HasForeignKey(x => x.NotificationId);
+
+                entity.HasOne(x => x.User)
+                      .WithMany(u => u.UserNotifications)
+                      .HasForeignKey(x => x.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
     }
 }

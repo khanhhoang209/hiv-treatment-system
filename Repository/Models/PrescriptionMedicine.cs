@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repository.Constants;
 
 namespace Repository.Models
 {
@@ -16,9 +17,9 @@ namespace Repository.Models
         public Guid MedicineId { get; set; }
         public Medicine Medicine { get; set; } = null!;
         public int Quantity { get; set; }
-        public string Dosage { get; set; } = null!;
+        public int Dosage { get; set; }
         public string Instructions { get; set; } = null!;
-        public DateTimeOffset MedicationTime { get; set; }
+        public int SumOfMedicationTime { get; set; }
         public decimal BoughtPrice { get; set; }
     }
 }
