@@ -20,4 +20,5 @@ public class ApplicationUser
     public ICollection<Appointment> Appointments { get; set; } = null!;
     public ICollection<MedicalRecord> MedicalRecords { get; set; } = null!;
     public ICollection<Order> Orders { get; set; } = null!;
+    public ICollection<UserNotification> UserNotifications { get; set; } = null!;
 }

@@ -4,6 +4,7 @@ namespace Repository.Interfaces;
 
 public interface IGenericRepository<T> where T : class
 {
+    IQueryable<T> Query();
     List<T> GetAll();
     (IEnumerable<T>, int) GetFilter(
         Expression<Func<T, bool>>? filter = null,

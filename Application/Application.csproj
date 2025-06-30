@@ -38,4 +38,9 @@
       <_ContentIncludedByDefault Remove="Pages\Appointment\Index.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Pages\UserNotifications\" />
+      <Folder Include="SQL\" />
+    </ItemGroup>
+
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Repository.Constants;
 using Repository.Models;
 using Service.Interfaces;
 
@@ -51,12 +52,12 @@ public class LoginModel : PageModel
 
         if (user.RoleId.ToString() == "d9b8e0d2-8c17-4f84-9a9e-1b1b3d9c58fd") // Admin
         {
-            HttpContext.Session.SetString("Role", "Admin");
+            HttpContext.Session.SetString("Role", Roles.Admin);
             HttpContext.Session.SetString("Account", user.Id.ToString());
             return RedirectToPage("/Appointments/Index");
         }
 
-        HttpContext.Session.SetString("Role", "User");
+        HttpContext.Session.SetString("Role", Roles.User);
         HttpContext.Session.SetString("Account", user.Id.ToString());
 
         return RedirectToPage("/Appointments/Index");

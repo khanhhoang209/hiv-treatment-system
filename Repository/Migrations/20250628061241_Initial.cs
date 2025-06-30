@@ -56,6 +56,23 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Notification",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Payload = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ExpiresAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    TypeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notification", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Role",
                 columns: table => new
                 {
@@ -154,6 +171,33 @@ namespace Repository.Migrations
                     table.PrimaryKey("PK_Employee", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Employee_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserNotification",
+                columns: table => new
+                {
+                    NotificationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false),
+                    ReadAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeliveredAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserNotification", x => new { x.NotificationId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_UserNotification_Notification_NotificationId",
+                        column: x => x.NotificationId,
+                        principalTable: "Notification",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserNotification_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -423,9 +467,9 @@ namespace Repository.Migrations
                     PrescriptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MedicineId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    Dosage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Dosage = table.Column<int>(type: "int", nullable: false),
                     Instructions = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MedicationTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    SumOfMedicationTime = table.Column<int>(type: "int", nullable: false),
                     BoughtPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -549,6 +593,11 @@ namespace Repository.Migrations
                 column: "TypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserNotification_UserId",
+                table: "UserNotification",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
                 table: "Users",
                 column: "RoleId");
@@ -582,6 +631,9 @@ namespace Repository.Migrations
                 name: "TestResult");
 
             migrationBuilder.DropTable(
+                name: "UserNotification");
+
+            migrationBuilder.DropTable(
                 name: "Medicine");
 
             migrationBuilder.DropTable(
@@ -598,6 +650,9 @@ namespace Repository.Migrations
 
             migrationBuilder.DropTable(
                 name: "Type");
+
+            migrationBuilder.DropTable(
+                name: "Notification");
 
             migrationBuilder.DropTable(
                 name: "MedicalRecord");

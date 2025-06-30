@@ -1,0 +1,4 @@
+insert into dbo.Notification (Id, Title, Message, Payload, CreatedAt, ExpiresAt, TypeId)
+values  (N'aeadc0f8-d5c8-4e60-d3d1-08ddb3e85dad', N'Nhắc nhở uống thuốc buổi buổi chiều', N'- Thuốc Đỏ: liều 1, hướng dẫn: Uống 4 buổi, mỗi buổi 1 viên', N'OKOKOKOK', N'2025-06-25 20:01:11.4066660 +07:00', N'0001-01-01 00:00:00.0000000 +00:00', 0),
+        (N'5831168f-a4ed-4913-116b-08ddb49211a5', N'Nhắc nhở uống thuốc buổi buổi chiều', N'- Thuốc Đỏ: liều 1, hướng dẫn: Uống 4 buổi, mỗi buổi 1 viên', N'OKOKOK', N'2025-06-26 16:16:01.0611870 +07:00', N'0001-01-01 00:00:00.0000000 +00:00', 0),
+        (N'c4b99e8d-70ba-42da-0dab-08ddb494718e', N'Nhắc nhở uống thuốc buổi buổi chiều', N'- Thuốc Đỏ: liều 1, hướng dẫn: Uống 4 buổi, mỗi buổi 1 viên', N'OKOKOK', N'2025-06-26 16:33:00.9660370 +07:00', N'0001-01-01 00:00:00.0000000 +00:00', 0);

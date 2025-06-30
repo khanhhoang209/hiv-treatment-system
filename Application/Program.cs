@@ -1,3 +1,5 @@
+using Application.BackgroundApps;
+using Application.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.Implements;
@@ -14,6 +16,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+        builder.Services.AddSignalR();
         builder.Services.AddRazorPages();
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
         {
@@ -26,6 +29,8 @@ public class Program
         builder.Services.AddScoped<IDoctorService, DoctorService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IArvService, ArvService>();
+        builder.Services.AddScoped<INotificationService, NotificationService>();
+
 
         // Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -38,6 +43,8 @@ public class Program
             options.Cookie.IsEssential = true; // Make the session cookie essential
         });
 
+        builder.Services.AddHostedService<NotificationScheduler>();
+        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -48,7 +55,6 @@ public class Program
             app.UseHsts();
         }
 
-        app.UseHttpsRedirection();
         app.UseStaticFiles();
 
         app.UseRouting();
@@ -57,6 +63,8 @@ public class Program
 
         app.UseAuthorization();
 
+        app.MapHub<NotificationHub>("/hubs/notifications");
+        
         app.MapRazorPages();
 
         app.Run();
