@@ -9,18 +9,18 @@ using Repository.Context;
 using Repository.Models;
 using Service.Interfaces;
 
-namespace Application.Pages.MedicalRecords
+namespace Application.Pages.ApplicationUsers
 {
     public class DetailsModel : PageModel
     {
-        private readonly IMedicalRecordService _medicalRecordService;
+        private readonly IUserService _userService;
 
-        public DetailsModel(IMedicalRecordService medicalRecordService)
+        public DetailsModel(IUserService userService)
         {
-            _medicalRecordService = medicalRecordService;
+            _userService = userService;
         }
 
-        public MedicalRecord MedicalRecord { get; set; } = default!;
+        public ApplicationUser ApplicationUser { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(Guid? id)
         {
@@ -29,14 +29,14 @@ namespace Application.Pages.MedicalRecords
                 return NotFound();
             }
 
-            var medicalrecord = await _medicalRecordService.GetMedicalRecordDetail(id.Value);
-            if (medicalrecord == null)
+            var applicationuser = await _userService.GetApplicationUserById(id.Value);
+            if (applicationuser == null)
             {
                 return NotFound();
             }
             else
             {
-                MedicalRecord = medicalrecord;
+                ApplicationUser = applicationuser;
             }
             return Page();
         }

@@ -8,16 +8,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.Models;
+using Service.Interfaces;
 
 namespace Application.Pages.MedicalRecords
 {
     public class EditModel : PageModel
     {
-        private readonly Repository.Context.ApplicationDbContext _context;
+        private readonly IMedicalRecordService _medicalRecordService;
+        private readonly IDoctorService _doctorService;
+        private readonly IEmployeeService _employeeService;
+        private readonly IUserService _userService;
 
-        public EditModel(Repository.Context.ApplicationDbContext context)
+        public EditModel(IMedicalRecordService medicalRecordService, IDoctorService doctorService, IEmployeeService employeeService, IUserService userService)
         {
-            _context = context;
+            _medicalRecordService = medicalRecordService;
+            _doctorService = doctorService;
+            _employeeService = employeeService;
+            _userService = userService;
         }
 
         [BindProperty]
@@ -30,14 +37,30 @@ namespace Application.Pages.MedicalRecords
                 return NotFound();
             }
 
-            var medicalrecord =  await _context.MedicalRecords.FirstOrDefaultAsync(m => m.Id == id);
+            var medicalrecord = await _medicalRecordService.GetMedicalRecordDetail(id.Value);
             if (medicalrecord == null)
             {
                 return NotFound();
             }
             MedicalRecord = medicalrecord;
-           ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "LicenseNumber");
-           ViewData["UserId"] = new SelectList(_context.Users, "Id", "Address");
+
+            var doctor = await _doctorService.GetDoctor(medicalrecord.DoctorId);
+            var employee = await _employeeService.GetEmployee(doctor.EmployeeId);
+            var user = await _userService.GetApplicationUserById(medicalrecord.UserId);
+            ViewData["DoctorId"] = new SelectList(
+    new[] {
+        new { Id = doctor.Id, Name = employee.FirstName + " " + employee.LastName }
+    },
+    "Id",
+    "Name",
+    doctor.Id
+);
+            ViewData["UserId"] = new SelectList(new[] {
+        new { Id = user.Id, Name = user.Username }
+    },
+    "Id",
+    "Name",
+    user.Id);
             return Page();
         }
 
@@ -45,35 +68,29 @@ namespace Application.Pages.MedicalRecords
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            _context.Attach(MedicalRecord).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _medicalRecordService.UpdateMedicalRecord(MedicalRecord);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MedicalRecordExists(MedicalRecord.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                //if (!MedicalRecordExists(MedicalRecord.Id))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                //    throw;
+                //}
             }
 
             return RedirectToPage("./Index");
         }
 
-        private bool MedicalRecordExists(Guid id)
+        private async Task<bool> MedicalRecordExists(Guid id)
         {
-            return _context.MedicalRecords.Any(e => e.Id == id);
+            return await _medicalRecordService.GetMedicalRecordDetail(id) != null;
         }
     }
 }

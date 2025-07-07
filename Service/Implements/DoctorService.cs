@@ -20,5 +20,10 @@ namespace Service.Implements
         {
             return _repo.GetAll();
         }
+
+        public async Task<Doctor> GetDoctor(Guid id)
+        {
+            return await _repo.GetByIdAsync(id);
+        }
     }
 }

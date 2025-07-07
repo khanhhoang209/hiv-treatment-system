@@ -25,6 +25,9 @@ public class Program
         builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();  
         builder.Services.AddScoped<IArvService, ArvService>();
         builder.Services.AddScoped<ITypeService, TypeService>();
+        builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IDoctorService, DoctorService>();
+        builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
         // Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

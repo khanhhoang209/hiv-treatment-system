@@ -29,10 +29,19 @@ namespace Service.Implements
             return await _repo.GetByIdAsync(testResultId);
         }
 
+        public async Task<List<TestResult>> GetTestResults()
+        {
+            return await _repo.GetAllAsync();
+        }
+
         public async Task<List<TestResult>> GetTestResultsByMedicalRecordId(Guid recordId)
         {
             return await _repo.GetListAsync(a => a.MedicalRecordId == recordId);
         }
 
+        public async Task<bool> UpdateTestResult(TestResult testResult)
+        {
+            return await _repo.UpdateAsync(testResult);
+        }
     }
 }

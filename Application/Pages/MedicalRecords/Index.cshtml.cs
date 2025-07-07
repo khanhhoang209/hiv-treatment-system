@@ -15,7 +15,7 @@ namespace Application.Pages.MedicalRecords
     {
         private readonly IMedicalRecordService _medicalRecordService;
 
-        public IndexModel(Repository.Context.ApplicationDbContext context, IMedicalRecordService medicalRecordService)
+        public IndexModel(IMedicalRecordService medicalRecordService)
         {
             _medicalRecordService = medicalRecordService;
         }
@@ -24,7 +24,21 @@ namespace Application.Pages.MedicalRecords
 
         public async Task OnGetAsync()
         {
-            MedicalRecord = await _medicalRecordService.GetMedicalRecordsByUserId(Guid.Parse("f0034b9c-7fb1-4cfe-9b84-681a97b40420"));
+            var role = HttpContext.Session.GetString("Role");
+            if (role == "Admin")
+            {
+                MedicalRecord = await _medicalRecordService.GetAllMedicalRecords();
+            }
+            else if(role == "Doctor")
+            {
+                var account = HttpContext.Session.GetString("Account");
+                MedicalRecord = await _medicalRecordService.GetAllMedicalRecords();
+            }
+            else
+            {
+                var account = HttpContext.Session.GetString("Account");
+                MedicalRecord = await _medicalRecordService.GetMedicalRecordsByUserId(Guid.Parse(account));
+            }
         }
     }
 }

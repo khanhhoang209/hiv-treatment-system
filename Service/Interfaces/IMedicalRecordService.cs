@@ -10,6 +10,9 @@ namespace Service.Interfaces
     public interface IMedicalRecordService
     {
         Task<MedicalRecord> CreateMedicalRecord(MedicalRecord record);
+        Task<bool> UpdateMedicalRecord(MedicalRecord record);
+        Task<List<MedicalRecord>> GetAllMedicalRecords();
+        Task<List<MedicalRecord>> GetMedicalRecordsByDoctorId(Guid userId);
         Task<List<MedicalRecord>> GetMedicalRecordsByUserId(Guid userId);
         Task<MedicalRecord> GetMedicalRecordDetail(Guid recordId);
     }

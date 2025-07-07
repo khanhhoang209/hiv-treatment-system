@@ -1,0 +1,85 @@
+﻿@page
+@model Application.Pages.ApplicationUsers.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>User Management</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUser[0].Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUser[0].Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUser[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUser[0].Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUser[0].Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUser[0].DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUser[0].Gender)
+            </th>
+            @if (HttpContext.Session.GetString("Role") != "User")
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.ApplicationUser[0].Status)
+                </th>
+            }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ApplicationUser)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                @if (HttpContext.Session.GetString("Role") != "User")
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                }
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

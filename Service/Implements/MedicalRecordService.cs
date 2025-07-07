@@ -25,6 +25,16 @@ namespace Service.Implements
             return record;
         }
 
+        public async Task<List<MedicalRecord>> GetAllMedicalRecords()
+        {
+            return await _repo.GetAllAsync();
+        }
+
+        public async Task<List<MedicalRecord>> GetMedicalRecordsByDoctorId(Guid userId)
+        {
+            return await _repo.GetListAsync(a => a.DoctorId == userId);
+        }
+
         public async Task<MedicalRecord> GetMedicalRecordDetail(Guid recordId)
         {
             return await _repo.GetByIdAsync(recordId);
@@ -33,6 +43,11 @@ namespace Service.Implements
         public async Task<List<MedicalRecord>> GetMedicalRecordsByUserId(Guid userId)
         {
             return await _repo.GetListAsync(a => a.UserId == userId);
+        }
+
+        public async Task<bool> UpdateMedicalRecord(MedicalRecord record)
+        {
+            return await _repo.UpdateAsync(record);
         }
     }
 }

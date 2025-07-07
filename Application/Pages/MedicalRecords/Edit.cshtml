@@ -36,12 +36,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="MedicalRecord.DoctorId" class="control-label"></label>
-                <select asp-for="MedicalRecord.DoctorId" class="form-control" asp-items="ViewBag.DoctorId"></select>
+                <select asp-for="MedicalRecord.DoctorId" class="form-control" asp-items="ViewBag.DoctorId" disabled></select>
+                <input type="hidden" asp-for="MedicalRecord.DoctorId" />
                 <span asp-validation-for="MedicalRecord.DoctorId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="MedicalRecord.UserId" class="control-label"></label>
-                <select asp-for="MedicalRecord.UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                <select asp-for="MedicalRecord.UserId" class="form-control" asp-items="ViewBag.UserId" disabled></select>
+                <input type="hidden" asp-for="MedicalRecord.UserId" />
                 <span asp-validation-for="MedicalRecord.UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -56,5 +58,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

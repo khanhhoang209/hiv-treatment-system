@@ -1,10 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{0A0BBCC1-5873-43BD-8FDB-BA4F5E0DBBB0}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{0A0BBCC1-5873-43BD-8FDB-BA4F5E0DBBB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{142B681B-3478-48E6-866B-E89C04842495}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{142B681B-3478-48E6-866B-E89C04842495}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{EFC88BE1-CE33-4885-BE08-D1935CA103C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{EFC88BE1-CE33-4885-BE08-D1935CA103C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +27,8 @@ Global
 		{EFC88BE1-CE33-4885-BE08-D1935CA103C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFC88BE1-CE33-4885-BE08-D1935CA103C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFC88BE1-CE33-4885-BE08-D1935CA103C5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
