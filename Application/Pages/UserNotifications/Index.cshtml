@@ -1,0 +1,63 @@
+@page
+@model Application.Pages.UserNotifications.IndexModel
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserNotification[0].Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserNotification[0].Message)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserNotification[0].DeliveredAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserNotification[0].NotificationType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserNotification[0].IsRead)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.UserNotification) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Message)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveredAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NotificationType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRead)
+            </td>
+            @* <td> *@
+            @*     @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) | *@
+            @*     @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) | *@
+            @*     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) *@
+            @* </td> *@
+        </tr>
+    }
+    </tbody>
+</table>
+<script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/hubs/notifications")
+        .build();
+    
+    connection.start().then(function () {
+        connection.on("MedicationTimeNotificationTriggered", function () {
+            location.reload();
+        });
+    });
+</script>

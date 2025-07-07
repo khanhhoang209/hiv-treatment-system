@@ -4,6 +4,7 @@ namespace Repository.Interfaces;
 
 public interface IGenericRepository<T> where T : class
 {
+    IQueryable<T> Query();
     List<T> GetAll();
     (IEnumerable<T>, int) GetFilter(
         Expression<Func<T, bool>>? filter = null,
@@ -20,6 +21,11 @@ public interface IGenericRepository<T> where T : class
     T? GetById(int id);
     T? GetById(string code);
     T? GetById(Guid code);
+
+    T? GetByIdWithIncludes(Guid id, params Expression<Func<T, object>>[] includes);
+    Task<List<T>> GetListWithConditionAsync(
+        Expression<Func<T, bool>> filter,
+        params Expression<Func<T, object>>[] includes);
 
 // Asynchronous methods
     Task<List<T>> GetAllAsync();

@@ -1,3 +1,7 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,42 +16,68 @@ namespace Application.Pages.Appointments
 {
     public class CreateModel : PageModel
     {
-        private readonly IAppointmentService _appointmentService;
-        private readonly ApplicationDbContext _context;
+        private readonly Repository.Context.ApplicationDbContext _context;
+        private readonly IAppointmentService _service;
+        private readonly IDoctorService _doctorService;
 
-        public CreateModel(IAppointmentService appointmentService, ApplicationDbContext context)
+        public CreateModel(Repository.Context.ApplicationDbContext context,
+            IAppointmentService service, IDoctorService doctorService)
         {
-            _appointmentService = appointmentService;
+            _service = service;
             _context = context;
+            _doctorService = doctorService;
         }
 
-        [BindProperty]
-        public AppointmentRequest Appointment { get; set; } = new AppointmentRequest();
-
-        public SelectList DoctorList { get; set; } = null!;
-
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
         {
-            var doctors = await _context.Doctors.ToListAsync();
-            DoctorList = new SelectList(doctors, "Id", "Specialization");
+            var role = HttpContext.Session.GetString("Role");
+            var userIdStr = HttpContext.Session.GetString("Account");
+            if (string.IsNullOrEmpty(role) || string.IsNullOrEmpty(userIdStr))
+            {
+                return RedirectToPage("/Login");
+            }
+            if (role == "Admin")
+            {
+                return RedirectToPage("/Appointments/Index");
+            }
+            ViewData["DoctorId"] = new SelectList(_doctorService.GetAllDoctors(), "Id", "LicenseNumber");
+            //  ViewData["UserId"] = new SelectList(_context.Users, "Id", "Username");
             return Page();
         }
 
+        [BindProperty]
+        public Appointment Appointment { get; set; } = default!;
+
+        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid) return Page();
-            var anonymousUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == "test@example.com");
-
-
-            Appointment appointment = new Appointment()
+            if (!ModelState.IsValid)
             {
-                AppointmentDate = Appointment.AppointmentDate,
-                DoctorId = Appointment.DoctorId,
-                UserId = anonymousUser.Id,
-                Notes = Appointment.Notes
-            };
-            await _appointmentService.CreateAppointmentAsync(appointment);
-            return RedirectToPage("../Appointments/List");
+                LoadSelectLists();
+                return Page();
+            }
+            var minDate = DateTime.Today.AddDays(2);
+            if (Appointment.AppointmentDate.Date < minDate)
+            {
+                ModelState.AddModelError("Appointment.AppointmentDate", "Ngày hẹn phải cách hôm nay ít nhất 2 ngày.");
+                LoadSelectLists();
+                return Page();
+            }
+            var userIdString = HttpContext.Session.GetString("Account");
+            if (!Guid.TryParse(userIdString, out var userId))
+            {
+                return RedirectToPage("/Login");
+            }
+            Appointment.UserId = userId;
+            await _service.CreateAppointmentWithScheduleAsync(Appointment);
+
+            return RedirectToPage("./Index");
+        }
+        private void LoadSelectLists()
+        {
+            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "LicenseNumber", Appointment.DoctorId);
+            //   ViewData["UserId"] = new SelectList(_context.Users, "Id", "Username", Appointment.UserId);
         }
     }
+
 }

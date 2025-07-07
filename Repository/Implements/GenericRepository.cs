@@ -16,6 +16,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _dbSet = dbContext.Set<T>();
     }
 
+    public virtual IQueryable<T> Query()
+    {
+        return _dbSet.AsQueryable();
+    }
+    
     public virtual List<T> GetAll()
     {
         return _dbContext.Set<T>().ToList();
@@ -235,6 +240,18 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         return await _dbContext.Set<T>().FindAsync(code);
     }
+    
+    public virtual T? GetByIdWithIncludes(Guid id, params Expression<Func<T, object>>[] includes)
+    {
+        IQueryable<T> query = _dbSet;
+
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return query.FirstOrDefault(e => EF.Property<Guid>(e, "Id") == id);
+    }
 
     #endregion
 
@@ -304,4 +321,18 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
         return totalPages;
     }
+    public async Task<List<T>> GetListWithConditionAsync(
+        Expression<Func<T, bool>> filter,
+        params Expression<Func<T, object>>[] includes)
+    {
+        IQueryable<T> query = _dbSet;
+
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return await query.Where(filter).ToListAsync();
+    }
+
 }

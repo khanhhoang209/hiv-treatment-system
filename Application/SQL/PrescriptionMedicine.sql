@@ -1,0 +1,2 @@
+insert into dbo.PrescriptionMedicine (PrescriptionId, MedicineId, Quantity, Dosage, Instructions, SumOfMedicationTime, BoughtPrice)
+values  (N'9f2fd754-466e-4eab-99eb-7f35735de05a', N'7c3741a5-1198-49c6-a395-cce09a78f297', 56, N'1', N'Uống 4 buổi, mỗi buổi 1 viên', 4, 3000.00);

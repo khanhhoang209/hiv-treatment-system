@@ -12,15 +12,15 @@ using Repository.Context;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250603031604_v1")]
-    partial class v1
+    [Migration("20250628061241_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.16")
+                .HasAnnotation("ProductVersion", "8.0.17")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -89,7 +89,6 @@ namespace Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
@@ -331,6 +330,41 @@ namespace Repository.Migrations
                     b.ToTable("Medicine");
                 });
 
+            modelBuilder.Entity("Repository.Models.Notification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NotificationType")
+                        .HasColumnType("int")
+                        .HasColumnName("TypeId");
+
+                    b.Property<string>("Payload")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notification", (string)null);
+                });
+
             modelBuilder.Entity("Repository.Models.Order", b =>
                 {
                     b.Property<Guid>("Id")
@@ -398,18 +432,17 @@ namespace Repository.Migrations
                     b.Property<decimal>("BoughtPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Dosage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Dosage")
+                        .HasColumnType("int");
 
                     b.Property<string>("Instructions")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("MedicationTime")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SumOfMedicationTime")
                         .HasColumnType("int");
 
                     b.HasKey("PrescriptionId", "MedicineId");
@@ -572,6 +605,30 @@ namespace Repository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Type");
+                });
+
+            modelBuilder.Entity("Repository.Models.UserNotification", b =>
+                {
+                    b.Property<Guid>("NotificationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("DeliveredAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("ReadAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("NotificationId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserNotification", (string)null);
                 });
 
             modelBuilder.Entity("Repository.Models.ApplicationUser", b =>
@@ -808,6 +865,25 @@ namespace Repository.Migrations
                     b.Navigation("Type");
                 });
 
+            modelBuilder.Entity("Repository.Models.UserNotification", b =>
+                {
+                    b.HasOne("Repository.Models.Notification", "Notification")
+                        .WithMany("UserNotifications")
+                        .HasForeignKey("NotificationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Repository.Models.ApplicationUser", "User")
+                        .WithMany("UserNotifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Notification");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Repository.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Appointments");
@@ -817,6 +893,8 @@ namespace Repository.Migrations
                     b.Navigation("MedicalRecords");
 
                     b.Navigation("Orders");
+
+                    b.Navigation("UserNotifications");
                 });
 
             modelBuilder.Entity("Repository.Models.ArvRegimen", b =>
@@ -870,6 +948,11 @@ namespace Repository.Migrations
                     b.Navigation("ComboMedicines");
 
                     b.Navigation("PrescriptionMedicines");
+                });
+
+            modelBuilder.Entity("Repository.Models.Notification", b =>
+                {
+                    b.Navigation("UserNotifications");
                 });
 
             modelBuilder.Entity("Repository.Models.Prescription", b =>

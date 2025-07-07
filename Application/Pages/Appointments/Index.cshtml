@@ -1,0 +1,75 @@
+﻿@page
+@model Application.Pages.Appointments.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    @if (Model.Role == "User")
+    {
+    <a asp-page="Create">Create New</a>
+    }
+  
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>
+            @Html.DisplayNameFor(model => model.Appointment[0].AppointmentDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Appointment[0].Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Appointment[0].Notes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Appointment[0].Doctor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Appointment[0].User)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @{ int stt = 1; }
+    @foreach (var item in Model.Appointment)
+    {
+        <tr>
+            <td>@stt</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppointmentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Doctor.LicenseNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
+                @if (Model.Role == "Admin")
+                {
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> 
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> 
+                }
+                else
+                {
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                }
+            </td>
+        </tr> 
+        stt++;
+    }
+    </tbody>
+</table>
