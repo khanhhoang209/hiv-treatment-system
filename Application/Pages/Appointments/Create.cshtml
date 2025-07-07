@@ -1,0 +1,51 @@
+@page
+@model CreateModel
+@{
+    ViewData["Title"] = "Đặt lịch khám";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Đặt lịch khám</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Appointment.DoctorId" class="form-label">Chọn bác sĩ</label>
+                            <select asp-for="Appointment.DoctorId" asp-items="Model.DoctorList" class="form-select">
+                                <option value="">-- Chọn bác sĩ --</option>
+                            </select>
+                            <span asp-validation-for="Appointment.DoctorId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Appointment.AppointmentDate" class="form-label">Ngày khám</label>
+                            <input asp-for="Appointment.AppointmentDate" type="datetime-local" class="form-control" />
+                            <span asp-validation-for="Appointment.AppointmentDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Appointment.Notes" class="form-label">Ghi chú</label>
+                            <textarea asp-for="Appointment.Notes" class="form-control" rows="3" placeholder="Mô tả triệu chứng hoặc ghi chú thêm..."></textarea>
+                            <span asp-validation-for="Appointment.Notes" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Xác nhận đặt lịch</button>
+                            <a href="/" class="btn btn-secondary">Hủy bỏ</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
