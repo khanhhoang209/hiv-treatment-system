@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.Models;
+using Service.DTO;
 using Service.Interfaces;
+using System.Security.Claims;
 
 namespace Application.Pages.Appointments
 {
@@ -16,8 +19,8 @@ namespace Application.Pages.Appointments
         private readonly Repository.Context.ApplicationDbContext _context;
         private readonly IAppointmentService _service;
         private readonly IDoctorService _doctorService;
-        
-        public CreateModel(Repository.Context.ApplicationDbContext context, 
+
+        public CreateModel(Repository.Context.ApplicationDbContext context,
             IAppointmentService service, IDoctorService doctorService)
         {
             _service = service;
@@ -27,18 +30,18 @@ namespace Application.Pages.Appointments
 
         public IActionResult OnGet()
         {
-            var role= HttpContext.Session.GetString("Role");
+            var role = HttpContext.Session.GetString("Role");
             var userIdStr = HttpContext.Session.GetString("Account");
             if (string.IsNullOrEmpty(role) || string.IsNullOrEmpty(userIdStr))
             {
                 return RedirectToPage("/Login");
             }
-            if(role=="Admin")
+            if (role == "Admin")
             {
                 return RedirectToPage("/Appointments/Index");
             }
             ViewData["DoctorId"] = new SelectList(_doctorService.GetAllDoctors(), "Id", "LicenseNumber");
-          //  ViewData["UserId"] = new SelectList(_context.Users, "Id", "Username");
+            //  ViewData["UserId"] = new SelectList(_context.Users, "Id", "Username");
             return Page();
         }
 
@@ -73,7 +76,8 @@ namespace Application.Pages.Appointments
         private void LoadSelectLists()
         {
             ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "LicenseNumber", Appointment.DoctorId);
-         //   ViewData["UserId"] = new SelectList(_context.Users, "Id", "Username", Appointment.UserId);
+            //   ViewData["UserId"] = new SelectList(_context.Users, "Id", "Username", Appointment.UserId);
         }
     }
+
 }

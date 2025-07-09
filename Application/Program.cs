@@ -24,6 +24,7 @@ public class Program
         });
 
         // Services
+        builder.Services.AddScoped<IAppointmentOnlService, AppointmentOnlService>();
 
         builder.Services.AddScoped<IAppointmentService, AppointmentService>();
         builder.Services.AddScoped<IDoctorService, DoctorService>();
@@ -34,6 +35,8 @@ public class Program
 
         // Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+
         builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
         builder.Services.AddSession(options =>
