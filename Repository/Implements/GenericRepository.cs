@@ -321,6 +321,17 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
         return totalPages;
     }
+
+    public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await _dbSet.FirstOrDefaultAsync(predicate);
+    }
+
+    public async Task<List<T>> GetListAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await _dbSet.Where(predicate).ToListAsync();
+    }
+    
     public async Task<List<T>> GetListWithConditionAsync(
         Expression<Func<T, bool>> filter,
         params Expression<Func<T, object>>[] includes)

@@ -287,5 +287,6 @@ public class ApplicationDbContext : DbContext
                       .HasForeignKey(x => x.UserId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
+            
     }
 }

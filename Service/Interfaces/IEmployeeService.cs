@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Service.Interfaces
 {
-    public interface IDoctorService
+    public interface IEmployeeService
     {
-        List<Doctor> GetAllDoctors();
-        Task<Doctor> GetDoctor(Guid id);
+        Task<Employee> GetEmployee(Guid id);
     }
 }

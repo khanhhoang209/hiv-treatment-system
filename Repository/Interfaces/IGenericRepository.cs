@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Repository.Interfaces;
 
@@ -44,8 +45,9 @@ public interface IGenericRepository<T> where T : class
     Task<T?> GetByIdAsync(int id);
     Task<T?> GetByIdAsync(string code);
     Task<T?> GetByIdAsync(Guid code);
+    Task<List<T>> GetListAsync(Expression<Func<T, bool>> predicate);
 
-
+    Task<T> GetAsync(Expression<Func<T, bool>> predicate);
     void PrepareCreate(T entity);
     void PrepareCreate(IEnumerable<T> entities);
     void PrepareUpdate(T entity);

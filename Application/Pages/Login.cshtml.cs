@@ -57,7 +57,15 @@ public class LoginModel : PageModel
             return RedirectToPage("/Appointments/Index");
         }
 
-        HttpContext.Session.SetString("Role", Roles.User);
+        if (user.RoleId.ToString() == "88af217f-2fb8-48b6-8fdf-a1e6f36d4647") // Doctor
+        {
+            HttpContext.Session.SetString("Role", "Doctor");
+            HttpContext.Session.SetString("Account", user.Id.ToString());
+            return RedirectToPage("/Appointments/Index");
+        }
+
+        
+        HttpContext.Session.SetString("Role", "User");
         HttpContext.Session.SetString("Account", user.Id.ToString());
 
         return RedirectToPage("/Appointments/Index");

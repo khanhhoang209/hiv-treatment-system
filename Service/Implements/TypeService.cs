@@ -9,21 +9,22 @@ using System.Threading.Tasks;
 
 namespace Service.Implements
 {
-    public class DoctorService : IDoctorService
+    public class TypeService : ITypeService
     {
-        private readonly IGenericRepository<Doctor> _repo;
-        public DoctorService(IGenericRepository<Doctor> doctorRepo)
+        private readonly IGenericRepository<Repository.Models.Type> _repo;
+        public TypeService(IGenericRepository<Repository.Models.Type> doctorRepo)
         {
             _repo = doctorRepo;
         }
-        public List<Doctor> GetAllDoctors()
+
+        public List<Repository.Models.Type> GetAllType()
         {
             return _repo.GetAll();
         }
 
-        public async Task<Doctor> GetDoctor(Guid id)
+        public Repository.Models.Type GetTypeById(Guid id)
         {
-            return await _repo.GetByIdAsync(id);
+            return _repo.GetById(id);
         }
     }
 }

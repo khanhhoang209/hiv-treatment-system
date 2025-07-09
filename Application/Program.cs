@@ -24,17 +24,21 @@ public class Program
         });
 
         // Services
-        builder.Services.AddScoped<IAppointmentOnlService, AppointmentOnlService>();
-
-        builder.Services.AddScoped<IAppointmentService, AppointmentService>();
-        builder.Services.AddScoped<IDoctorService, DoctorService>();
-        builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<ITestResultService, TestResultService>();
+        builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();  
         builder.Services.AddScoped<IArvService, ArvService>();
+        builder.Services.AddScoped<ITypeService, TypeService>();
+        builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IDoctorService, DoctorService>();
+        builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+        builder.Services.AddScoped<IAppointmentOnlService, AppointmentOnlService>();
+        builder.Services.AddScoped<IAppointmentService, AppointmentService>();
         builder.Services.AddScoped<INotificationService, NotificationService>();
 
 
         // Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+       
         builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
         builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -58,6 +62,7 @@ public class Program
             app.UseHsts();
         }
 
+        app.UseHttpsRedirection();
         app.UseStaticFiles();
 
         app.UseRouting();

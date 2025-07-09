@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace Service.Interfaces
 {
-    public interface IDoctorService
+    public interface ITypeService
     {
-        List<Doctor> GetAllDoctors();
-        Task<Doctor> GetDoctor(Guid id);
+        List<Repository.Models.Type> GetAllType();
+
+        Repository.Models.Type GetTypeById(Guid id);
     }
 }
