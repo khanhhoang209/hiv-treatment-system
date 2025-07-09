@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repository.Models;
 
+[Table("User")]
 public class ApplicationUser
 {
     public Guid Id { get; set; }
@@ -20,4 +21,5 @@ public class ApplicationUser
     public ICollection<Appointment> Appointments { get; set; } = null!;
     public ICollection<MedicalRecord> MedicalRecords { get; set; } = null!;
     public ICollection<Order> Orders { get; set; } = null!;
+    public ICollection<UserNotification> UserNotifications { get; set; } = null!;
 }

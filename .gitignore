@@ -32,6 +32,10 @@ bld/
 #wwwroot/
 
 # MSTest test Results
+<<<<<<< HEAD
+=======
+[Tt]est[Rr]esult*/
+>>>>>>> 5101eb8c45ed161ec292b5684973b7aa97fa32c9
 [Bb]uild[Ll]og.*
 
 # NUNIT

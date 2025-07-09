@@ -16,9 +16,9 @@ namespace Repository.Models
         public string Diagnosis { get; set; } = null!;
         public string Treatment { get; set; } = null!;
         public string Notes { get; set; } = null!;
-        public Guid UserId { get; set; }
-        public Doctor Doctor { get; set; } = null!;
         public Guid DoctorId { get; set; }
+        public Doctor Doctor { get; set; } = null!;
+        public Guid UserId { get; set; }
         public ApplicationUser User { get; set; } = null!;
         public Prescription Prescription { get; set; } = null!;
         public ICollection<TestResult> TestResults { get; set; } = null!;

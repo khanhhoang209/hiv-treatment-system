@@ -1,15 +1,14 @@
 ﻿using Repository.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Service.DTOs;
 
-namespace Service.Interfaces
+namespace Service.Interfaces;
+
+public interface IArvService
 {
-    public interface IArvService
-    {
-        Task<List<ArvRegimen>> GetAllAsync();
-        Task<ArvRegimen> GetAsync(Guid id);
-    }
+    Task<List<ArvRegimen>> GetAllAsync();
+    Task<ArvRegimen> GetByIdAsync(Guid id);
+    Task<ArvRegimen> CreateAsync(ArvRegimen arvRegimen);
+    Task<ArvRegimen> UpdateAsync(ArvRegimen arvRegimen);
+    Task DeleteAsync(Guid id);
+    Task<List<ArvRegimen>> GetSuggestedRegimensAsync(PatientCondition patientCondition);
 }

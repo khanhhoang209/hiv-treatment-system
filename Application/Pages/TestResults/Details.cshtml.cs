@@ -37,7 +37,7 @@ namespace Application.Pages.TestResults
 
             var testresult = await _testResultService.GetTestResultById(id.Value);
             var type = _typeService.GetTypeById(testresult.TypeId);
-            var arv = await _arvService.GetAsync(testresult.ArvRegimentId);
+            var arv = await _arvService.GetByIdAsync(testresult.ArvRegimentId);
             if (testresult == null)
             {
                 return NotFound();
