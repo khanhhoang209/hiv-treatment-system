@@ -1,2 +1,0 @@
-insert into dbo.Prescription (Id, PrescriptionDate, Notes, MedicalRecordId)
-values  (N'9f2fd754-466e-4eab-99eb-7f35735de05a', N'2025-06-25 11:19:21.0000000', N'Thằng này bị HIV/AIDS thời kỳ cuối', N'ab81c2b9-341e-4e8a-b569-07c0897bac86');

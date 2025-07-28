@@ -30,11 +30,11 @@ public class LoginModel : PageModel
     
     public async Task<IActionResult> OnPostAsync()
     {
-        // var loginId = HttpContext.Session.GetString("Account");
-        // if (!string.IsNullOrEmpty(loginId))
-        // {
-        //     return RedirectToPage("/Appointments/Create");
-        // }
+        var loginId = HttpContext.Session.GetString("Account");
+        if (!string.IsNullOrEmpty(loginId))
+        {
+            return RedirectToPage("/Appointments/Create");
+        }
 
         var user = _userService.GetAccountByUserName(User.Username);
 
@@ -49,25 +49,16 @@ public class LoginModel : PageModel
             ModelState.AddModelError("User.Password", "Mật khẩu không đúng.");
             return Page();
         }
-
-        if (user.RoleId.ToString() == "d9b8e0d2-8c17-4f84-9a9e-1b1b3d9c58fd") // Admin
-        {
-            HttpContext.Session.SetString("Role", Roles.Admin);
-            HttpContext.Session.SetString("Account", user.Id.ToString());
-            return RedirectToPage("/Appointments/Index");
-        }
-
-        if (user.RoleId.ToString() == "88af217f-2fb8-48b6-8fdf-a1e6f36d4647") // Doctor
-        {
-            HttpContext.Session.SetString("Role", "Doctor");
-            HttpContext.Session.SetString("Account", user.Id.ToString());
-            return RedirectToPage("/Appointments/Index");
-        }
-
         
-        HttpContext.Session.SetString("Role", "User");
+        var redirectUrl = "/Appointments/Index";
+        if (user.Role.Name.ToLower() == Roles.Admin.ToLower())
+        {
+            redirectUrl = "/Dashboard/Index";
+        }
+        
+        HttpContext.Session.SetString("Role", user.Role.Name);
         HttpContext.Session.SetString("Account", user.Id.ToString());
-
-        return RedirectToPage("/Appointments/Index");
+        
+        return RedirectToPage(redirectUrl);
     }
 }

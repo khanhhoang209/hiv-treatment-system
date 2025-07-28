@@ -1,4 +1,3 @@
 insert into dbo.Users (Id, Username, Password, Email, Phone, Address, DateOfBirth, Gender, Status, RoleId)
 values  (N'ab81c2b9-341e-4e8a-b569-07c0897bac86', N'doctor@example.com', N'12345aA#', N'doctor@example.com', N'0909470316', N'HCM', N'2025-06-25 12:12:27.0000000', N'Male', N'Available', N'e1d4b4c9-5061-4bcc-a90f-e9542a5635e0'),
-        (N'13c2e12d-9e3f-4a44-9db5-3c5c5f6b0f99', N'admin@example.com', N'12345aA#', N'admin@example.com', N'0909470316', N'HCM', N'2025-06-25 12:12:27.0000000', N'Male', N'Available', N'17939561-3e91-4e95-31cf-1d67d8c9a39e'),
         (N'a66ec4d4-6114-41e1-981d-197887342898', N'user@example.com', N'12345aA#', N'user@example.com', N'0909470316', N'HCM', N'2025-06-25 12:12:24.0000000', N'Male', N'Available', N'17939561-3e91-4e95-91cf-4d67d8c9a39e');

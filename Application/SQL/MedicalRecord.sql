@@ -1,2 +1,0 @@
-insert into dbo.MedicalRecord (Id, RecordDate, Diagnosis, Treatment, Notes, DoctorId, UserId)
-values  (N'ab81c2b9-341e-4e8a-b569-07c0897bac86', N'2025-06-25 11:07:33.0000000', N'AIDS giai đoạn cuối', N'Xạ trị', N'Không cứu được', N'4c6fd40d-de3b-4c46-b29f-a05009e4acdc', N'a66ec4d4-6114-41e1-981d-197887342898');

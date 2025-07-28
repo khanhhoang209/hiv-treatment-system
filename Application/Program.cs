@@ -36,12 +36,14 @@ public class Program
         builder.Services.AddScoped<INotificationService, NotificationService>();
         builder.Services.AddScoped<IPayPalService, PayPalService>();
         builder.Services.AddScoped<IClinicService, ClinicService>();
+        builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 
         // Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+        builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 
         builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
