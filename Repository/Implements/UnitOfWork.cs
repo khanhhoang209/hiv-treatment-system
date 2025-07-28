@@ -12,6 +12,7 @@ public class UnitOfWork : IUnitOfWork
     public INotificationRepository NotificationRepository { get;  }
     public IUserNotificationRepository UserNotificationRepository { get;  }
     public IPrescriptionRepository PrescriptionRepository { get;  }
+    public IAppointmentOffRepository AppointmentOffRepository { get; }
 
     public UnitOfWork(ApplicationDbContext dbContext, IConfiguration configuration)
     {
@@ -26,6 +27,7 @@ public class UnitOfWork : IUnitOfWork
         UserNotificationRepository = new UserNotificationRepository(dbContext);
         
         PrescriptionRepository = new PrescriptionRepository(dbContext);
+        AppointmentOffRepository = new AppointmentOffRepository(dbContext);
     }
 
     public async Task<bool> SaveChangesAsync()

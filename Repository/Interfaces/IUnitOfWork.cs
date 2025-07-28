@@ -6,5 +6,6 @@ public interface IUnitOfWork
     INotificationRepository NotificationRepository { get; }
     IPrescriptionRepository PrescriptionRepository { get; }
     IUserNotificationRepository UserNotificationRepository { get; }
+    IAppointmentOffRepository AppointmentOffRepository { get; }
     Task<bool> SaveChangesAsync();
 }

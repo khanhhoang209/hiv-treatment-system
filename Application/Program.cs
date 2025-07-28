@@ -34,7 +34,7 @@ public class Program
         builder.Services.AddScoped<IAppointmentOnlService, AppointmentOnlService>();
         builder.Services.AddScoped<IAppointmentService, AppointmentService>();
         builder.Services.AddScoped<INotificationService, NotificationService>();
-
+        builder.Services.AddScoped<IPayPalService, PayPalService>();
 
         // Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
