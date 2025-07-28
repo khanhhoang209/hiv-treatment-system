@@ -14,6 +14,7 @@ public class UnitOfWork : IUnitOfWork
     public IPrescriptionRepository PrescriptionRepository { get;  }
     public IDoctorRepository DoctorRepository { get;  }
     public IEmployeeRepository EmployeeRepository { get;  }
+    public IClinicRepository ClinicRepository { get; }
 
     public UnitOfWork(ApplicationDbContext dbContext, IConfiguration configuration)
     {
@@ -32,6 +33,8 @@ public class UnitOfWork : IUnitOfWork
         DoctorRepository = new DoctorRepository(dbContext);
 
         EmployeeRepository = new EmployeeRepository(dbContext);
+
+        ClinicRepository = new ClinicRepository(dbContext);
     }
 
     public async Task<bool> SaveChangesAsync()
