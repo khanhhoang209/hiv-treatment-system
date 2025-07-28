@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Service.Implements
 {
@@ -20,7 +21,9 @@ namespace Service.Implements
 
         public ApplicationUser? GetAccountByUserName(string username)
         {
-            return _repo.GetAll().FirstOrDefault(u => u.Username == username);
+            return _repo.Query()
+                .Include(u => u.Role)
+                .FirstOrDefault(u => u.Username == username);
         }
 
         public async Task<ApplicationUser> CreateUser(ApplicationUser user)

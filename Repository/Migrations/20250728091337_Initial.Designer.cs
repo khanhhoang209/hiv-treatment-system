@@ -12,7 +12,11 @@ using Repository.Context;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
+<<<<<<<< Updated upstream:Repository/Migrations/20250728091337_Initial.Designer.cs
     [Migration("20250728091337_Initial")]
+========
+    [Migration("20250728083122_Initial")]
+>>>>>>>> Stashed changes:Repository/Migrations/20250728083122_Initial.Designer.cs
     partial class Initial
     {
         /// <inheritdoc />
