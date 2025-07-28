@@ -29,6 +29,16 @@ namespace Service.Implements
             return await _repo.GetByIdAsync(testResultId);
         }
 
+        public async Task<bool> CreateTestResults(List<TestResult> testResults)
+        {
+            foreach (var testResult in testResults)
+            {
+                await _repo.CreateAsync(testResult);
+            }
+
+            return true;
+        }
+
         public async Task<List<TestResult>> GetTestResults()
         {
             return await _repo.GetAllAsync();
