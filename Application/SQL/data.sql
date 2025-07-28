@@ -225,7 +225,7 @@ PRINT 'Inserting Orders...';
 
 -- Orders tháng này
 INSERT INTO [Order] (Id, UserId, DoctorId, MedicalRecordId, TotalPrice, CreateAt) VALUES
-    ('BCDEF123-4567-6BC6-7890-987654321CBA', '78901234-5601-789A-BCDE-F12345678901', '12345678-9ABC-DEF1-2345-6789ABCDEF12', 'BCDEF123-4567-8901-8DE4-6789ABCDEF12', 500000, DATEADD(DAY, -5, GETDATE())),                                                                                      
+    ('BCDEF123-4567-6BC6-7890-987654321CBA', '78901234-5601-789A-BCDE-F12345678901', '12345678-9ABC-DEF1-2345-6789ABCDEF12', 'BCDEF123-4567-8901-8DE4-6789ABCDEF12', 500000, DATEADD(DAY, -5, GETDATE())),
     ('BCDEF123-4567-6BC6-7890-123456789ABC', '78901234-5601-789A-BCDE-F12345678901', '12345678-9ABC-DEF1-2345-6789ABCDEF12', 'BCDEF123-4567-8901-8DE4-6789ABCDEF12', 500000, DATEADD(DAY, -5, GETDATE())),
     ('CDEF1234-5678-7CD7-89AB-23456789ABCD', '89012345-6712-89AB-CDEF-123456789012', '23456789-ABCD-EF12-3456-789ABCDEF123', 'CDEF1234-5678-9012-9EF5-789ABCDEF123', 750000, DATEADD(DAY, -10, GETDATE())),
     ('DEF12345-6789-8DE8-9ABC-3456789ABCDE', '90123456-7823-90BC-DEF1-234567890123', '3456789A-BCDE-F123-4567-89ABCDEF1234', 'DEF12345-6789-0123-AF06-89ABCDEF1234', 1000000, DATEADD(DAY, -15, GETDATE())),
@@ -276,3 +276,32 @@ INSERT INTO [UserNotification] (UserId, NotificationId, IsRead, ReadAt) VALUES
     (@Doctor3Id, '23456789-ABCD-CDEF-6789-01234567BCDE', 1, CAST(GETDATE() AS DATE)),
     (@Staff1Id, '12345678-9ABC-BCDE-5678-90123456ABCD', 0, NULL),
     (@Staff2Id, '3456789A-BCDE-DEF1-789A-123456789CDF', 1, CAST(GETDATE() AS DATE));
+
+-- ================================================
+-- 14. Regemen ARV DATA
+-- ================================================
+
+PRINT 'Inserting Regimen ARV...';
+
+
+INSERT INTO ArvRegimen (Id, Name, Description, Level) VALUES
+-- Trẻ em
+(NEWID(), N'ARV trẻ em 1', N'trẻ em', 1),
+
+-- Nhiễm HIV cấp tính
+(NEWID(), N'ARV cấp tính 1', N'cấp tính', 2),
+
+-- Nhiễm HIV mạn tính (mô tả là "thứ tính" trong code)
+(NEWID(), N'ARV thứ tính 1', N'thứ tính', 3),
+
+-- AIDS
+(NEWID(), N'ARV AIDS 1', N'AIDS', 4),
+
+-- Phụ nữ mang thai
+(NEWID(), N'ARV thai kỳ 1', N'mang thai', 2),
+
+-- Viêm gan B
+(NEWID(), N'ARV viêm gan B 1', N'viêm gan B', 2),
+
+-- Bệnh lao
+(NEWID(), N'ARV lao 1', N'Lao', 3);
