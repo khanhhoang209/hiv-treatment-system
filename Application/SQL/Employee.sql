@@ -1,2 +1,0 @@
-insert into dbo.Employee (Id, FirstName, LastName, Email, Phone, Address, DateOfBirth, Gender, Status, UserId)
-values  (N'4c6fd40d-de3b-4c46-b29f-a05009e4acdc', N'Khang', N'Pham', N'doctor@example.com', N'0909470316', N'Nguyen Duy Trinh', N'2025-06-25 11:12:32.0000000', N'Male', N'Available', N'ab81c2b9-341e-4e8a-b569-07c0897bac86');
