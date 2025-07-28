@@ -39,6 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Pages\Doctors\" />
       <Folder Include="Pages\UserNotifications\" />
       <Folder Include="SQL\" />
     </ItemGroup>

@@ -12,20 +12,26 @@ public class UnitOfWork : IUnitOfWork
     public INotificationRepository NotificationRepository { get;  }
     public IUserNotificationRepository UserNotificationRepository { get;  }
     public IPrescriptionRepository PrescriptionRepository { get;  }
+    public IDoctorRepository DoctorRepository { get;  }
+    public IEmployeeRepository EmployeeRepository { get;  }
 
     public UnitOfWork(ApplicationDbContext dbContext, IConfiguration configuration)
     {
         _dbContext = dbContext;
-        
+
         _configuration = configuration;
 
         ArvRepository = new ArvRepository(dbContext);
-        
+
         NotificationRepository = new NotificationRepository(dbContext);
-        
+
         UserNotificationRepository = new UserNotificationRepository(dbContext);
-        
+
         PrescriptionRepository = new PrescriptionRepository(dbContext);
+
+        DoctorRepository = new DoctorRepository(dbContext);
+
+        EmployeeRepository = new EmployeeRepository(dbContext);
     }
 
     public async Task<bool> SaveChangesAsync()

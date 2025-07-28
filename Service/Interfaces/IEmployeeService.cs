@@ -10,5 +10,7 @@ namespace Service.Interfaces
     public interface IEmployeeService
     {
         Task<Employee> GetEmployee(Guid id);
+        IEnumerable<Employee> GetEmployees();
+
     }
 }
