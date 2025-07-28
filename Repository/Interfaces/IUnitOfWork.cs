@@ -9,4 +9,5 @@ public interface IUnitOfWork
     Task<bool> SaveChangesAsync();
     IDoctorRepository DoctorRepository { get; }
     IEmployeeRepository EmployeeRepository { get; }
+    IClinicRepository ClinicRepository { get; }
 }
