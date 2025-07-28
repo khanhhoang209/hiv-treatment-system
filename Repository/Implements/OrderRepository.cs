@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.Interfaces;
+using Repository.Models;
 
 namespace Repository.Implements;
 
@@ -34,7 +35,7 @@ public class OrderRepository : IOrderRepository
         var prescriptionPrice = medicalRecord.Prescription?.PrescriptionMedicines;
         if (prescriptionPrice != null)
         {
-            totalPrice += prescriptionPrice.Sum(pm => pm.Medicine.Price * pm.Quantity);
+            totalPrice += prescriptionPrice.Sum(pm => pm.BoughtPrice * pm.Quantity);
         }
         
         //Giá của các test result
@@ -55,5 +56,70 @@ public class OrderRepository : IOrderRepository
     
 
         return totalPrice;
+    }
+    public async Task CreateAsync(Order order)
+    {
+        order.Id = Guid.NewGuid();
+        await _context.Orders.AddAsync(order);
+        await _context.SaveChangesAsync();
+    }
+    public async Task<Order?> GetOrderByIdAsync(Guid orderId)
+    {
+        return await _context.Orders
+            .Include(o => o.User)
+            .Include(o => o.Doctor)
+            .Include(o => o.MedicalRecord)
+                .ThenInclude(mr => mr.Prescription)
+                    .ThenInclude(p => p.PrescriptionMedicines)
+                        .ThenInclude(pm => pm.Medicine)
+            .Include(o => o.MedicalRecord)
+                .ThenInclude(mr => mr.TestResults)
+                    .ThenInclude(tr => tr.Type)
+            .Include(o => o.MedicalRecord)
+                .ThenInclude(mr => mr.TestResults)
+                    .ThenInclude(tr => tr.ArvRegimen)
+                        .ThenInclude(arv => arv.ComboMedicines)
+                            .ThenInclude(cm => cm.Medicine)
+            .FirstOrDefaultAsync(o => o.Id == orderId);
+    }
+    public async Task<List<Order>> GetOrdersByUserIdAsync(Guid userId)
+    {
+        return await _context.Orders
+            .Include(o => o.User)
+            .Include(o => o.Doctor)
+            .Include(o => o.MedicalRecord)
+                .ThenInclude(mr => mr.Prescription)
+                    .ThenInclude(p => p.PrescriptionMedicines)
+                        .ThenInclude(pm => pm.Medicine)
+            .Include(o => o.MedicalRecord)
+                .ThenInclude(mr => mr.TestResults)
+                    .ThenInclude(tr => tr.Type)
+            .Include(o => o.MedicalRecord)
+                .ThenInclude(mr => mr.TestResults)
+                    .ThenInclude(tr => tr.ArvRegimen)
+                        .ThenInclude(arv => arv.ComboMedicines)
+                            .ThenInclude(cm => cm.Medicine)
+            .Where(o => o.UserId == userId)
+            .ToListAsync();
+    }
+    
+    public async Task<List<Order>> GetAllOrdersAsync()
+    {
+        return await _context.Orders
+            .Include(o => o.User)
+            .Include(o => o.Doctor)
+            .Include(o => o.MedicalRecord)
+                .ThenInclude(mr => mr.Prescription)
+                    .ThenInclude(p => p.PrescriptionMedicines)
+                        .ThenInclude(pm => pm.Medicine)
+            .Include(o => o.MedicalRecord)
+                .ThenInclude(mr => mr.TestResults)
+                    .ThenInclude(tr => tr.Type)
+            .Include(o => o.MedicalRecord)
+                .ThenInclude(mr => mr.TestResults)
+                    .ThenInclude(tr => tr.ArvRegimen)
+                        .ThenInclude(arv => arv.ComboMedicines)
+                            .ThenInclude(cm => cm.Medicine)
+            .ToListAsync();
     }
 }
