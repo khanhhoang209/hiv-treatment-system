@@ -25,7 +25,7 @@ public class Program
 
         // Services
         builder.Services.AddScoped<ITestResultService, TestResultService>();
-        builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();  
+        builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
         builder.Services.AddScoped<IArvService, ArvService>();
         builder.Services.AddScoped<ITypeService, TypeService>();
         builder.Services.AddScoped<IUserService, UserService>();
@@ -35,10 +35,12 @@ public class Program
         builder.Services.AddScoped<IAppointmentService, AppointmentService>();
         builder.Services.AddScoped<INotificationService, NotificationService>();
         builder.Services.AddScoped<IPayPalService, PayPalService>();
+        builder.Services.AddScoped<IClinicService, ClinicService>();
+
 
         // Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-       
+
         builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
         builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -51,7 +53,7 @@ public class Program
         });
 
         builder.Services.AddHostedService<NotificationScheduler>();
-        
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -72,7 +74,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapHub<NotificationHub>("/hubs/notifications");
-        
+
         app.MapRazorPages();
 
         app.Run();
