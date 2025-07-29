@@ -42,6 +42,8 @@ public class Program
         builder.Services.AddScoped<IOrderService, OrderService>();
         builder.Services.AddScoped<IStaffService, StaffService>();
         builder.Services.AddScoped<IRoleService, RoleService>();
+        builder.Services.AddScoped<IMedicineService, MedicineService>();
+        builder.Services.AddScoped<IComboMedicineService, ComboMedicineService>();
 
 
         // Repositories
@@ -50,6 +52,7 @@ public class Program
         builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
         builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+        builder.Services.AddScoped<IComboMedicineRepository, ComboMedicineRepository>();
         builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
         builder.Services.AddSession(options =>
