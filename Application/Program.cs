@@ -40,7 +40,7 @@ public class Program
         builder.Services.AddScoped<IDashboardService, DashboardService>();
         builder.Services.AddScoped<ITestTypeService, TestTypeService>();
         builder.Services.AddScoped<IOrderService, OrderService>();
-        
+        builder.Services.AddScoped<IStaffService, StaffService>();
         builder.Services.AddScoped<IRoleService, RoleService>();
         builder.Services.AddScoped<IMedicineService, MedicineService>();
         builder.Services.AddScoped<IComboMedicineService, ComboMedicineService>();
