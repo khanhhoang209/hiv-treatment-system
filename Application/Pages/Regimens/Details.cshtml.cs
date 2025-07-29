@@ -8,13 +8,16 @@ namespace Application.Pages.Regimens
     public class DetailsModel : PageModel
     {
         private readonly IArvService _arvService;
+        private readonly IComboMedicineService _comboMedicineService;
 
-        public DetailsModel(IArvService arvService)
+        public DetailsModel(IArvService arvService, IComboMedicineService comboMedicineService)
         {
             _arvService = arvService;
+            _comboMedicineService = comboMedicineService;
         }
 
         public ArvRegimen ArvRegimen { get; set; } = default!;
+        public List<ComboMedicine> ComboMedicines { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync(Guid? id)
         {
@@ -28,10 +31,10 @@ namespace Application.Pages.Regimens
             {
                 return NotFound();
             }
-            else
-            {
-                ArvRegimen = arvregimen;
-            }
+          
+            ArvRegimen = arvregimen; 
+            ComboMedicines = await _comboMedicineService.GetComboMedicinesByRegimenIdAsync(arvregimen.Id);
+
             return Page();
         }
     }
