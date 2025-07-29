@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,33 +9,32 @@ using Repository.Context;
 using Repository.Models;
 using Service.Interfaces;
 
-namespace Application.Pages.ApplicationUsers
+namespace Application.Pages.Staffs
 {
     public class CreateModel : PageModel
     {
-        private readonly IUserService _userService;
-        private readonly IRoleService _roleService;
+        private readonly IStaffService _staffService;
+        private readonly IEmployeeService _employeeService;
 
-        public CreateModel(IUserService userService, IRoleService roleService)
+        public CreateModel(IStaffService staffService, IEmployeeService employeeService)
         {
-            _userService = userService;
-            _roleService = roleService;
+            _staffService = staffService;
+            _employeeService = employeeService;
         }
 
         public IActionResult OnGet()
         {
-            ViewData["RoleId"] = new SelectList(_roleService.GetRoles(), "Id", "Name");
+        ViewData["EmployeeId"] = new SelectList(_employeeService.GetEmployees(), "Id", "Email");
             return Page();
         }
 
         [BindProperty]
-        public ApplicationUser ApplicationUser { get; set; } = default!;
+        public Staff Staff { get; set; } = default!;
 
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            ApplicationUser.Status = "Active";
-            await _userService.CreateUser(ApplicationUser);
+            await _staffService.CreateAsync(Staff);
 
             return RedirectToPage("./Index");
         }
