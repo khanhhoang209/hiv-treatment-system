@@ -2,59 +2,71 @@
 @model Application.Pages.MedicalRecords.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Medical Record";
 }
 
-<h1>Edit</h1>
+<div class="container mt-4">
+    <div class="card shadow rounded">
+        <div class="card-header bg-warning text-dark">
+            <h4 class="mb-0">Edit Medical Record</h4>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-<h4>MedicalRecord</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="MedicalRecord.Id" />
-            <div class="form-group">
-                <label asp-for="MedicalRecord.RecordDate" class="control-label"></label>
-                <input asp-for="MedicalRecord.RecordDate" class="form-control" />
-                <span asp-validation-for="MedicalRecord.RecordDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MedicalRecord.Diagnosis" class="control-label"></label>
-                <input asp-for="MedicalRecord.Diagnosis" class="form-control" />
-                <span asp-validation-for="MedicalRecord.Diagnosis" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MedicalRecord.Treatment" class="control-label"></label>
-                <input asp-for="MedicalRecord.Treatment" class="form-control" />
-                <span asp-validation-for="MedicalRecord.Treatment" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MedicalRecord.Notes" class="control-label"></label>
-                <input asp-for="MedicalRecord.Notes" class="form-control" />
-                <span asp-validation-for="MedicalRecord.Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MedicalRecord.DoctorId" class="control-label"></label>
-                <select asp-for="MedicalRecord.DoctorId" class="form-control" asp-items="ViewBag.DoctorId" disabled></select>
-                <input type="hidden" asp-for="MedicalRecord.DoctorId" />
-                <span asp-validation-for="MedicalRecord.DoctorId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MedicalRecord.UserId" class="control-label"></label>
-                <select asp-for="MedicalRecord.UserId" class="form-control" asp-items="ViewBag.UserId" disabled></select>
-                <input type="hidden" asp-for="MedicalRecord.UserId" />
-                <span asp-validation-for="MedicalRecord.UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                <input type="hidden" asp-for="MedicalRecord.Id" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="MedicalRecord.RecordDate" class="form-label"></label>
+                    <input asp-for="MedicalRecord.RecordDate" class="form-control" />
+                    <span asp-validation-for="MedicalRecord.RecordDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="MedicalRecord.Diagnosis" class="form-label"></label>
+                    <input asp-for="MedicalRecord.Diagnosis" class="form-control" />
+                    <span asp-validation-for="MedicalRecord.Diagnosis" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="MedicalRecord.Treatment" class="form-label"></label>
+                    <input asp-for="MedicalRecord.Treatment" class="form-control" />
+                    <span asp-validation-for="MedicalRecord.Treatment" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="MedicalRecord.Notes" class="form-label"></label>
+                    <input asp-for="MedicalRecord.Notes" class="form-control" />
+                    <span asp-validation-for="MedicalRecord.Notes" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="MedicalRecord.DoctorId" class="form-label"></label>
+                    <select asp-for="MedicalRecord.DoctorId"
+                            class="form-select" asp-items="ViewBag.DoctorId" disabled></select>
+                    <input type="hidden" asp-for="MedicalRecord.DoctorId" />
+                    <span asp-validation-for="MedicalRecord.DoctorId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="MedicalRecord.UserId" class="form-label"></label>
+                    <select asp-for="MedicalRecord.UserId"
+                            class="form-select" asp-items="ViewBag.UserId" disabled></select>
+                    <input type="hidden" asp-for="MedicalRecord.UserId" />
+                    <span asp-validation-for="MedicalRecord.UserId" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a asp-page="./Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                    <button type="submit" class="btn btn-warning text-white">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-page="./Index">Back to List</a>
 </div>
 
 @section Scripts {
@@ -62,3 +74,6 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+<!-- Font Awesome (for icons) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />

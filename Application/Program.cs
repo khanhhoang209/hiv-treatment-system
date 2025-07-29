@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.Implements;
 using Repository.Interfaces;
-using Repository.Models;
 using Service.Implements;
 using Service.Interfaces;
+using Service.Mapping;
 
 namespace Application;
 
@@ -24,6 +24,9 @@ public class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
+        // AutoMapper
+        builder.Services.AddAutoMapper(typeof(PrescriptionMappingProfile));
+
         // Services
         builder.Services.AddScoped<ITestResultService, TestResultService>();
         builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
@@ -39,6 +42,8 @@ public class Program
         builder.Services.AddScoped<IClinicService, ClinicService>();
         builder.Services.AddScoped<IDashboardService, DashboardService>();
         builder.Services.AddScoped<ITestTypeService, TestTypeService>();
+        builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
+        builder.Services.AddScoped<IPrescriptionMedicineService, PrescriptionMedicineService>();
         builder.Services.AddScoped<IOrderService, OrderService>();
         builder.Services.AddScoped<IStaffService, StaffService>();
         builder.Services.AddScoped<IRoleService, RoleService>();
@@ -73,7 +78,7 @@ public class Program
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
-
+        
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
@@ -81,12 +86,16 @@ public class Program
 
         app.UseSession();
 
-        app.UseAuthorization();
-
         app.MapHub<NotificationHub>("/hubs/notifications");
 
         app.MapRazorPages();
 
+        app.MapGet("/", context =>
+        {
+            context.Response.Redirect("/Login");
+            return Task.CompletedTask;
+        });
+        
         app.Run();
     }
 }

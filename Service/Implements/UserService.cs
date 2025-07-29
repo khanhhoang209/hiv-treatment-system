@@ -47,7 +47,7 @@ namespace Service.Implements
 
         public async Task<List<ApplicationUser>> GetAll()
         {
-            return await _repo.Query().Include(u => u.Role).ToListAsync();
+            return await _repo.GetListAsync(p => p.RoleId == Guid.Parse("D4E5F6A7-0809-0123-4567-890123DEF012")); //RoleUser
         }
 
         public async Task<ApplicationUser> GetApplicationUserById(Guid id)
