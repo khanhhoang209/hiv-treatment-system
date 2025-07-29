@@ -12,14 +12,10 @@ namespace Repository.Models
     [Table("PrescriptionMedicine")]
     public class PrescriptionMedicine
     {
-        [Key, Column(Order = 0)]
         public Guid PrescriptionId { get; set; }
         public Prescription Prescription { get; set; } = null!;
-        
-        [Key, Column(Order = 1)]
         public Guid MedicineId { get; set; }
         public Medicine Medicine { get; set; } = null!;
-        
         public int Quantity { get; set; }
         public int Dosage { get; set; }
         public string Instructions { get; set; } = null!;

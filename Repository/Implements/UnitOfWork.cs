@@ -13,10 +13,11 @@ public class UnitOfWork : IUnitOfWork
     public IUserNotificationRepository UserNotificationRepository { get;  }
     public IAppointmentOffRepository AppointmentOffRepository { get; }
     public IPrescriptionRepository PrescriptionRepository { get;  }
-    public IPrescriptionMedicineRepository PrescriptionMedicineRepository { get;  }
-    public IDoctorRepository DoctorRepository { get;  }
-    public IEmployeeRepository EmployeeRepository { get;  }
+    public IDoctorRepository DoctorRepository { get; }
+    public IEmployeeRepository EmployeeRepository { get; }
     public IClinicRepository ClinicRepository { get; }
+    public IComboMedicineRepository ComboMedicineRepository { get; }
+    public IMedicineRepository MedicineRepository { get; }
 
     public UnitOfWork(ApplicationDbContext dbContext, IConfiguration configuration)
     {
@@ -32,14 +33,14 @@ public class UnitOfWork : IUnitOfWork
 
         PrescriptionRepository = new PrescriptionRepository(dbContext);
 
-        PrescriptionMedicineRepository = new PrescriptionMedicineRepository(dbContext);
-
         DoctorRepository = new DoctorRepository(dbContext);
 
         EmployeeRepository = new EmployeeRepository(dbContext);
 
         ClinicRepository = new ClinicRepository(dbContext);
         AppointmentOffRepository = new AppointmentOffRepository(dbContext);
+        ComboMedicineRepository = new ComboMedicineRepository(dbContext);
+        MedicineRepository = new MedicineRepository(dbContext);
     }
 
     public async Task<bool> SaveChangesAsync()

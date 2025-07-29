@@ -13,6 +13,7 @@
             @* <th>Bác sĩ</th> *@
             <th>Ghi chú</th>
             <th>Trạng thái</th>
+            <th>Thao tác</th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +24,17 @@
                 @* <td>@a.Doctor.Employee.FirstName</td> *@
                 <td>@a.Notes</td>
                 <td>@a.Status</td>
+                <td>
+                    @if (a.Status == "Pending")
+                    {
+                        <a asp-page="Confirm" asp-route-id="@a.Id">Xác nhận | </a> 
+                        <a asp-page="Cancel" asp-route-id="@a.Id">Hủy</a>
+                    }
+                    else
+                    {
+                        <em>Đã xử lý</em>
+                    }
+                </td>
             </tr>
         }
     </tbody>
