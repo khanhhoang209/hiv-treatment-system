@@ -40,7 +40,7 @@
         <div class="mb-3">
             <label asp-for="TestResult.ArvRegimentId" class="form-label fw-semibold"></label>
             <select asp-for="TestResult.ArvRegimentId" class="form-select" asp-items="ViewBag.ArvRegimentId">
-                @* Không có dòng <option value="">-- Select ARV Regiment --</option> *@
+                <option value="">-- Select ARV Regiment --</option>
             </select>
             <span asp-validation-for="TestResult.ArvRegimentId" class="text-danger"></span>
         </div>
