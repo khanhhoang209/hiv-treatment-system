@@ -14,14 +14,17 @@ namespace Application.Pages.ApplicationUsers
     public class CreateModel : PageModel
     {
         private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
 
-        public CreateModel(IUserService userService)
+        public CreateModel(IUserService userService, IRoleService roleService)
         {
             _userService = userService;
+            _roleService = roleService;
         }
 
         public IActionResult OnGet()
         {
+            ViewData["RoleId"] = new SelectList(_roleService.GetRoles(), "Id", "Name");
             return Page();
         }
 
@@ -32,7 +35,6 @@ namespace Application.Pages.ApplicationUsers
         public async Task<IActionResult> OnPostAsync()
         {
             ApplicationUser.Status = "Active";
-            ApplicationUser.RoleId = Guid.Parse("999f815a-526f-4af8-b4c6-d4625d81b220");
             await _userService.CreateUser(ApplicationUser);
 
             return RedirectToPage("./Index");

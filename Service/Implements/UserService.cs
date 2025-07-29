@@ -1,11 +1,6 @@
 ﻿using Repository.Interfaces;
 using Repository.Models;
 using Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace Service.Implements
@@ -39,9 +34,20 @@ namespace Service.Implements
             return await _repo.UpdateAsync(user);
         }
 
+        public IList<ApplicationUser> GetAllEmployees()
+        {
+            return _repo.GetAll();
+        }
+
+        public async Task<ApplicationUser> CreateAsync(ApplicationUser user)
+        {
+            await _repo.CreateAsync(user);
+            return user;
+        }
+
         public async Task<List<ApplicationUser>> GetAll()
         {
-            return await _repo.GetListAsync(p => p.RoleId == Guid.Parse("999f815a-526f-4af8-b4c6-d4625d81b220")); //RoleUser
+            return await _repo.Query().Include(u => u.Role).ToListAsync();
         }
 
         public async Task<ApplicationUser> GetApplicationUserById(Guid id)
