@@ -15,6 +15,6 @@ public class RoleService : IRoleService
 
     public IList<Role> GetRoles()
     {
-        return _roleRepository.Query().Where(r => r.Name != "Admin").ToList();
+        return _roleRepository.Query().Where(r => r.Name != "Admin" && r.Name != "User").ToList();
     }
 }

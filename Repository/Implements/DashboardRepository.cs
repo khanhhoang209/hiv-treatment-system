@@ -41,7 +41,6 @@ namespace Repository.Implements
         {
             var today = DateTime.Today;
             return await _context.Appointments
-                .Where(a => a.AppointmentDate.Date == today)
                 .CountAsync();
         }
 
