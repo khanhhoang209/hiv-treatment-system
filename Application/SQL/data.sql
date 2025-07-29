@@ -124,11 +124,16 @@ PRINT 'Inserting Types...';
 DECLARE @TypeId1 UNIQUEIDENTIFIER = '6789ABCD-EF12-3456-789A-BCDEF123456A';
 DECLARE @TypeId2 UNIQUEIDENTIFIER = '789ABCDE-F123-4567-89AB-CDEF123456AB';
 DECLARE @TypeId3 UNIQUEIDENTIFIER = '89ABCDEF-1234-5678-90BC-DEF123456ABC';
+DECLARE @TypeId4 UNIQUEIDENTIFIER = '90BCDEF1-2345-6789-ABCD-EF123456ACDE';
+DECLARE @TypeId5 UNIQUEIDENTIFIER = 'A1B2C3D4-EF56-7890-ABCD-1234567890EF';
 
 INSERT INTO [Type] (Id, Name, Description, Price) VALUES
-    (@TypeId1, 'HIV Viral Load', 'Xét nghiệm tải lượng virus HIV', 100000),
-    (@TypeId2, 'CD4 Count', 'Đếm tế bào CD4', 200000),
-    (@TypeId3, 'HIV Rapid Test', 'Test nhanh HIV', 300000);
+    (@TypeId1, 'HIV Viral Load', N'Xét nghiệm tải lượng virus HIV', 100000),
+    (@TypeId2, 'CD4 Count', N'Đếm tế bào CD4', 200000),
+    (@TypeId3, 'HIV Rapid Test', N'Test nhanh HIV', 300000),
+    (@TypeId4, 'HIV Drug Resistance Test', 'Kiểm tra khả năng kháng thuốc HIV', 400000),
+    (@TypeId5, 'HIV p24 Antigen Test', 'Xét nghiệm kháng nguyên HIV p24', 150000);
+
 
 -- ================================================
 -- 7. ARV REGIMEN DATA
@@ -207,16 +212,26 @@ INSERT INTO [MedicalRecord] (Id, RecordDate, Diagnosis, Treatment, Notes, Doctor
 PRINT 'Inserting Test Results...';
 
 INSERT INTO [TestResult] (Id, TestDate, Result, Notes, MedicalRecordId, TypeId, ArvRegimentId) VALUES
-    ('12345678-9ABC-BCDE-5678-90123456789A', DATEADD(DAY, -3, CAST(GETDATE() AS DATE)), 'Negative', 'Kết quả tốt', 'BCDEF123-4567-8901-8DE4-6789ABCDEF12', @TypeId1, @ArvId1),
-    ('23456789-ABCD-CDEF-6789-01234567890B', DATEADD(DAY, -8, CAST(GETDATE() AS DATE)), 'Positive', 'Cần theo dõi', 'CDEF1234-5678-9012-9EF5-789ABCDEF123', @TypeId2, @ArvId2),
-    ('3456789A-BCDE-DEF1-789A-12345678901C', DATEADD(DAY, -1, CAST(GETDATE() AS DATE)), 'Pending', 'Đang chờ kết quả', 'DEF12345-6789-0123-AF06-89ABCDEF1234', @TypeId3, @ArvId1),
-    ('456789AB-CDEF-EF12-89AB-23456789012D', DATEADD(DAY, -5, CAST(GETDATE() AS DATE)), '', 'Chưa có kết quả', 'EF123456-789A-1234-B017-9ABCDEF12345', @TypeId1, @ArvId2),
-    ('6fa0d9be-bee1-4b47-8821-ddbeb7753c99', DATEADD(DAY, -10, CAST(GETDATE() AS DATE)), 'Negative', 'Kết quả tốt', 'F1234567-89AB-2345-C128-ABCDEF123456', @TypeId2, @ArvId1),
-    ('ff778df5-e039-4e9a-ab96-6fa44136eadb', DATEADD(DAY, -2, CAST(GETDATE() AS DATE)), 'Pending', 'Đang chờ kết quả', '12345678-9ABC-3456-D239-BCDEF1234567', @TypeId3, @ArvId2),
-    ('52417d54-a421-4c8d-a103-20f04ffd7c6e', DATEADD(DAY, -6, CAST(GETDATE() AS DATE)), 'Positive', 'Cần theo dõi', '23456789-ABCD-4567-E34A-CDEF12345678', @TypeId1, @ArvId1),
-    ('0efd78ea-aeb7-480a-99e8-0fa97fc233d9', DATEADD(DAY, -15, CAST(GETDATE() AS DATE)), 'Negative', 'Kết quả tốt', '3456789A-BCDE-5678-F45B-DEF123456789', @TypeId2, @ArvId2),
-    ('858a2727-ced9-455e-b0d9-cd7495c3e34b', DATEADD(DAY, -12, CAST(GETDATE() AS DATE)), '', 'Chưa có kết quả', '456789AB-CDEF-6789-056C-EF123456789A', @TypeId3, @ArvId1),
-    ('0420f1e1-c4aa-45e4-abcc-41010effc3bc', DATEADD(DAY, -4, CAST(GETDATE() AS DATE)), 'Pending', 'Đang chờ kết quả', '56789ABC-DEF1-789A-167D-F123456789AB', @TypeId1, @ArvId2);
+    ('12345678-9ABC-BCDE-5678-90123456789A', DATEADD(DAY, -3, CAST(GETDATE() AS DATE)), 'Negative', N'Kết quả tốt', 'BCDEF123-4567-8901-8DE4-6789ABCDEF12', @TypeId1, @ArvId1),
+    ('23456789-ABCD-CDEF-6789-01234567890B', DATEADD(DAY, -8, CAST(GETDATE() AS DATE)), 'Positive', N'Cần theo dõi', 'CDEF1234-5678-9012-9EF5-789ABCDEF123', @TypeId2, @ArvId2),
+    ('3456789A-BCDE-DEF1-789A-12345678901C', DATEADD(DAY, -1, CAST(GETDATE() AS DATE)), 'Pending', N'Đang chờ kết quả', 'DEF12345-6789-0123-AF06-89ABCDEF1234', @TypeId3, @ArvId1),
+    ('456789AB-CDEF-EF12-89AB-23456789012D', DATEADD(DAY, -5, CAST(GETDATE() AS DATE)), '', N'Chưa có kết quả', 'EF123456-789A-1234-B017-9ABCDEF12345', @TypeId1, @ArvId2),
+    ('6fa0d9be-bee1-4b47-8821-ddbeb7753c99', DATEADD(DAY, -10, CAST(GETDATE() AS DATE)), 'Negative', N'Kết quả tốt', 'F1234567-89AB-2345-C128-ABCDEF123456', @TypeId2, @ArvId1),
+    ('ff778df5-e039-4e9a-ab96-6fa44136eadb', DATEADD(DAY, -2, CAST(GETDATE() AS DATE)), 'Pending', N'Đang chờ kết quả', '12345678-9ABC-3456-D239-BCDEF1234567', @TypeId3, @ArvId2),
+    ('52417d54-a421-4c8d-a103-20f04ffd7c6e', DATEADD(DAY, -6, CAST(GETDATE() AS DATE)), 'Positive', N'Cần theo dõi', '23456789-ABCD-4567-E34A-CDEF12345678', @TypeId1, @ArvId1),
+    ('0efd78ea-aeb7-480a-99e8-0fa97fc233d9', DATEADD(DAY, -15, CAST(GETDATE() AS DATE)), 'Negative', N'Kết quả tốt', '3456789A-BCDE-5678-F45B-DEF123456789', @TypeId2, @ArvId2),
+    ('858a2727-ced9-455e-b0d9-cd7495c3e34b', DATEADD(DAY, -12, CAST(GETDATE() AS DATE)), '', N'Chưa có kết quả', '456789AB-CDEF-6789-056C-EF123456789A', @TypeId3, @ArvId1),
+    ('0420f1e1-c4aa-45e4-abcc-41010effc3bc', DATEADD(DAY, -4, CAST(GETDATE() AS DATE)), 'Pending', N'Đang chờ kết quả', '56789ABC-DEF1-789A-167D-F123456789AB', @TypeId1, @ArvId2),
+    (NEWID(), DATEADD(DAY, -1, GETDATE()), 'Negative', 'Không phát hiện virus', '6789ABCD-EF12-89AB-278E-123456789ABC', @TypeId1, @ArvId1),
+    (NEWID(), DATEADD(DAY, -2, GETDATE()), 'Positive', 'Cần điều trị sớm', '789ABCDE-F123-9ABC-389F-23456789ABCD', @TypeId2, @ArvId2),
+    (NEWID(), DATEADD(DAY, -3, GETDATE()), 'Negative', 'Ổn định', '89ABCDEF-1234-ABCD-49A0-3456789ABCDE', @TypeId3, @ArvId1),
+    (NEWID(), DATEADD(DAY, -4, GETDATE()), 'Positive', 'Phản ứng tốt với thuốc', '9ABCDEF1-2345-BCDE-5AB1-456789ABCDEF', @TypeId4, @ArvId2),
+    (NEWID(), DATEADD(DAY, -5, GETDATE()), 'Pending', 'Đang xử lý mẫu', 'ABCDEF12-3456-CDEF-6BC2-56789ABCDEF1', @TypeId5, @ArvId1),
+    (NEWID(), DATEADD(DAY, -6, GETDATE()), 'Negative', 'Không phát hiện virus', 'BCDEF123-4567-DEF1-7CD3-6789ABCDEF12', @TypeId2, @ArvId2),
+    (NEWID(), DATEADD(DAY, -7, GETDATE()), 'Positive', 'Có tải lượng HIV', 'CDEF1234-5678-EF12-8DE4-789ABCDEF123', @TypeId3, @ArvId1),
+    (NEWID(), DATEADD(DAY, -8, GETDATE()), 'Negative', 'Đáp ứng điều trị', 'DEF12345-6789-F123-9EF5-89ABCDEF1234', @TypeId1, @ArvId2),
+    (NEWID(), DATEADD(DAY, -9, GETDATE()), 'Pending', 'Đang chờ xử lý', 'EF123456-789A-1234-AF06-9ABCDEF12345', @TypeId4, @ArvId1),
+    (NEWID(), DATEADD(DAY, -10, GETDATE()), 'Negative', 'Ổn định', 'F1234567-89AB-2345-B017-ABCDEF123456', @TypeId5, @ArvId2);
 
 -- ================================================
 -- 14. MEDICINES DATA (50 loại thuốc)

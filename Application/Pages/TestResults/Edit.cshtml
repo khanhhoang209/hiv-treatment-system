@@ -2,64 +2,74 @@
 @model Application.Pages.TestResults.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Test Result";
 }
 
-<h1>Edit</h1>
+<div class="container mt-5">
+    <div class="card shadow rounded-3">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Edit Test Result</h4>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="TestResult.Id" />
 
-<h4>TestResult</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="TestResult.Id" />
-            <div class="form-group">
-                <label asp-for="TestResult.TestDate" class="control-label"></label>
-                <input asp-for="TestResult.TestDate" class="form-control" />
-                <span asp-validation-for="TestResult.TestDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TestResult.Result" class="control-label"></label>
-                <input asp-for="TestResult.Result" class="form-control" />
-                <span asp-validation-for="TestResult.Result" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TestResult.Notes" class="control-label"></label>
-                <input asp-for="TestResult.Notes" class="form-control" />
-                <span asp-validation-for="TestResult.Notes" class="text-danger"></span>
-            </div>
-            @* <div class="form-group">
-                <label asp-for="TestResult.MedicalRecordId" class="control-label"></label>
-                <select asp-for="TestResult.MedicalRecordId" class="form-control" asp-items="ViewBag.MedicalRecordId"></select>
-                <span asp-validation-for="TestResult.MedicalRecordId" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <label asp-for="TestResult.TypeId" class="control-label"></label>
-                <select asp-for="TestResult.TypeId" class="form-control" asp-items="ViewBag.TypeId"></select>
-                <span asp-validation-for="TestResult.TypeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TestResult.ArvRegimentId" class="control-label"></label>
-                <select asp-for="TestResult.ArvRegimentId" class="form-control" asp-items="ViewBag.ArvRegimentId"></select>
-                <span asp-validation-for="TestResult.ArvRegimentId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                
-            </div>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        <label asp-for="TestResult.TestDate" class="control-label"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <input asp-for="TestResult.TestDate" class="form-control" />
+                        <span asp-validation-for="TestResult.TestDate" class="text-danger"></span>
+                    </dd>
 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                    <dt class="col-sm-4">
+                        <label asp-for="TestResult.Result" class="control-label"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <input asp-for="TestResult.Result" class="form-control" />
+                        <span asp-validation-for="TestResult.Result" class="text-danger"></span>
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        <label asp-for="TestResult.Notes" class="control-label"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <input asp-for="TestResult.Notes" class="form-control" />
+                        <span asp-validation-for="TestResult.Notes" class="text-danger"></span>
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        <label asp-for="TestResult.TypeId" class="control-label"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <select asp-for="TestResult.TypeId" class="form-control" asp-items="ViewBag.TypeId"></select>
+                        <span asp-validation-for="TestResult.TypeId" class="text-danger"></span>
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        <label asp-for="TestResult.ArvRegimentId" class="control-label"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <select asp-for="TestResult.ArvRegimentId" class="form-control" asp-items="ViewBag.ArvRegimentId"></select>
+                        <span asp-validation-for="TestResult.ArvRegimentId" class="text-danger"></span>
+                    </dd>
+                </dl>
+
+                <div class="text-end">
+                    <input type="submit" value="💾 Save" class="btn btn-success me-2" />
+                    <a asp-page="/TestResults/Index" asp-route-recordId="@Model.TestResult.MedicalRecordId" class="btn btn-secondary">
+                        🔙 Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-page="/TestResults/Index"
-       asp-route-recordId="@Model.TestResult.MedicalRecordId">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
