@@ -27,7 +27,7 @@ namespace Service.Implements
 
         public async Task<List<MedicalRecord>> GetAllMedicalRecords()
         {
-            return await _repo.GetAllAsync();
+            return await _repo.GetListWithConditionAsync(mr => true, mr => mr.User, mr => mr.Doctor);
         }
 
         public async Task<List<MedicalRecord>> GetMedicalRecordsByDoctorId(Guid userId)

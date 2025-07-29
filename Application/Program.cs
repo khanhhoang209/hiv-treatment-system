@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.Implements;
 using Repository.Interfaces;
-using Repository.Models;
 using Service.Implements;
 using Service.Interfaces;
+using Service.Mapping;
 
 namespace Application;
 
@@ -24,6 +24,9 @@ public class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
+        // AutoMapper
+        builder.Services.AddAutoMapper(typeof(PrescriptionMappingProfile));
+
         // Services
         builder.Services.AddScoped<ITestResultService, TestResultService>();
         builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
@@ -39,20 +42,18 @@ public class Program
         builder.Services.AddScoped<IClinicService, ClinicService>();
         builder.Services.AddScoped<IDashboardService, DashboardService>();
         builder.Services.AddScoped<ITestTypeService, TestTypeService>();
+        builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
+        builder.Services.AddScoped<IPrescriptionMedicineService, PrescriptionMedicineService>();
+
+
         builder.Services.AddScoped<IOrderService, OrderService>();
-        builder.Services.AddScoped<IStaffService, StaffService>();
-        builder.Services.AddScoped<IRoleService, RoleService>();
-        builder.Services.AddScoped<IMedicineService, MedicineService>();
-        builder.Services.AddScoped<IComboMedicineService, ComboMedicineService>();
-
-
+        
         // Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
         builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-        builder.Services.AddScoped<IComboMedicineRepository, ComboMedicineRepository>();
         builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
         builder.Services.AddSession(options =>
@@ -80,8 +81,6 @@ public class Program
         app.UseRouting();
 
         app.UseSession();
-
-        app.UseAuthorization();
 
         app.MapHub<NotificationHub>("/hubs/notifications");
 

@@ -8,50 +8,66 @@
 
 <h1>Test Result</h1>
 
-@if (role == "Doctor")
+@if (role == "Doctor" && Model.TestResult.Any())
 {
     <p>
-        <a asp-page="Create" asp-route-recordId="@Model.TestResult[0].MedicalRecordId">Create New</a>
+        <a asp-page="Create" asp-route-recordId="@Model.TestResult.First().MedicalRecordId">Create New</a>
     </p>
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TestResult[0].TestDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TestResult[0].Result)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TestResult[0].Notes)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.TestResult)
-        {
+@if (Model.TestResult.Any())
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TestDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Result)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Notes)
-                </td>
-                <td>
-                    @if (HttpContext.Session.GetString("Role") != "User")
-                    {
-                        <a asp-page="./Edit" asp-route-id="@item.Id" asp-route-recordId="@Model.TestResult[0].MedicalRecordId">Edit</a>
-                    }
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> 
-                    
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.TestResult.First().TestDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TestResult.First().Result)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TestResult.First().Notes)
+                </th>
+                <th></th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TestResult)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TestDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Result)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notes)
+                    </td>
+                    <td>
+                        @if (HttpContext.Session.GetString("Role") != "User")
+                        {
+                            <a asp-page="./Edit" asp-route-id="@item.Id" asp-route-recordId="@item.MedicalRecordId">Edit</a>
+                        }
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> 
+                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">
+        <h4>No Test Results Found</h4>
+        <p>There are currently no test results to display.</p>
+        @if (role == "Doctor")
+        {
+            <p>
+                <a asp-page="Create" class="btn btn-primary">Create First Test Result</a>
+            </p>
         }
-    </tbody>
-</table>
+    </div>
+}
