@@ -21,6 +21,16 @@ namespace Application.Pages.Regimens
 
         [BindProperty]
         public ArvRegimen ArvRegimen { get; set; } = default!;
+        [BindProperty]
+        public List<Guid> MedicineIds { get; set; } = new();
+
+        [BindProperty]
+        public List<int> Quantities { get; set; } = new();
+
+        public List<ComboMedicine> ComboMedicines { get; set; } = new();
+
+        public List<Medicine> AllMedicines { get; set; } = new();
+
 
         public async Task<IActionResult> OnGetAsync(Guid? id)
         {
@@ -44,11 +54,27 @@ namespace Application.Pages.Regimens
         {
             if (!ModelState.IsValid)
             {
+                AllMedicines = await _arvService.GetAllMedicinesAsync();
                 return Page();
             }
 
             await _arvService.UpdateAsync(ArvRegimen);
+
+            var comboMedicines = new List<ComboMedicine>();
+            for (int i = 0; i < MedicineIds.Count; i++)
+            {
+                comboMedicines.Add(new ComboMedicine
+                {
+                    ArvRegimenId = ArvRegimen.Id,
+                    MedicineId = MedicineIds[i],
+                    Quantity = Quantities[i]
+                });
+            }
+
+            await _arvService.UpdateComboMedicinesAsync(ArvRegimen.Id, comboMedicines);
+
             return RedirectToPage("./Index");
+
         }
 
         private bool ArvRegimenExists(Guid id)

@@ -1,6 +1,6 @@
 ﻿@page
 @model Application.Pages.MedicalRecords.DetailsModel
-
+@using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Details";
 }
@@ -39,12 +39,25 @@
             @Html.DisplayNameFor(model => model.MedicalRecord.Doctor)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MedicalRecord.Doctor.Employee.LastName)
+            @Html.DisplayFor(model => model.MedicalRecord.Doctor.LicenseNumber)
         </dd>
     </dl>
 </div>
 <div>
-    @if(HttpContext.Session.GetString("Role") != "User")
+    @if (HttpContext.Session.GetString("Role") == "User")
+    {
+        <form method="post" asp-page-handler="CreatePaypalOrder">
+            <input type="hidden" name="doctorId" value="@Model.MedicalRecord.DoctorId" />
+            <input type="hidden" name="medicalRecordId" value="@Model.MedicalRecord.Id" />
+            <input type="hidden" name="totalPrice" value="@Model.TotalPrice.ToString("F2")" />
+        
+            <p>
+                Tổng tiền: <strong>@Model.TotalPrice.ToString("C")</strong>
+            </p>
+            <button type="submit" class="btn btn-primary">Thanh toán qua PayPal</button>
+        </form>
+    }
+    @if (HttpContext.Session.GetString("Role") != "User")
     {
         <a asp-page="./Edit" asp-route-id="@Model.MedicalRecord.Id">Edit</a>
     }

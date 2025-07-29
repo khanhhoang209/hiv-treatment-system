@@ -36,6 +36,74 @@
         </form>
     </div>
 </div>
+<h4>Combo Medicines</h4>
+<div id="comboMedicines">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Medicine</th>
+                <th>Quantity</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="comboMedicineTableBody">
+            @if (Model.ComboMedicines != null)
+            {
+                foreach (var item in Model.ComboMedicines)
+                {
+                    <tr>
+                        <td>@item.Medicine.Name</td>
+                        <td>
+                            <input type="number" name="Quantities" value="@item.Quantity" class="form-control" />
+                            <input type="hidden" name="MedicineIds" value="@item.MedicineId" />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <div class="form-inline mb-2">
+        <select id="medicineSelect" class="form-control mr-2">
+            @foreach (var med in Model.AllMedicines)
+            {
+                <option value="@med.Id">@med.Name</option>
+            }
+        </select>
+        <input type="number" id="quantityInput" class="form-control mr-2" placeholder="Quantity" />
+        <button type="button" class="btn btn-secondary" onclick="addMedicine()">Add Medicine</button>
+    </div>
+</div>
+
+<script>
+    function addMedicine() {
+        var medicineSelect = document.getElementById("medicineSelect");
+        var selectedOption = medicineSelect.options[medicineSelect.selectedIndex];
+        var quantity = document.getElementById("quantityInput").value;
+
+        if (!quantity || quantity <= 0) return;
+
+        var tbody = document.getElementById("comboMedicineTableBody");
+        var row = tbody.insertRow();
+
+        row.innerHTML = `
+            <td>${selectedOption.text}</td>
+            <td>
+                <input type="number" name="Quantities" value="${quantity}" class="form-control" />
+                <input type="hidden" name="MedicineIds" value="${selectedOption.value}" />
+            </td>
+            <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button></td>
+        `;
+    }
+
+    function removeRow(btn) {
+        var row = btn.closest("tr");
+        row.remove();
+    }
+</script>
 
 <div>
     <a asp-page="./Index">Back to List</a>

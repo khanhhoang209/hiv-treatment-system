@@ -14,16 +14,23 @@ namespace Application.Pages.MedicalRecords
     public class DetailsModel : PageModel
     {
         private readonly IMedicalRecordService _medicalRecordService;
-
-        public DetailsModel(IMedicalRecordService medicalRecordService)
+        private readonly IPaymentService _paymentService;
+        private readonly IOrderService _orderService;
+        public DetailsModel(IMedicalRecordService medicalRecordService,
+            IPaymentService paymentService,
+            IOrderService orderService)
         {
+            _paymentService = paymentService;
             _medicalRecordService = medicalRecordService;
+            _orderService = orderService;
         }
 
         public MedicalRecord MedicalRecord { get; set; } = default!;
+        public decimal TotalPrice { get; set; }
 
         public async Task<IActionResult> OnGetAsync(Guid? id)
         {
+            var role = HttpContext.Session.GetString("Role");
             if (id == null)
             {
                 return NotFound();
@@ -34,11 +41,31 @@ namespace Application.Pages.MedicalRecords
             {
                 return NotFound();
             }
-            else
+           
+   
+            MedicalRecord = medicalrecord;
+            if (role == "User")
             {
-                MedicalRecord = medicalrecord;
+                TotalPrice = await _orderService.CalculateTotalPriceAsync(medicalrecord.Id);
             }
+
             return Page();
+        }
+        public async Task<IActionResult> OnPostCreatePaypalOrderAsync(Guid doctorId, Guid medicalRecordId, decimal totalPrice)
+        {
+            var account = HttpContext.Session.GetString("Account");
+            var role = HttpContext.Session.GetString("Role");
+            if (string.IsNullOrEmpty(account))
+            {
+                return RedirectToPage("/Login");
+            }
+            if (role != "User")
+            {
+                return RedirectToPage("/Index");
+            }
+            var approvalUrl = await _paymentService.CreateOrderAsync(totalPrice, 
+                                          Guid.Parse(account), doctorId, medicalRecordId);
+            return Redirect(approvalUrl); // redirect sang PayPal 
         }
     }
 }
