@@ -1,0 +1,284 @@
+@page
+@model Application.Pages.Prescriptions.CreateModel
+@{
+    ViewData["Title"] = "Create Prescription";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Create New Prescription</h3>
+                    <div class="card-tools">
+                        <a asp-page="./Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </div>
+                <form method="post">
+                    <div class="card-body">
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                @TempData["ErrorMessage"]
+                            </div>
+                        }
+                        
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h5><i class="icon fas fa-check"></i> Success!</h5>
+                                @TempData["SuccessMessage"]
+                            </div>
+                        }
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CreatePrescription.MedicalRecordId">Medical Record</label>
+                                    <select asp-for="CreatePrescription.MedicalRecordId" class="form-control" asp-items="@Model.MedicalRecords">
+                                        <option value="">-- Select Medical Record --</option>
+                                    </select>
+                                    <span asp-validation-for="CreatePrescription.MedicalRecordId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CreatePrescription.PrescriptionDate">Prescription Date</label>
+                                    <input asp-for="CreatePrescription.PrescriptionDate" class="form-control" type="datetime-local" />
+                                    <span asp-validation-for="CreatePrescription.PrescriptionDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="CreatePrescription.Notes">Notes</label>
+                            <textarea asp-for="CreatePrescription.Notes" class="form-control" rows="4" placeholder="Enter prescription notes..."></textarea>
+                            <span asp-validation-for="CreatePrescription.Notes" class="text-danger"></span>
+                        </div>
+
+                        <hr>
+
+                        <h5>Medicines</h5>
+                        <div id="medicines-container">
+                            <!-- Medicines will be added here dynamically -->
+                        </div>
+
+                        <button type="button" class="btn btn-info" onclick="addMedicine()">
+                            <i class="fas fa-plus"></i> Add Medicine
+                        </button>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Create Prescription
+                        </button>
+                        <a asp-page="./Index" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Medicine Template -->
+<template id="medicine-template">
+    <div class="medicine-item card mb-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Medicine *</label>
+                        <select class="form-control medicine-select" name="CreatePrescription.Medicines[INDEX].MedicineId" required>
+                            <option value="">-- Select Medicine --</option>
+                            @foreach (var medicine in Model.Medicines)
+                            {
+                                <option value="@medicine.Value">@medicine.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Quantity *</label>
+                        <input type="number" class="form-control" name="CreatePrescription.Medicines[INDEX].Quantity" min="1" value="1" required />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Dosage (mg) *</label>
+                        <input type="number" class="form-control" name="CreatePrescription.Medicines[INDEX].Dosage" min="1" value="1" required />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Times/Day *</label>
+                        <input type="number" class="form-control" name="CreatePrescription.Medicines[INDEX].SumOfMedicationTime" min="1" value="1" required />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Price *</label>
+                        <input type="number" class="form-control" name="CreatePrescription.Medicines[INDEX].BoughtPrice" step="0.01" min="0.01" required />
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn btn-danger btn-block" onclick="removeMedicine(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Instructions *</label>
+                <textarea class="form-control" name="CreatePrescription.Medicines[INDEX].Instructions" rows="2" placeholder="Enter usage instructions..." required></textarea>
+            </div>
+        </div>
+    </div>
+</template>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        let medicineIndex = 0;
+
+        function addMedicine() {
+            const template = document.getElementById('medicine-template');
+            const container = document.getElementById('medicines-container');
+            
+            let clone = template.content.cloneNode(true);
+            
+            // Replace INDEX with actual index in all relevant attributes
+            const medicineItem = clone.querySelector('.medicine-item');
+            const html = medicineItem.outerHTML.replace(/INDEX/g, medicineIndex);
+            
+            container.insertAdjacentHTML('beforeend', html);
+            
+            console.log(`Added medicine with index: ${medicineIndex}`);
+            medicineIndex++;
+        }
+
+        function removeMedicine(button) {
+            const container = document.getElementById('medicines-container');
+            const items = container.querySelectorAll('.medicine-item');
+            
+            // Don't allow removing if it's the last item
+            if (items.length <= 1) {
+                alert('At least one medicine is required');
+                return;
+            }
+            
+            const item = button.closest('.medicine-item');
+            console.log('Removing medicine item');
+            item.remove();
+            
+            // Reindex all medicines to ensure proper binding
+            reindexMedicines();
+        }
+
+        function reindexMedicines() {
+            const container = document.getElementById('medicines-container');
+            const items = container.querySelectorAll('.medicine-item');
+            
+            items.forEach((item, index) => {
+                // Update all name attributes
+                const inputs = item.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    const name = input.getAttribute('name');
+                    if (name && name.includes('Medicines[')) {
+                        const newName = name.replace(/Medicines\[\d+\]/, `Medicines[${index}]`);
+                        input.setAttribute('name', newName);
+                    }
+                });
+            });
+            
+            // Update the global index
+            medicineIndex = items.length;
+        }
+
+        // Auto-fill price when medicine is selected
+        document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('medicine-select')) {
+                const selectedOption = e.target.options[e.target.selectedIndex];
+                const priceText = selectedOption.text;
+                console.log('Selected medicine:', priceText);
+                
+                // Extract price from text (format: "Medicine Name - $Price")
+                const priceMatch = priceText.match(/\$(\d+\.?\d*)/);
+                if (priceMatch) {
+                    const price = priceMatch[1];
+                    const priceInput = e.target.closest('.medicine-item').querySelector('input[name$=".BoughtPrice"]');
+                    if (priceInput) {
+                        priceInput.value = price;
+                        console.log('Set price to:', price);
+                    }
+                }
+            }
+        });
+
+        // Debug form submission with validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            console.log('Form is being submitted');
+            
+            // Validate that at least one medicine is added
+            const medicineItems = document.querySelectorAll('.medicine-item');
+            if (medicineItems.length === 0) {
+                e.preventDefault();
+                alert('Please add at least one medicine');
+                return false;
+            }
+            
+            // Validate each medicine item
+            let hasError = false;
+            medicineItems.forEach((item, index) => {
+                const medicineSelect = item.querySelector('select[name$=".MedicineId"]');
+                const quantityInput = item.querySelector('input[name$=".Quantity"]');
+                const dosageInput = item.querySelector('input[name$=".Dosage"]');
+                const instructionsInput = item.querySelector('textarea[name$=".Instructions"]');
+                const priceInput = item.querySelector('input[name$=".BoughtPrice"]');
+                
+                if (!medicineSelect.value) {
+                    hasError = true;
+                    console.log(`Medicine ${index + 1}: Medicine not selected`);
+                }
+                if (!quantityInput.value || quantityInput.value <= 0) {
+                    hasError = true;
+                    console.log(`Medicine ${index + 1}: Invalid quantity`);
+                }
+                if (!dosageInput.value || dosageInput.value <= 0) {
+                    hasError = true;
+                    console.log(`Medicine ${index + 1}: Invalid dosage`);
+                }
+                if (!instructionsInput.value.trim()) {
+                    hasError = true;
+                    console.log(`Medicine ${index + 1}: Instructions required`);
+                }
+                if (!priceInput.value || priceInput.value <= 0) {
+                    hasError = true;
+                    console.log(`Medicine ${index + 1}: Invalid price`);
+                }
+            });
+            
+            if (hasError) {
+                e.preventDefault();
+                alert('Please fill in all required fields for medicines');
+                return false;
+            }
+            
+            const formData = new FormData(this);
+            console.log('Form data:');
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
+        });
+
+        // Initialize with one medicine
+        addMedicine();
+    </script>
+}
