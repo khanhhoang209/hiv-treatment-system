@@ -2,37 +2,100 @@
 @model Application.Pages.Regimens.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Regimen Details";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
 
-<div>
-    <h4>ArvRegimen</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ArvRegimen.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ArvRegimen.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ArvRegimen.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ArvRegimen.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ArvRegimen.Level)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ArvRegimen.Level)
-        </dd>
-    </dl>
+            <!-- Title Section -->
+            <div class="text-center mb-5">
+                <h1 class="fw-bold text-primary mb-1">
+                    <i class="bi bi-clipboard2-pulse me-2"></i> ARV Regimen Details
+                </h1>
+                <p class="text-muted">Full details of this ARV treatment regimen and its associated medicines</p>
+            </div>
+
+            <!-- Regimen Overview Card -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center border-bottom">
+                    <h5 class="mb-0 text-dark">
+                        <i class="bi bi-info-circle me-2"></i> Regimen Overview
+                    </h5>
+                </div>
+                <div class="card-body py-4">
+                    <div class="row g-4">
+                        <div class="col-md-6 border-end">
+                            <small class="text-muted text-uppercase">Regimen Name</small>
+                            <p class="fs-5 fw-semibold mb-0">@Model.ArvRegimen.Name</p>
+
+                            <small class="text-muted text-uppercase mt-4 d-block">Level</small>
+                            <span class="badge bg-primary px-3 py-2 fs-6">@Model.ArvRegimen.Level</span>
+                        </div>
+                        <div class="col-md-6">
+                            <small class="text-muted text-uppercase">Description</small>
+                            <div class="bg-light p-3 rounded border mt-1">
+                                <p class="mb-0 text-secondary">@Model.ArvRegimen.Description</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medicines Table -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-success text-white d-flex align-items-center">
+                    <i class="bi bi-capsule-pill me-2 fs-5"></i>
+                    <h5 class="mb-0">Included Medicines</h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover table-striped mb-0">
+                        <thead class="table-light text-muted text-uppercase small">
+                            <tr>
+                                <th><i class="bi bi-capsule me-1"></i> Medicine</th>
+                                <th class="text-end" style="width: 150px;"><i class="bi bi-123 me-1"></i> Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.ComboMedicines != null && Model.ComboMedicines.Any())
+                            {
+                                foreach (var item in Model.ComboMedicines)
+                                {
+                                    <tr>
+                                        <td class="fw-medium">@item.Medicine.Name</td>
+                                        <td class="text-end">@item.Quantity</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="2" class="text-center text-muted py-4">
+                                        <i class="bi bi-info-circle me-1"></i> No medicines in this regimen.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-end gap-2 mt-3">
+                <a asp-page="./Edit" asp-route-id="@Model.ArvRegimen.Id" class="btn btn-warning shadow-sm">
+                    <i class="bi bi-pencil-square me-1"></i> Edit
+                </a>
+                <a asp-page="./Index" class="btn btn-outline-secondary shadow-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Back to List
+                </a>
+            </div>
+
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.ArvRegimen.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+}

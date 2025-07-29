@@ -13,10 +13,15 @@ namespace Application.Pages.Regimens
     public class EditModel : PageModel
     {
         private readonly IArvService _arvService;
+        private readonly IComboMedicineService _comboMedicineService;
+        private readonly IMedicineService _medicineService;
 
-        public EditModel(IArvService arvService)
+        public EditModel(IArvService arvService, IComboMedicineService comboMedicineService, 
+            IMedicineService medicineService)
         {
             _arvService = arvService;
+            _comboMedicineService = comboMedicineService;
+            _medicineService = medicineService;
         }
 
         [BindProperty]
@@ -45,18 +50,22 @@ namespace Application.Pages.Regimens
                 return NotFound();
             }
             ArvRegimen = arvregimen;
+            AllMedicines = await _medicineService.GetAllAsync();
+
+            ComboMedicines = await _comboMedicineService.GetComboMedicinesByRegimenIdAsync(ArvRegimen.Id);
+
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
-                AllMedicines = await _arvService.GetAllMedicinesAsync();
+                AllMedicines = await _medicineService.GetAllAsync();
+                ComboMedicines = await _comboMedicineService.GetComboMedicinesByRegimenIdAsync(ArvRegimen.Id);
                 return Page();
             }
+
 
             await _arvService.UpdateAsync(ArvRegimen);
 
@@ -71,7 +80,7 @@ namespace Application.Pages.Regimens
                 });
             }
 
-            await _arvService.UpdateComboMedicinesAsync(ArvRegimen.Id, comboMedicines);
+            await _comboMedicineService.UpdateComboMedicinesAsync(ArvRegimen.Id, comboMedicines);
 
             return RedirectToPage("./Index");
 

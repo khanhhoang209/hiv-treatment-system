@@ -29,7 +29,10 @@ namespace Service.Implements
             return await _unitOfWork.EmployeeRepository
                 .Query()
                 .Include(e => e.Qualifications)
+                .Include(e => e.Doctor)
+                .Include(e => e.Staff)
                 .Include(e => e.User).ThenInclude(e => e.Role)
+                .Where(e => e.User.Role.Name != "Admin")
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -39,6 +42,8 @@ namespace Service.Implements
             return await _unitOfWork.EmployeeRepository
                 .Query()
                 .Include(e => e.Qualifications)
+                .Include(e => e.Doctor)
+                .Include(e => e.Staff)
                 .Include(e => e.User).ThenInclude(e => e.Role)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.Id == id);

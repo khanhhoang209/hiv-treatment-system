@@ -16,7 +16,7 @@ namespace Application.BackgroundApps
             new TimeSpan(9, 0, 0),
             new TimeSpan(13, 0, 0),
             new TimeSpan(15, 24, 0),
-            new TimeSpan(21, 0, 0)
+            new TimeSpan(23, 15, 0)
         };
 
         public NotificationScheduler(

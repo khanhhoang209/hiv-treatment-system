@@ -8,6 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+		<PackageReference Include="AutoMapper" Version="12.0.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.17" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.17" />
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
@@ -43,6 +45,7 @@
       <Folder Include="Pages\Clinics\" />
       <Folder Include="Pages\Doctors\" />
       <Folder Include="Pages\Employees\" />
+      <Folder Include="Pages\Staffs\" />
       <Folder Include="Pages\UserNotifications\" />
     </ItemGroup>
 

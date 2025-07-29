@@ -1,294 +1,549 @@
 @page
 @model Application.Pages.Dashboard.IndexModel
 @{
-    ViewData["Title"] = "Dashboard Quản Trị";
+    ViewData["Title"] = "Dashboard";
+    Layout = "_Layout";
 }
 
-<style>
-    .stats-card {
-        transition: transform 0.2s;
-        border: none;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .stats-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-    .metric-box {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 20px;
-    }
-    .activity-item {
-        padding: 15px;
-        border-left: 4px solid #007bff;
-        margin-bottom: 10px;
-        background: #f8f9fa;
-        border-radius: 0 5px 5px 0;
-    }
-</style>
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.css" rel="stylesheet">
+    <style>
+        /* Dashboard specific styles */
+        .dashboard-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
 
-<div class="container-fluid">
-    <!-- Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h2 class="mb-1">🏥 Dashboard Quản Trị</h2>
-                    <p class="text-muted">Tổng quan hệ thống điều trị HIV</p>
-                </div>
-                <div>
-                    <span class="badge bg-success">Cập nhật: @DateTime.Now.ToString("dd/MM/yyyy HH:mm")</span>
-                </div>
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .welcome-time {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-color);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card.patients::before { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+        .stat-card.doctors::before { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .stat-card.staff::before { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .stat-card.appointments::before { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); }
+        .stat-card.orders::before { background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); }
+        .stat-card.revenue::before { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            opacity: 0.8;
+        }
+
+        .stat-card.patients .stat-icon { color: #3b82f6; }
+        .stat-card.doctors .stat-icon { color: #10b981; }
+        .stat-card.staff .stat-icon { color: #f59e0b; }
+        .stat-card.appointments .stat-icon { color: #8b5cf6; }
+        .stat-card.orders .stat-icon { color: #06b6d4; }
+        .stat-card.revenue .stat-icon { color: #ef4444; }
+
+        .stat-trend {
+            background: #f0f9ff;
+            color: #0369a1;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Chart Cards */
+        .chart-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .chart-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .chart-title i {
+            margin-right: 10px;
+            color: #4f46e5;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .action-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .action-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #4f46e5;
+        }
+
+        .action-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .action-description {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        /* Recent Activity */
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            transition: background 0.3s ease;
+        }
+
+        .activity-item:hover {
+            background: #f9fafb;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.1rem;
+        }
+
+        .activity-icon.success { background: #dcfce7; color: #16a34a; }
+        .activity-icon.warning { background: #fef3c7; color: #d97706; }
+        .activity-icon.info { background: #dbeafe; color: #2563eb; }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 2px;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        /* Mobile Responsive */
+        @@media (max-width: 768px) {
+            .dashboard-title {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+}
+
+<!-- Dashboard Header -->
+<div class="dashboard-header">
+    <h1 class="dashboard-title">
+        <i class="fas fa-chart-line me-3"></i>Dashboard Quản Trị
+    </h1>
+    <p class="dashboard-subtitle">Tổng quan hệ thống điều trị HIV</p>
+    <p class="welcome-time">
+        <i class="fas fa-clock me-2"></i>Hôm nay: <span id="currentDate"></span>
+    </p>
+</div>
+
+<!-- Stats Cards -->
+<div class="stats-grid">
+    <div class="stat-card patients">
+        <div class="stat-header">
+            <i class="fas fa-users stat-icon"></i>
+            <span class="stat-trend">
+                <i class="fas fa-arrow-up me-1"></i>+12%
+            </span>
+        </div>
+        <span class="stat-number" data-count="@(Model.DashboardData?.TotalPatients ?? 0)">0</span>
+        <span class="stat-label">Tổng bệnh nhân</span>
+    </div>
+
+    <div class="stat-card doctors">
+        <div class="stat-header">
+            <i class="fas fa-user-md stat-icon"></i>
+            <span class="stat-trend">
+                <i class="fas fa-arrow-up me-1"></i>+5%
+            </span>
+        </div>
+        <span class="stat-number" data-count="@(Model.DashboardData?.TotalDoctors ?? 0)">0</span>
+        <span class="stat-label">Tổng bác sĩ</span>
+    </div>
+
+    <div class="stat-card staff">
+        <div class="stat-header">
+            <i class="fas fa-users-cog stat-icon"></i>
+            <span class="stat-trend">
+                <i class="fas fa-minus me-1"></i>0%
+            </span>
+        </div>
+        <span class="stat-number" data-count="@(Model.DashboardData?.TotalStaff ?? 0)">0</span>
+        <span class="stat-label">Tổng nhân viên</span>
+    </div>
+
+    <div class="stat-card appointments">
+        <div class="stat-header">
+            <i class="fas fa-calendar-check stat-icon"></i>
+            <span class="stat-trend">
+                <i class="fas fa-arrow-up me-1"></i>+8%
+            </span>
+        </div>
+        <span class="stat-number" data-count="@(Model.DashboardData?.TodayAppointments ?? 0)">0</span>
+        <span class="stat-label">Lịch hôm nay</span>
+    </div>
+
+    <div class="stat-card orders">
+        <div class="stat-header">
+            <i class="fas fa-shopping-cart stat-icon"></i>
+            <span class="stat-trend">
+                <i class="fas fa-arrow-up me-1"></i>+15%
+            </span>
+        </div>
+        <span class="stat-number" data-count="@(Model.DashboardData?.TotalOrders ?? 0)">0</span>
+        <span class="stat-label">Tổng đơn hàng</span>
+    </div>
+
+    <div class="stat-card revenue">
+        <div class="stat-header">
+            <i class="fas fa-dollar-sign stat-icon"></i>
+            <span class="stat-trend">
+                <i class="fas fa-arrow-up me-1"></i>+20%
+            </span>
+        </div>
+        <span class="stat-number">@((Model.DashboardData?.RevenueThisMonth ?? 0).ToString("N0"))</span>
+        <span class="stat-label">Doanh thu tháng (VNĐ)</span>
+    </div>
+</div>
+
+<!-- Charts Section -->
+<div class="row">
+    <div class="col-lg-8">
+        <div class="chart-section">
+            <h3 class="chart-title">
+                <i class="fas fa-chart-bar"></i>Thống kê theo tháng
+            </h3>
+            <div class="chart-container">
+                <canvas id="monthlyChart"></canvas>
             </div>
         </div>
     </div>
-
-    <!-- Thống kê tổng quan -->
-    <div class="row mb-4">
-        <!-- Bệnh nhân -->
-        <div class="col-xl-3 col-md-6 mb-3">
-            <div class="card stats-card h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <p class="text-muted mb-1">Tổng số bệnh nhân</p>
-                            <h3 class="mb-0 text-primary">@Model.DashboardData.TotalPatients</h3>
-                            <small class="text-success">
-                                <i class="fas fa-users"></i> Bệnh nhân đang điều trị
-                            </small>
-                        </div>
-                        <div class="ms-3">
-                            <div class="avatar bg-primary bg-opacity-10 text-primary rounded-circle p-3">
-                                <i class="fas fa-users fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bác sĩ -->
-        <div class="col-xl-3 col-md-6 mb-3">
-            <div class="card stats-card h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <p class="text-muted mb-1">Tổng số bác sĩ</p>
-                            <h3 class="mb-0 text-success">@Model.DashboardData.TotalDoctors</h3>
-                            <small class="text-info">
-                                <i class="fas fa-user-tie"></i> @Model.DashboardData.TotalStaff nhân viên khác
-                            </small>
-                        </div>
-                        <div class="ms-3">
-                            <div class="avatar bg-success bg-opacity-10 text-success rounded-circle p-3">
-                                <i class="fas fa-user-md fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Lịch hẹn -->
-        <div class="col-xl-3 col-md-6 mb-3">
-            <div class="card stats-card h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <p class="text-muted mb-1">Lịch hẹn hôm nay</p>
-                            <h3 class="mb-0 text-warning">@Model.DashboardData.TodayAppointments</h3>
-                            <small class="text-info">
-                                <i class="fas fa-calendar-alt"></i> Lịch hẹn trong ngày
-                            </small>
-                        </div>
-                        <div class="ms-3">
-                            <div class="avatar bg-warning bg-opacity-10 text-warning rounded-circle p-3">
-                                <i class="fas fa-calendar-alt fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Doanh thu -->
-        <div class="col-xl-3 col-md-6 mb-3">
-            <div class="card stats-card h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <p class="text-muted mb-1">Doanh thu tháng này</p>
-                            <h3 class="mb-0 text-info">@Model.DashboardData.RevenueThisMonth.ToString("N0")</h3>
-                            <small class="text-success">
-                                <i class="fas fa-shopping-cart"></i> @Model.DashboardData.TotalOrders tổng đơn hàng
-                            </small>
-                        </div>
-                        <div class="ms-3">
-                            <div class="avatar bg-info bg-opacity-10 text-info rounded-circle p-3">
-                                <i class="fas fa-dollar-sign fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Thống kê chi tiết -->
-    <div class="row mb-4">
-        <!-- Thống kê tổng quan -->
-        <div class="col-xl-6 mb-3">
-            <div class="card h-100">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">📊 Thống kê tổng quan</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row text-center">
-                        <div class="col-6 mb-3">
-                            <div class="border rounded p-3">
-                                <i class="fas fa-users text-primary fa-3x mb-2"></i>
-                                <h4>@Model.DashboardData.TotalPatients</h4>
-                                <small class="text-muted">Tổng bệnh nhân</small>
-                            </div>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <div class="border rounded p-3">
-                                <i class="fas fa-user-md text-success fa-3x mb-2"></i>
-                                <h4>@Model.DashboardData.TotalDoctors</h4>
-                                <small class="text-muted">Tổng bác sĩ</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="border rounded p-3">
-                                <i class="fas fa-calendar-alt text-warning fa-3x mb-2"></i>
-                                <h4>@Model.DashboardData.TodayAppointments</h4>
-                                <small class="text-muted">Lịch hẹn hôm nay</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="border rounded p-3">
-                                <i class="fas fa-shopping-cart text-info fa-3x mb-2"></i>
-                                <h4>@Model.DashboardData.TotalOrders</h4>
-                                <small class="text-muted">Tổng đơn hàng</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Doanh thu và nhân sự -->
-        <div class="col-xl-6 mb-3">
-            <div class="card h-100">
-                <div class="card-header bg-secondary text-white">
-                    <h5 class="mb-0">💰 Doanh thu & Nhân sự</h5>
-                </div>
-                <div class="card-body">
-                    <div class="metric-box text-center mb-3">
-                        <i class="fas fa-dollar-sign fa-3x mb-2"></i>
-                        <h4>@Model.DashboardData.RevenueThisMonth.ToString("N0") VNĐ</h4>
-                        <p class="mb-0">Doanh thu tháng này</p>
-                    </div>
-                    
-                    <div class="row text-center">
-                        <div class="col-6">
-                            <div class="border rounded p-3">
-                                <i class="fas fa-user-tie text-primary fa-2x"></i>
-                                <h5 class="mt-2">@Model.DashboardData.TotalStaff</h5>
-                                <small class="text-muted">Nhân viên</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="border rounded p-3">
-                                <i class="fas fa-chart-line text-success fa-2x"></i>
-                                <h5 class="mt-2">@((Model.DashboardData.TotalOrders > 0 ? Model.DashboardData.RevenueThisMonth / Model.DashboardData.TotalOrders : 0).ToString("N0"))</h5>
-                                <small class="text-muted">Đơn TB (VNĐ)</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Tóm tắt hoạt động -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0">📋 Tóm tắt hoạt động hệ thống</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="activity-item">
-                                <div class="text-center">
-                                    <i class="fas fa-users text-primary fa-2x mb-2"></i>
-                                    <h6 class="mb-1">Bệnh nhân</h6>
-                                    <span class="badge bg-primary fs-6">@Model.DashboardData.TotalPatients</span>
-                                    <p class="mb-0 text-muted small">Đang điều trị</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="activity-item" style="border-left-color: #28a745;">
-                                <div class="text-center">
-                                    <i class="fas fa-user-md text-success fa-2x mb-2"></i>
-                                    <h6 class="mb-1">Bác sĩ</h6>
-                                    <span class="badge bg-success fs-6">@Model.DashboardData.TotalDoctors</span>
-                                    <p class="mb-0 text-muted small">Đang hoạt động</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="activity-item" style="border-left-color: #ffc107;">
-                                <div class="text-center">
-                                    <i class="fas fa-calendar-alt text-warning fa-2x mb-2"></i>
-                                    <h6 class="mb-1">Lịch hẹn hôm nay</h6>
-                                    <span class="badge bg-warning fs-6">@Model.DashboardData.TodayAppointments</span>
-                                    <p class="mb-0 text-muted small">Cần xử lý</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="activity-item" style="border-left-color: #17a2b8;">
-                                <div class="text-center">
-                                    <i class="fas fa-dollar-sign text-info fa-2x mb-2"></i>
-                                    <h6 class="mb-1">Doanh thu tháng</h6>
-                                    <span class="badge bg-info fs-6">@Model.DashboardData.RevenueThisMonth.ToString("N0")</span>
-                                    <p class="mb-0 text-muted small">VNĐ</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-4 text-center">
-                        <p class="text-muted mb-0">
-                            <i class="fas fa-info-circle"></i> 
-                            Dashboard được cập nhật tự động. Dữ liệu hiển thị tính đến thời điểm hiện tại.
-                        </p>
-                    </div>
-                </div>
+    
+    <div class="col-lg-4">
+        <div class="chart-section">
+            <h3 class="chart-title">
+                <i class="fas fa-chart-pie"></i>Phân bố bệnh nhân
+            </h3>
+            <div class="chart-container">
+                <canvas id="patientChart"></canvas>
             </div>
         </div>
     </div>
 </div>
 
-@if (TempData["Error"] != null)
-{
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div class="toast show" role="alert">
-            <div class="toast-header bg-danger text-white">
-                <i class="fas fa-exclamation-triangle me-2"></i>
-                <strong class="me-auto">Lỗi</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+<!-- Quick Actions -->
+<div class="chart-section">
+    <h3 class="chart-title">
+        <i class="fas fa-bolt"></i>Thao tác nhanh
+    </h3>
+    <div class="quick-actions">
+        <a href="/Appointments/Create" class="action-card">
+            <i class="fas fa-calendar-plus action-icon"></i>
+            <div class="action-title">Tạo lịch hẹn</div>
+            <div class="action-description">Đặt lịch khám cho bệnh nhân</div>
+        </a>
+        
+        <a href="/ApplicationUsers/Create" class="action-card">
+            <i class="fas fa-user-plus action-icon"></i>
+            <div class="action-title">Thêm bệnh nhân</div>
+            <div class="action-description">Đăng ký bệnh nhân mới</div>
+        </a>
+        
+        <a href="/TestResults/Create" class="action-card">
+            <i class="fas fa-flask action-icon"></i>
+            <div class="action-title">Nhập kết quả XN</div>
+            <div class="action-description">Cập nhật kết quả xét nghiệm</div>
+        </a>
+        
+        <a href="/Orders" class="action-card">
+            <i class="fas fa-pills action-icon"></i>
+            <div class="action-title">Quản lý đơn thuốc</div>
+            <div class="action-description">Xem và quản lý đơn hàng</div>
+        </a>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="chart-section">
+    <h3 class="chart-title">
+        <i class="fas fa-history"></i>Hoạt động gần đây
+    </h3>
+    <div class="activity-list">
+        <div class="activity-item">
+            <div class="activity-icon success">
+                <i class="fas fa-check"></i>
             </div>
-            <div class="toast-body">
-                @TempData["Error"]
+            <div class="activity-content">
+                <div class="activity-title">Lịch hẹn đã được xác nhận</div>
+                <div class="activity-time">5 phút trước</div>
+            </div>
+        </div>
+        
+        <div class="activity-item">
+            <div class="activity-icon info">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <div class="activity-content">
+                <div class="activity-title">Bệnh nhân mới đã đăng ký</div>
+                <div class="activity-time">15 phút trước</div>
+            </div>
+        </div>
+        
+        <div class="activity-item">
+            <div class="activity-icon warning">
+                <i class="fas fa-exclamation"></i>
+            </div>
+            <div class="activity-content">
+                <div class="activity-title">Kết quả xét nghiệm cần xem xét</div>
+                <div class="activity-time">30 phút trước</div>
             </div>
         </div>
     </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+    <script>
+        // Current date display
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('vi-VN', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Animate counter numbers
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number[data-count]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    counter.textContent = Math.floor(current).toLocaleString();
+                }, 20);
+            });
+        }
+
+        // Initialize charts
+        function initCharts() {
+            // Monthly Chart
+            const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+            new Chart(monthlyCtx, {
+                type: 'line',
+                data: {
+                    labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+                    datasets: [{
+                        label: 'Bệnh nhân mới',
+                        data: [12, 19, 15, 25, 22, 30, 28, 35, 32, 38, 42, 45],
+                        borderColor: '#4f46e5',
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Lịch hẹn',
+                        data: [8, 15, 12, 20, 18, 25, 23, 30, 28, 32, 35, 38],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Patient Distribution Chart
+            const patientCtx = document.getElementById('patientChart').getContext('2d');
+            new Chart(patientCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Đang điều trị', 'Tái khám', 'Mới đăng ký'],
+                    datasets: [{
+                        data: [65, 25, 10],
+                        backgroundColor: [
+                            '#4f46e5',
+                            '#10b981',
+                            '#f59e0b'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            animateCounters();
+            initCharts();
+        });
+    </script>
 }

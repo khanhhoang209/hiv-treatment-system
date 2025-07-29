@@ -2,113 +2,143 @@
 @model Application.Pages.Regimens.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Regimen";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<div class="card shadow-sm mb-5">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Edit Regimen</h4>
+        <a asp-page="./Index" class="btn btn-outline-light btn-sm">← Back</a>
+    </div>
 
-<h4>ArvRegimen</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    <div class="card-body">
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ArvRegimen.Id" />
-            <div class="form-group">
-                <label asp-for="ArvRegimen.Name" class="control-label"></label>
-                <input asp-for="ArvRegimen.Name" class="form-control" />
-                <span asp-validation-for="ArvRegimen.Name" class="text-danger"></span>
+
+            <div class="row row-cols-1 row-cols-md-2 g-3 mb-4">
+                <div class="col">
+                    <label asp-for="ArvRegimen.Name" class="form-label fw-bold"></label>
+                    <input asp-for="ArvRegimen.Name" class="form-control" />
+                    <span asp-validation-for="ArvRegimen.Name" class="text-danger small"></span>
+                </div>
+
+                <div class="col">
+                    <label asp-for="ArvRegimen.Level" class="form-label fw-bold"></label>
+                    <input asp-for="ArvRegimen.Level" class="form-control" />
+                    <span asp-validation-for="ArvRegimen.Level" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="ArvRegimen.Description" class="form-label fw-bold"></label>
+                    <textarea asp-for="ArvRegimen.Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="ArvRegimen.Description" class="text-danger small"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ArvRegimen.Description" class="control-label"></label>
-                <input asp-for="ArvRegimen.Description" class="form-control" />
-                <span asp-validation-for="ArvRegimen.Description" class="text-danger"></span>
+
+            <hr class="my-4" />
+            <h5 class="mb-3"><i class="bi bi-capsule me-2"></i>Combo Medicines</h5>
+
+            <table class="table table-striped align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Medicine</th>
+                        <th style="width: 150px;">Quantity</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="comboMedicineTableBody">
+                    @if (Model.ComboMedicines != null)
+                    {
+                        foreach (var item in Model.ComboMedicines)
+                        {
+                            <tr>
+                                <td>@item.Medicine.Name</td>
+                                <td>
+                                    <input type="number" name="Quantities" value="@item.Quantity" class="form-control" required min="1" />
+                                    <input type="hidden" name="MedicineIds" value="@item.MedicineId" />
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <div class="d-flex align-items-center gap-2 mb-4">
+                <select id="medicineSelect" class="form-select" style="width: 300px;">
+                    <option disabled selected>-- Select medicine --</option>
+                    @foreach (var med in Model.AllMedicines)
+                    {
+                        <option value="@med.Id">@med.Name</option>
+                    }
+                </select>
+                <input type="number" id="quantityInput" placeholder="Số lượng" class="form-control" style="width: 100px;" min="1"/>
+                <button type="button" class="btn btn-outline-secondary" onclick="addMedicine()">
+                    <i class="bi bi-plus-circle me-1"></i> Thêm
+                </button>
             </div>
-            <div class="form-group">
-                <label asp-for="ArvRegimen.Level" class="control-label"></label>
-                <input asp-for="ArvRegimen.Level" class="form-control" />
-                <span asp-validation-for="ArvRegimen.Level" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="d-flex justify-content-end mt-4">
+                <button type="submit" class="btn btn-success me-2">
+                    <i class="bi bi-save me-1"></i> Save
+                </button>
+                <a asp-page="./Index" class="btn btn-outline-secondary">Cancel</a>
             </div>
         </form>
     </div>
 </div>
-<h4>Combo Medicines</h4>
-<div id="comboMedicines">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Medicine</th>
-                <th>Quantity</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="comboMedicineTableBody">
-            @if (Model.ComboMedicines != null)
-            {
-                foreach (var item in Model.ComboMedicines)
-                {
-                    <tr>
-                        <td>@item.Medicine.Name</td>
-                        <td>
-                            <input type="number" name="Quantities" value="@item.Quantity" class="form-control" />
-                            <input type="hidden" name="MedicineIds" value="@item.MedicineId" />
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button>
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-
-    <div class="form-inline mb-2">
-        <select id="medicineSelect" class="form-control mr-2">
-            @foreach (var med in Model.AllMedicines)
-            {
-                <option value="@med.Id">@med.Name</option>
-            }
-        </select>
-        <input type="number" id="quantityInput" class="form-control mr-2" placeholder="Quantity" />
-        <button type="button" class="btn btn-secondary" onclick="addMedicine()">Add Medicine</button>
-    </div>
-</div>
-
-<script>
-    function addMedicine() {
-        var medicineSelect = document.getElementById("medicineSelect");
-        var selectedOption = medicineSelect.options[medicineSelect.selectedIndex];
-        var quantity = document.getElementById("quantityInput").value;
-
-        if (!quantity || quantity <= 0) return;
-
-        var tbody = document.getElementById("comboMedicineTableBody");
-        var row = tbody.insertRow();
-
-        row.innerHTML = `
-            <td>${selectedOption.text}</td>
-            <td>
-                <input type="number" name="Quantities" value="${quantity}" class="form-control" />
-                <input type="hidden" name="MedicineIds" value="${selectedOption.value}" />
-            </td>
-            <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button></td>
-        `;
-    }
-
-    function removeRow(btn) {
-        var row = btn.closest("tr");
-        row.remove();
-    }
-</script>
-
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function addMedicine() {
+            const select = document.getElementById("medicineSelect");
+            const quantityInput = document.getElementById("quantityInput");
+            const tbody = document.getElementById("comboMedicineTableBody");
+
+            const selectedOption = select.options[select.selectedIndex];
+            const medicineName = selectedOption.text;
+            const medicineId = selectedOption.value;
+            const quantity = quantityInput.value;
+
+            if (!medicineId || !quantity || quantity <= 0) {
+                alert("Please select a medicine and enter a valid quantity.");
+                return;
+            }
+
+            const exists = [...document.getElementsByName("MedicineIds")]
+                .some(i => i.value === medicineId);
+            if (exists) {
+                alert("This medicine is already added.");
+                return;
+            }
+
+            const row = tbody.insertRow();
+            row.innerHTML = `
+                <td>${medicineName}</td>
+                <td>
+                    <input type="number" name="Quantities" value="${quantity}" class="form-control" required min="1" />
+                    <input type="hidden" name="MedicineIds" value="${medicineId}" />
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </td>
+            `;
+
+            select.selectedIndex = 0;
+            quantityInput.value = '';
+        }
+
+        function removeRow(button) {
+            button.closest('tr').remove();
+        }
+    </script>
 }
