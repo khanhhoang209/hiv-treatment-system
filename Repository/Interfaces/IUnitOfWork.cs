@@ -8,6 +8,8 @@ public interface IUnitOfWork
     IPrescriptionMedicineRepository PrescriptionMedicineRepository { get; }
     IUserNotificationRepository UserNotificationRepository { get; }
     IAppointmentOffRepository AppointmentOffRepository { get; }
+    IComboMedicineRepository ComboMedicineRepository { get; }
+    IMedicineRepository MedicineRepository { get; }
     Task<bool> SaveChangesAsync();
     IDoctorRepository DoctorRepository { get; }
     IEmployeeRepository EmployeeRepository { get; }
