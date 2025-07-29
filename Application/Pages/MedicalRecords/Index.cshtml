@@ -2,67 +2,70 @@
 @model Application.Pages.MedicalRecords.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Medical Records";
 }
 
-<h1>Medical Record</h1>
-
-<p>
-    @if (HttpContext.Session.GetString("Role") != "User")
-    {
-        <a asp-page="Create">Create New</a>
-    }
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.MedicalRecord[0].RecordDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MedicalRecord[0].Diagnosis)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MedicalRecord[0].Treatment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MedicalRecord[0].Notes)
-            </th>
-            <th>
-                Test Result
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.MedicalRecord)
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Medical Records</h2>
+        @if (HttpContext.Session.GetString("Role") != "User")
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RecordDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Diagnosis)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Treatment)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Notes)
-                </td>
-                <td>
-                    <a asp-page="/TestResults/Index"
-                       asp-route-recordId="@item.Id"
-                       class="btn btn-primary">View Test Result
-                    </a>
-                </td>
-                <td>
-                    @if(HttpContext.Session.GetString("Role") != "User")
-                    {
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
-                    } 
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> 
-                </td>
-            </tr>
+            <a asp-page="Create" class="btn btn-success">
+                <i class="fas fa-plus-circle"></i> Create New
+            </a>
         }
-    </tbody>
-</table>
+    </div>
+
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover align-middle">
+            <thead class="thead-dark">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.MedicalRecord[0].RecordDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.MedicalRecord[0].Diagnosis)</th>
+                    <th>@Html.DisplayNameFor(model => model.MedicalRecord[0].Treatment)</th>
+                    <th>@Html.DisplayNameFor(model => model.MedicalRecord[0].Notes)</th>
+                    <th>Test Result</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.MedicalRecord)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.RecordDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Diagnosis)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Treatment)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Notes)</td>
+                        <td>
+                            <a asp-page="/TestResults/Index"
+                               asp-route-recordId="@item.Id"
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-vial"></i> View Test Result
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                @if (HttpContext.Session.GetString("Role") != "User")
+                                {
+                                    <a asp-page="./Edit"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-sm btn-warning">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                }
+                                <a asp-page="./Details"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-info text-white">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Font Awesome (for icons) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />

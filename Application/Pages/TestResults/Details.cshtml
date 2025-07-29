@@ -2,62 +2,51 @@
 @model Application.Pages.TestResults.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Test Result Details";
 }
 
-<h1>Details</h1>
+<div class="container mt-5">
+    <div class="card shadow-lg rounded-4">
+        <div class="card-header bg-primary text-white py-3 px-4">
+            <h3 class="mb-0">Test Result Details</h3>
+        </div>
+        <div class="card-body px-4 py-4">
+            <dl class="row mb-0">
+                <dt class="col-sm-3 fw-bold">Test Date</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.TestResult.TestDate)</dd>
 
-<div>
-    <h4>TestResult</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TestResult.TestDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TestResult.TestDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TestResult.Result)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TestResult.Result)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TestResult.Notes)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TestResult.Notes)
-        </dd>
-        <dt class="col-sm-2">Type Name</dt>
-        <dd class="col-sm-10">@Model.Type.Description</dd>
-        <dt class="col-sm-2">Price</dt>
-        <dd class="col-sm-10">@Model.Type.Price</dd>
-        <dt class="col-sm-2">
-            ARV Name
-        </dt>
-        <dd class="col-sm-10">
-            @Model.Regimen.Name
-        </dd>
-        <dt class="col-sm-2">
-            ARV Description
-        </dt>
-        <dd class="col-sm-10">
-            @Model.Regimen.Description
-        </dd>
-        <dt class="col-sm-2">
-            ARV Level
-        </dt>
-        <dd class="col-sm-10">
-            @Model.Regimen.Level
-        </dd>
-    </dl>
-</div>
-<div>
-    @if(HttpContext.Session.GetString("Role") != "User")
-    {
-        <a asp-page="./Edit" asp-route-id="@Model.TestResult.Id">Edit</a>
-    }
-    <a asp-page="/TestResults/Index"
-                       asp-route-recordId="@Model.TestResult.MedicalRecordId">Back to List</a>
+                <dt class="col-sm-3 fw-bold">Result</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.TestResult.Result)</dd>
+
+                <dt class="col-sm-3 fw-bold">Notes</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.TestResult.Notes)</dd>
+
+                <dt class="col-sm-3 fw-bold">Test Type</dt>
+                <dd class="col-sm-9">@Model.Type.Description</dd>
+
+                <dt class="col-sm-3 fw-bold">Test Price</dt>
+                <dd class="col-sm-9">@Model.Type.Price.ToString("C")</dd>
+
+                <dt class="col-sm-3 fw-bold">ARV Name</dt>
+                <dd class="col-sm-9">@Model.Regimen.Name</dd>
+
+                <dt class="col-sm-3 fw-bold">ARV Description</dt>
+                <dd class="col-sm-9">@Model.Regimen.Description</dd>
+
+                <dt class="col-sm-3 fw-bold">ARV Level</dt>
+                <dd class="col-sm-9">@Model.Regimen.Level</dd>
+            </dl>
+        </div>
+        <div class="card-footer bg-light px-4 py-3 d-flex justify-content-between">
+            <a class="btn btn-secondary" asp-page="/TestResults/Index" asp-route-recordId="@Model.TestResult.MedicalRecordId">
+                <i class="bi bi-arrow-left-circle"></i> Back to List
+            </a>
+            @if (HttpContext.Session.GetString("Role") != "User")
+            {
+                <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.TestResult.Id">
+                    <i class="bi bi-pencil-square"></i> Edit
+                </a>
+            }
+        </div>
+    </div>
 </div>
