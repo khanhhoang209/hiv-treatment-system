@@ -19,7 +19,7 @@ namespace Repository.Models
         public MedicalRecord MedicalRecord { get; set; } = null!;
         public Guid TypeId { get; set; }
         public Type Type { get; set; } = null!;
-        public Guid ArvRegimentId { get; set; }
+        public Guid? ArvRegimentId { get; set; }
         public ArvRegimen ArvRegimen { get; set; } = null!;
     }
 }

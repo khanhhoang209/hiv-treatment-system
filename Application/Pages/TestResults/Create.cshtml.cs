@@ -49,7 +49,7 @@ namespace Application.Pages.TestResults
             TestResult.MedicalRecordId = RecordId;
             await _testResultService.CreateTestResult(TestResult);
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/MedicalRecords/Index");
         }
     }
 }
