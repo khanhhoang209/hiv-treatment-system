@@ -17,5 +17,7 @@ namespace Service.Interfaces
         Task<ApplicationUser> CreateUser(ApplicationUser user);
         Task<bool> UpdateUser(ApplicationUser user);
         //Task<ApplicationUser> GetByEmailAndPassword(string username, string password);
+        IList<ApplicationUser> GetAllEmployees();
+        Task<ApplicationUser> CreateAsync(ApplicationUser user);
     }
 }

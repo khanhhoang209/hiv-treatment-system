@@ -11,6 +11,10 @@ namespace Service.Interfaces
     {
         Task<Employee> GetEmployee(Guid id);
         IEnumerable<Employee> GetEmployees();
-
+        Task<IList<Employee>> GetAllAsync();
+        Task<Employee?> GetEmployeeByIdAsync(Guid id);
+        Task<Employee> CreateAsync(Employee employee);
+        Task<Employee> UpdateAsync(Employee employee, Guid roleId);
+        Task<bool> DeleteAsync(Employee employee);
     }
 }
