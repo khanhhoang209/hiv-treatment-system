@@ -32,6 +32,7 @@ namespace Service.Implements
                 .Include(e => e.Doctor)
                 .Include(e => e.Staff)
                 .Include(e => e.User).ThenInclude(e => e.Role)
+                .Where(e => e.User.Role.Name != "Admin")
                 .AsNoTracking()
                 .ToListAsync();
         }

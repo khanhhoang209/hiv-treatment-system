@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Globalization;
+using Microsoft.Extensions.Configuration;
 using PayPalCheckoutSdk.Core;
 using PayPalCheckoutSdk.Orders;
 using Service.Interfaces;
@@ -34,7 +35,8 @@ public class PaymentService : IPaymentService
                         AmountWithBreakdown = new AmountWithBreakdown
                         {
                             CurrencyCode = "USD",
-                            Value = amount.ToString("F2")
+                            Value = amount.ToString("F2", CultureInfo.InvariantCulture)
+
                         }
                     }
                 },
