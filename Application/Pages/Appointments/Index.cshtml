@@ -2,74 +2,413 @@
 @model Application.Pages.Appointments.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Quản Lý Lịch Hẹn";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+@section Styles {
+    <style>
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
 
-<p>
-    @if (Model.Role == "User")
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .action-buttons {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            gap: 15px;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .btn-modern {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .appointments-table-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .table-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .table-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-title i {
+            color: #4f46e5;
+            font-size: 1.3rem;
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .modern-table thead {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .modern-table th {
+            padding: 18px 20px;
+            font-weight: 600;
+            color: #374151;
+            text-align: left;
+            border-bottom: 2px solid #e5e7eb;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        .modern-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .modern-table tbody tr:hover {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            transform: scale(1.01);
+        }
+
+        .modern-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge.pending {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #92400e;
+        }
+
+        .status-badge.confirmed {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            color: #065f46;
+        }
+
+        .status-badge.completed {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #1e40af;
+        }
+
+        .status-badge.cancelled {
+            background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+            color: #991b1b;
+        }
+
+        .action-buttons-cell {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .action-btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn.edit {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+        .action-btn.details {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .no-data i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #d1d5db;
+        }
+
+        .appointment-date {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 0.95rem;
+        }
+
+        .appointment-time {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-top: 2px;
+        }
+
+        .doctor-info {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 0.9rem;
+        }
+
+        .patient-info {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .notes-text {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .serial-number {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            color: #374151;
+            font-weight: 600;
+            text-align: center;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+    </style>
+}
+
+<div class="page-header">
+    <h1 class="page-title">
+        <i class="fas fa-calendar-alt"></i>
+        Quản Lý Lịch Hẹn
+    </h1>
+    <p class="page-subtitle">Quản lý và theo dõi các cuộc hẹn khám bệnh</p>
+</div>
+
+@if (Model.Role == "User")
+{
+    <div class="action-buttons">
+        <i class="fas fa-tools" style="color: #4f46e5; font-size: 1.2rem;"></i>
+        <span style="color: #374151; font-weight: 600; margin-right: 10px;">Thao Tác Nhanh:</span>
+
+        <a asp-page="Create" class="btn-modern">
+            <i class="fas fa-plus-circle"></i>
+            Tạo Lịch Hẹn Mới
+        </a>
+    </div>
+}
+
+<div class="appointments-table-container">
+    <div class="table-header">
+        <h2 class="table-title">
+            <i class="fas fa-list-ul"></i>
+            Danh Sách Lịch Hẹn
+        </h2>
+    </div>
+
+    @if (Model.Appointment != null && Model.Appointment.Any())
     {
-    <a asp-page="Create">Create New</a>
+        <table class="modern-table">
+            <thead>
+                <tr>
+                    <th>
+                        <i class="fas fa-hashtag"></i>
+                        STT
+                    </th>
+                    <th>
+                        <i class="fas fa-calendar"></i>
+                        Ngày Hẹn
+                    </th>
+                    <th>
+                        <i class="fas fa-info-circle"></i>
+                        Trạng Thái
+                    </th>
+                    <th>
+                        <i class="fas fa-sticky-note"></i>
+                        Ghi Chú
+                    </th>
+                    <th>
+                        <i class="fas fa-user-md"></i>
+                        Bác Sĩ
+                    </th>
+                    <th>
+                        <i class="fas fa-user"></i>
+                        Bệnh Nhân
+                    </th>
+                    <th>
+                        <i class="fas fa-cogs"></i>
+                        Thao Tác
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int stt = 1; }
+                @foreach (var item in Model.Appointment)
+                {
+                    <tr>
+                        <td>
+                            <div class="serial-number">@stt</div>
+                        </td>
+                        <td>
+                            <div class="appointment-date">
+                                @item.AppointmentDate.ToString("dd/MM/yyyy")
+                            </div>
+                            <div class="appointment-time">
+                                @item.AppointmentDate.ToString("HH:mm")
+                            </div>
+                        </td>
+                        <td>
+                            <span class="status-badge @item.Status.ToLower()">
+                                @switch(item.Status.ToLower())
+                                {
+                                    case "pending":
+                                        @:Chờ Xác Nhận
+                                        break;
+                                    case "confirmed":
+                                        @:Đã Xác Nhận
+                                        break;
+                                    case "completed":
+                                        @:Hoàn Thành
+                                        break;
+                                    case "cancelled":
+                                        @:Đã Hủy
+                                        break;
+                                    default:
+                                        @item.Status
+                                        break;
+                                }
+                            </span>
+                        </td>
+                        <td>
+                            <div class="notes-text" title="@item.Notes">
+                                @(string.IsNullOrEmpty(item.Notes) ? "Không có ghi chú" : item.Notes)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="doctor-info">
+                                BS. @(item.Doctor?.LicenseNumber ?? "N/A")
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-info">
+                                @(item.User?.Email ?? "N/A")
+                            </div>
+                        </td>
+                        <td>
+                            <div class="action-buttons-cell">
+                                @if (Model.Role == "Admin")
+                                {
+                                    <a asp-page="./Edit" asp-route-id="@item.Id" class="action-btn edit">
+                                        <i class="fas fa-edit"></i>
+                                        Sửa
+                                    </a>
+                                }
+                                <a asp-page="./Details" asp-route-id="@item.Id" class="action-btn details">
+                                    <i class="fas fa-eye"></i>
+                                    Chi Tiết
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    stt++;
+                }
+            </tbody>
+        </table>
     }
-  
-</p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>No.</th>
-        <th>
-            @Html.DisplayNameFor(model => model.Appointment[0].AppointmentDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Appointment[0].Status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Appointment[0].Notes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Appointment[0].Doctor)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Appointment[0].User)
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @{ int stt = 1; }
-    @foreach (var item in Model.Appointment)
+    else
     {
-        <tr>
-            <td>@stt</td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AppointmentDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Doctor.LicenseNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
-            </td>
-            <td>
-                @if (Model.Role == "Admin")
-                {
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> 
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> 
-                }
-                else
-                {
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
-                }
-            </td>
-        </tr> 
-        stt++;
+        <div class="no-data">
+            <i class="fas fa-calendar-times"></i>
+            <div>Không có lịch hẹn nào</div>
+            <small>Tạo lịch hẹn mới để bắt đầu</small>
+        </div>
     }
-    </tbody>
-</table>
+</div>
