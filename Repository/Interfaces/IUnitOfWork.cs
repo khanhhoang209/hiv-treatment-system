@@ -11,4 +11,6 @@ public interface IUnitOfWork
     IDoctorRepository DoctorRepository { get; }
     IEmployeeRepository EmployeeRepository { get; }
     IClinicRepository ClinicRepository { get; }
+    IComboMedicineRepository ComboMedicineRepository { get; }
+    IMedicineRepository MedicineRepository { get; }
 }
