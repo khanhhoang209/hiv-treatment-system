@@ -37,7 +37,10 @@ namespace Application.Pages.TestResults
 
             var testresult = await _testResultService.GetTestResultById(id.Value);
             var type = _typeService.GetTypeById(testresult.TypeId);
-            var arv = await _arvService.GetByIdAsync(testresult.ArvRegimentId);
+            if (testresult.ArvRegimentId != null)
+            {
+                var arv = await _arvService.GetByIdAsync(testresult.ArvRegimentId.Value);
+            }
             if (testresult == null)
             {
                 return NotFound();
@@ -46,7 +49,11 @@ namespace Application.Pages.TestResults
             {
                 TestResult = testresult;
                 Type = type;
-                Regimen = arv;
+                if (testresult.ArvRegimentId != null)
+                {
+                    var arv = await _arvService.GetByIdAsync(testresult.ArvRegimentId.Value);
+                    Regimen = arv;
+                }                
             }
             return Page();
         }
