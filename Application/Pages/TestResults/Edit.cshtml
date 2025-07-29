@@ -52,7 +52,12 @@
                         <label asp-for="TestResult.ArvRegimentId" class="control-label"></label>
                     </dt>
                     <dd class="col-sm-8">
-                        <select asp-for="TestResult.ArvRegimentId" class="form-control" asp-items="ViewBag.ArvRegimentId"></select>
+                        <select asp-for="TestResult.ArvRegimentId" class="form-control" asp-items="ViewBag.ArvRegimentId">
+                            @if (Model.TestResult.ArvRegimentId == null)
+                            {
+                                <option value="">-- Select ARV Regiment --</option>
+                            }
+                        </select>
                         <span asp-validation-for="TestResult.ArvRegimentId" class="text-danger"></span>
                     </dd>
                 </dl>

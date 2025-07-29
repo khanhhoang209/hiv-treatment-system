@@ -2,61 +2,337 @@
 @model Application.Pages.MedicalRecords.IndexModel
 
 @{
-    ViewData["Title"] = "Medical Records";
+    ViewData["Title"] = "Quản Lý Hồ Sơ Bệnh Án";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">Medical Records</h2>
-        @if (HttpContext.Session.GetString("Role") != "User")
-        {
-            <a asp-page="Create" class="btn btn-success">
-                <i class="fas fa-plus-circle"></i> Create New
-            </a>
+@section Styles {
+    <style>
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
         }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .action-buttons {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            gap: 15px;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .btn-modern {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .medical-records-table-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .table-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .table-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-title i {
+            color: #4f46e5;
+            font-size: 1.3rem;
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .modern-table thead {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .modern-table th {
+            padding: 18px 20px;
+            font-weight: 600;
+            color: #374151;
+            text-align: left;
+            border-bottom: 2px solid #e5e7eb;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        .modern-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .modern-table tbody tr:hover {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            transform: scale(1.01);
+        }
+
+        .modern-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .action-buttons-cell {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn.edit {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+        .action-btn.details {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+        }
+
+        .action-btn.test-result {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .no-data i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #d1d5db;
+        }
+
+        .record-date {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 0.95rem;
+        }
+
+        .diagnosis-text {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 0.9rem;
+        }
+
+        .treatment-text {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .notes-text {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+}
+
+<div class="page-header">
+    <h1 class="page-title">
+        <i class="fas fa-file-medical-alt"></i>
+        Quản Lý Hồ Sơ Bệnh Án
+    </h1>
+    <p class="page-subtitle">Quản lý và theo dõi hồ sơ bệnh án của bệnh nhân</p>
+</div>
+
+@if (HttpContext.Session.GetString("Role") != "User")
+{
+    <div class="action-buttons">
+        <i class="fas fa-tools" style="color: #4f46e5; font-size: 1.2rem;"></i>
+        <span style="color: #374151; font-weight: 600; margin-right: 10px;">Thao Tác Nhanh:</span>
+
+        <a asp-page="Create" class="btn-modern">
+            <i class="fas fa-plus-circle"></i>
+            Tạo Hồ Sơ Mới
+        </a>
+    </div>
+}
+
+<div class="medical-records-table-container">
+    <div class="table-header">
+        <h2 class="table-title">
+            <i class="fas fa-list-ul"></i>
+            Danh Sách Hồ Sơ Bệnh Án
+        </h2>
     </div>
 
-    <div class="table-responsive shadow-sm rounded">
-        <table class="table table-hover align-middle">
-            <thead class="thead-dark">
+    @if (Model.MedicalRecord != null && Model.MedicalRecord.Any())
+    {
+        <table class="modern-table">
+            <thead>
                 <tr>
-                    <th>@Html.DisplayNameFor(model => model.MedicalRecord[0].RecordDate)</th>
-                    <th>@Html.DisplayNameFor(model => model.MedicalRecord[0].Diagnosis)</th>
-                    <th>@Html.DisplayNameFor(model => model.MedicalRecord[0].Treatment)</th>
-                    <th>@Html.DisplayNameFor(model => model.MedicalRecord[0].Notes)</th>
-                    <th>Test Result</th>
-                    <th class="text-center">Actions</th>
+                    <th>
+                        <i class="fas fa-calendar"></i>
+                        Ngày Khám
+                    </th>
+                    <th>
+                        <i class="fas fa-diagnoses"></i>
+                        Chẩn Đoán
+                    </th>
+                    <th>
+                        <i class="fas fa-prescription"></i>
+                        Điều Trị
+                    </th>
+                    <th>
+                        <i class="fas fa-sticky-note"></i>
+                        Ghi Chú
+                    </th>
+                    <th>
+                        <i class="fas fa-vial"></i>
+                        Kết Quả Xét Nghiệm
+                    </th>
+                    <th>
+                        <i class="fas fa-cogs"></i>
+                        Thao Tác
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model.MedicalRecord)
                 {
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.RecordDate)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Diagnosis)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Treatment)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Notes)</td>
+                        <td>
+                            <div class="record-date">
+                                @item.RecordDate.ToString("dd/MM/yyyy")
+                            </div>
+                        </td>
+                        <td>
+                            <div class="diagnosis-text" title="@item.Diagnosis">
+                                @item.Diagnosis
+                            </div>
+                        </td>
+                        <td>
+                            <div class="treatment-text" title="@item.Treatment">
+                                @(string.IsNullOrEmpty(item.Treatment) ? "Chưa có điều trị" : item.Treatment)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="notes-text" title="@item.Notes">
+                                @(string.IsNullOrEmpty(item.Notes) ? "Không có ghi chú" : item.Notes)
+                            </div>
+                        </td>
                         <td>
                             <a asp-page="/TestResults/Index"
                                asp-route-recordId="@item.Id"
-                               class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-vial"></i> View Test Result
+                               class="action-btn test-result">
+                                <i class="fas fa-vial"></i>
+                                Xem Kết Quả
                             </a>
                         </td>
-                        <td class="text-center">
-                            <div class="btn-group">
+                        <td>
+                            <div class="action-buttons-cell">
                                 @if (HttpContext.Session.GetString("Role") != "User")
                                 {
-                                    <a asp-page="./Edit"
-                                       asp-route-id="@item.Id"
-                                       class="btn btn-sm btn-warning">
-                                        <i class="fas fa-edit"></i> Edit
+                                    <a asp-page="./Edit" asp-route-id="@item.Id" class="action-btn edit">
+                                        <i class="fas fa-edit"></i>
+                                        Sửa
                                     </a>
                                 }
-                                <a asp-page="./Details"
-                                   asp-route-id="@item.Id"
-                                   class="btn btn-sm btn-info text-white">
-                                    <i class="fas fa-info-circle"></i> Details
+                                <a asp-page="./Details" asp-route-id="@item.Id" class="action-btn details">
+                                    <i class="fas fa-eye"></i>
+                                    Chi Tiết
                                 </a>
                             </div>
                         </td>
@@ -64,7 +340,15 @@
                 }
             </tbody>
         </table>
-    </div>
+    }
+    else
+    {
+        <div class="no-data">
+            <i class="fas fa-file-medical"></i>
+            <div>Không có hồ sơ bệnh án nào</div>
+            <small>Tạo hồ sơ mới để bắt đầu</small>
+        </div>
+    }
 </div>
 
 <!-- Font Awesome (for icons) -->

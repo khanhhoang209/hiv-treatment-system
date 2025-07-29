@@ -74,7 +74,7 @@ namespace Application.Pages.TestResults
                 //    throw;
                 //}
             }
-            return RedirectToPage("./Index");
+            return RedirectToPage("/MedicalRecords/Index");
         }
 
         //private bool TestResultExists(Guid id)
