@@ -41,6 +41,7 @@
     <ItemGroup>
       <Folder Include="Pages\Clinics\" />
       <Folder Include="Pages\Doctors\" />
+      <Folder Include="Pages\Employees\" />
       <Folder Include="Pages\UserNotifications\" />
     </ItemGroup>
 

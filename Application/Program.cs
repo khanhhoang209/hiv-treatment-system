@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.Implements;
 using Repository.Interfaces;
+using Repository.Models;
 using Service.Implements;
 using Service.Interfaces;
 
@@ -37,6 +38,7 @@ public class Program
         builder.Services.AddScoped<IClinicService, ClinicService>();
         builder.Services.AddScoped<IDashboardService, DashboardService>();
         builder.Services.AddScoped<ITestTypeService, TestTypeService>();
+        builder.Services.AddScoped<IRoleService, RoleService>();
 
 
         // Repositories
