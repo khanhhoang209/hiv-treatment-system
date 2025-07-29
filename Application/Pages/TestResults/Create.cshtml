@@ -2,51 +2,59 @@
 @model Application.Pages.TestResults.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Test Result";
 }
 
-<h1>Create</h1>
+<h2 class="mb-4">🧪 Create New Test Result</h2>
 
-<h4>TestResult</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TestResult.TestDate" class="control-label"></label>
-                <input asp-for="TestResult.TestDate" class="form-control" />
-                <span asp-validation-for="TestResult.TestDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TestResult.Result" class="control-label"></label>
-                <input asp-for="TestResult.Result" class="form-control" />
-                <span asp-validation-for="TestResult.Result" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TestResult.Notes" class="control-label"></label>
-                <input asp-for="TestResult.Notes" class="form-control" />
-                <span asp-validation-for="TestResult.Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TestResult.TypeId" class="control-label"></label>
-                <select asp-for="TestResult.TypeId" class ="form-control" asp-items="ViewBag.TypeId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TestResult.ArvRegimentId" class="control-label"></label>
-                <select asp-for="TestResult.ArvRegimentId" class ="form-control" asp-items="ViewBag.ArvRegimentId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<div class="card shadow rounded p-4 bg-light">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-<div>
-    <a asp-page="Index">Back to List</a>
+        <div class="mb-3">
+            <label asp-for="TestResult.TestDate" class="form-label fw-bold">Test Date</label>
+            <input asp-for="TestResult.TestDate" type="date" class="form-control" />
+            <span asp-validation-for="TestResult.TestDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="TestResult.Result" class="form-label fw-bold">Result</label>
+            <input asp-for="TestResult.Result" class="form-control" placeholder="Enter test result..." />
+            <span asp-validation-for="TestResult.Result" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="TestResult.Notes" class="form-label fw-bold">Notes</label>
+            <textarea asp-for="TestResult.Notes" rows="3" class="form-control" placeholder="Additional notes (optional)"></textarea>
+            <span asp-validation-for="TestResult.Notes" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="TestResult.TypeId" class="form-label fw-semibold"></label>
+            <select asp-for="TestResult.TypeId" class="form-select" asp-items="ViewBag.TypeId">
+                @* Không có dòng <option value="">-- Select Test Type --</option> *@
+            </select>
+            <span asp-validation-for="TestResult.TypeId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="TestResult.ArvRegimentId" class="form-label fw-semibold"></label>
+            <select asp-for="TestResult.ArvRegimentId" class="form-select" asp-items="ViewBag.ArvRegimentId">
+                @* Không có dòng <option value="">-- Select ARV Regiment --</option> *@
+            </select>
+            <span asp-validation-for="TestResult.ArvRegimentId" class="text-danger"></span>
+        </div>
+
+
+        <div class="d-flex justify-content-between">
+            <a asp-page="/MedicalRecords/Index" class="btn btn-secondary">⬅️ Back to List</a>
+            <button type="submit" class="btn btn-primary">💾 Save</button>
+        </div>
+    </form>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

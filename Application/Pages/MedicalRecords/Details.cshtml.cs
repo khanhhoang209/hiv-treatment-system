@@ -14,15 +14,21 @@ namespace Application.Pages.MedicalRecords
     public class DetailsModel : PageModel
     {
         private readonly IMedicalRecordService _medicalRecordService;
+        private readonly IDoctorService _doctorService;
+        private readonly IEmployeeService _employeeService;
+        private readonly IUserService _userService;
         private readonly IPaymentService _paymentService;
         private readonly IOrderService _orderService;
         public DetailsModel(IMedicalRecordService medicalRecordService,
             IPaymentService paymentService,
-            IOrderService orderService)
+            IOrderService orderService, IDoctorService doctorService, IEmployeeService employeeService, IUserService userService)
         {
             _paymentService = paymentService;
             _medicalRecordService = medicalRecordService;
             _orderService = orderService;
+            _doctorService = doctorService;
+            _employeeService = employeeService;
+            _userService = userService;
         }
 
         public MedicalRecord MedicalRecord { get; set; } = default!;
@@ -42,8 +48,13 @@ namespace Application.Pages.MedicalRecords
                 return NotFound();
             }
            
-   
             MedicalRecord = medicalrecord;
+            var doctor = await _doctorService.GetDoctor(medicalrecord.DoctorId);
+            var employee = await _employeeService.GetEmployee(doctor.EmployeeId);
+            var user = await _userService.GetApplicationUserById(medicalrecord.UserId);
+            ViewData["DoctorId"] = employee.FirstName + " " + employee.LastName;
+            ViewData["UserId"] = user.Username;
+
             if (role == "User")
             {
                 TotalPrice = await _orderService.CalculateTotalPriceAsync(medicalrecord.Id);
