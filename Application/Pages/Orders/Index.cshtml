@@ -1,0 +1,55 @@
+﻿@page
+@model Application.Pages.Orders.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].CreateAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Doctor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].MedicalRecord)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Order) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Doctor.LicenseNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MedicalRecord.Diagnosis)
+            </td>
+            <td>
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

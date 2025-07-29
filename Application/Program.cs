@@ -38,6 +38,7 @@ public class Program
         builder.Services.AddScoped<IAppointmentOnlService, AppointmentOnlService>();
         builder.Services.AddScoped<IAppointmentService, AppointmentService>();
         builder.Services.AddScoped<INotificationService, NotificationService>();
+        builder.Services.AddScoped<IPaymentService, PaymentService>();
         builder.Services.AddScoped<IClinicService, ClinicService>();
         builder.Services.AddScoped<IDashboardService, DashboardService>();
         builder.Services.AddScoped<ITestTypeService, TestTypeService>();
@@ -45,12 +46,14 @@ public class Program
         builder.Services.AddScoped<IPrescriptionMedicineService, PrescriptionMedicineService>();
 
 
+        builder.Services.AddScoped<IOrderService, OrderService>();
+        
         // Repositories
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
         builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
-
+        builder.Services.AddScoped<IOrderRepository, OrderRepository>();
         builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
         builder.Services.AddSession(options =>

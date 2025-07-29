@@ -118,4 +118,26 @@ public class ArvService : IArvService
 
         return arvRegimens;
     }
+    public async Task<List<Medicine>> GetAllMedicinesAsync()
+    {
+        throw new NotImplementedException();
+        // return await _unitOfWork..GetAllAsync();
+    }
+
+    public async Task UpdateComboMedicinesAsync(Guid arvId, List<ComboMedicine> comboMedicines)
+    {
+        // var existing = await _unitOfWork.ComboMedicineRepository.GetListAsync(x => x.ArvRegimenId == arvId);
+        // foreach (var item in existing)
+        // {
+        //     await _unitOfWork.ComboMedicineRepository.RemoveAsync(item);
+        // }
+        //
+        // foreach (var combo in comboMedicines)
+        // {
+        //     await _unitOfWork.ComboMedicineRepository.CreateAsync(combo);
+        // }
+        //
+        // await _unitOfWork.SaveAsync();
+    }
+
 }

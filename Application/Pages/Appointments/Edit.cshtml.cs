@@ -54,6 +54,8 @@ namespace Application.Pages.Appointments
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            ModelState.Remove("Appointment.Doctor");
+            ModelState.Remove("Appointment.User");
             if (!ModelState.IsValid)
             {
                 return Page();

@@ -11,6 +11,7 @@ public class UnitOfWork : IUnitOfWork
     public IArvRepository ArvRepository { get;  }
     public INotificationRepository NotificationRepository { get;  }
     public IUserNotificationRepository UserNotificationRepository { get;  }
+    public IAppointmentOffRepository AppointmentOffRepository { get; }
     public IPrescriptionRepository PrescriptionRepository { get;  }
     public IPrescriptionMedicineRepository PrescriptionMedicineRepository { get;  }
     public IDoctorRepository DoctorRepository { get;  }
@@ -38,10 +39,12 @@ public class UnitOfWork : IUnitOfWork
         EmployeeRepository = new EmployeeRepository(dbContext);
 
         ClinicRepository = new ClinicRepository(dbContext);
+        AppointmentOffRepository = new AppointmentOffRepository(dbContext);
     }
 
     public async Task<bool> SaveChangesAsync()
     {
         return await _dbContext.SaveChangesAsync() > 0;
     }
-}
+
+  }

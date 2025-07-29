@@ -14,11 +14,13 @@ namespace Application.Pages.AppointmentsOnline
     {
         private readonly IAppointmentOnlService _appointmentService;
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public CreateModel(IAppointmentOnlService appointmentService, ApplicationDbContext context)
+        public CreateModel(IAppointmentOnlService appointmentService, ApplicationDbContext context, IConfiguration configuration)
         {
             _appointmentService = appointmentService;
             _context = context;
+            _configuration = configuration;
         }
 
         [BindProperty]
@@ -35,6 +37,13 @@ namespace Application.Pages.AppointmentsOnline
 
         public async Task<IActionResult> OnPostAsync()
         {
+            // Validate appointment date - must be at least 1 day from now
+            var minDate = DateTime.Today.AddDays(1);
+            if (Appointment.AppointmentDate.Date < minDate)
+            {
+                ModelState.AddModelError("Appointment.AppointmentDate", "Ngày hẹn phải cách hôm nay ít nhất 1 ngày.");
+            }
+
             if (!ModelState.IsValid)
             {
                 // Reload doctors for dropdown if validation fails
@@ -63,12 +72,20 @@ namespace Application.Pages.AppointmentsOnline
                 return Page();
             }
 
+            // Get Google Meet link from appsettings
+            var googleMeetLink = _configuration["LinkGGMeet"];
+            var notesWithLink = Appointment.Notes;
+            if (!string.IsNullOrEmpty(googleMeetLink))
+            {
+                notesWithLink += $"- Link khám online: {googleMeetLink}";
+            }
+
             Appointment appointment = new Appointment()
             {
                 AppointmentDate = Appointment.AppointmentDate,
                 DoctorId = Appointment.DoctorId,
                 UserId = currentUser.Id,
-                Notes = Appointment.Notes
+                Notes = $"{notesWithLink}"
             };
             await _appointmentService.CreateAppointmentAsync(appointment);
             return RedirectToPage("../AppointmentsOnline/List");
