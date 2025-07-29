@@ -6,7 +6,7 @@ using Repository.Context;
 using Repository.Models;
 using Service.DTO;
 using Service.Interfaces;
-using Application.Extensions;
+using System.Security.Claims;
 
 namespace Application.Pages.AppointmentsOnline
 {
@@ -14,13 +14,11 @@ namespace Application.Pages.AppointmentsOnline
     {
         private readonly IAppointmentOnlService _appointmentService;
         private readonly ApplicationDbContext _context;
-        private readonly IConfiguration _configuration;
 
-        public CreateModel(IAppointmentOnlService appointmentService, ApplicationDbContext context, IConfiguration configuration)
+        public CreateModel(IAppointmentOnlService appointmentService, ApplicationDbContext context)
         {
             _appointmentService = appointmentService;
             _context = context;
-            _configuration = configuration;
         }
 
         [BindProperty]
@@ -37,58 +35,19 @@ namespace Application.Pages.AppointmentsOnline
 
         public async Task<IActionResult> OnPostAsync()
         {
-            // Validate appointment date - must be at least 1 day from now
-            var minDate = DateTime.Today.AddDays(1);
-            if (Appointment.AppointmentDate.Date < minDate)
-            {
-                ModelState.AddModelError("Appointment.AppointmentDate", "Ngày hẹn phải cách hôm nay ít nhất 1 ngày.");
-            }
+            if (!ModelState.IsValid) return Page();
+            var anonymousUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == "test@example.com");
 
-            if (!ModelState.IsValid)
-            {
-                // Reload doctors for dropdown if validation fails
-                var doctors = await _context.Doctors.ToListAsync();
-                DoctorList = new SelectList(doctors, "Id", "Specialization");
-                return Page();
-            }
-
-            // Get current logged in user ID from session
-            var currentUserId = HttpContext.GetUserId();
-            if (currentUserId == Guid.Empty)
-            {
-                ModelState.AddModelError("", "Vui lòng đăng nhập để đặt lịch hẹn.");
-                var doctors = await _context.Doctors.ToListAsync();
-                DoctorList = new SelectList(doctors, "Id", "Specialization");
-                return Page();
-            }
-
-            // Get current user for online appointments
-            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == currentUserId);
-            if (currentUser == null)
-            {
-                ModelState.AddModelError("", "Không tìm thấy thông tin người dùng. Vui lòng liên hệ quản trị viên.");
-                var doctors = await _context.Doctors.ToListAsync();
-                DoctorList = new SelectList(doctors, "Id", "Specialization");
-                return Page();
-            }
-
-            // Get Google Meet link from appsettings
-            var googleMeetLink = _configuration["LinkGGMeet"];
-            var notesWithLink = Appointment.Notes;
-            if (!string.IsNullOrEmpty(googleMeetLink))
-            {
-                notesWithLink += $"- Link khám online: {googleMeetLink}";
-            }
 
             Appointment appointment = new Appointment()
             {
                 AppointmentDate = Appointment.AppointmentDate,
                 DoctorId = Appointment.DoctorId,
-                UserId = currentUser.Id,
-                Notes = $"{notesWithLink}"
+                UserId = anonymousUser.Id,
+                Notes = Appointment.Notes
             };
             await _appointmentService.CreateAppointmentAsync(appointment);
-            return RedirectToPage("../AppointmentsOnline/List");
+            return RedirectToPage("../Appointments/List");
         }
     }
 }

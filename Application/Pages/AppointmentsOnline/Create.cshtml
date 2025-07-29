@@ -12,15 +12,6 @@
                     <h2 class="mb-0">Đặt lịch khám</h2>
                 </div>
                 <div class="card-body">
-                    <div class="alert alert-info mb-3">
-                        <h6 class="alert-heading"><i class="fas fa-info-circle"></i> Lưu ý quan trọng</h6>
-                        <ul class="mb-0">
-                            <li>Ngày khám phải được đặt trước ít nhất <strong>1 ngày</strong> kể từ hôm nay</li>
-                            <li>Link khám online sẽ được tự động gửi kèm trong thông tin lịch hẹn</li>
-                            <li>Vui lòng kiểm tra email và ghi chú để nhận link khám online</li>
-                        </ul>
-                    </div>
-
                     <form method="post">
                         <div asp-validation-summary="All" class="text-danger mb-3"></div>
                         
@@ -35,14 +26,12 @@
                         <div class="mb-3">
                             <label asp-for="Appointment.AppointmentDate" class="form-label">Ngày khám</label>
                             <input asp-for="Appointment.AppointmentDate" type="datetime-local" class="form-control" />
-                            <div class="form-text">Ngày hẹn phải cách hôm nay ít nhất 1 ngày</div>
                             <span asp-validation-for="Appointment.AppointmentDate" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="Appointment.Notes" class="form-label">Ghi chú</label>
                             <textarea asp-for="Appointment.Notes" class="form-control" rows="3" placeholder="Mô tả triệu chứng hoặc ghi chú thêm..."></textarea>
-                            <div class="form-text">Link khám online sẽ được tự động thêm vào ghi chú sau khi đặt lịch thành công</div>
                             <span asp-validation-for="Appointment.Notes" class="text-danger"></span>
                         </div>
 
