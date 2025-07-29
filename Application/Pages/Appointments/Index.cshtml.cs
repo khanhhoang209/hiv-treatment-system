@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Repository.Context;
+using Repository.Interfaces;
 using Repository.Models;
 using Service.Interfaces;
 
@@ -13,12 +14,11 @@ namespace Application.Pages.Appointments
 {
     public class IndexModel : PageModel
     {
-        public string? Role { get; set; }
-        private readonly Repository.Context.ApplicationDbContext _context;
+        private readonly IDoctorService _doctorService;
         private readonly IAppointmentService _service;
-        public IndexModel(Repository.Context.ApplicationDbContext context, IAppointmentService service)
+        public IndexModel(IDoctorService doctorService, IAppointmentService service)
         {
-            _context = context;
+            _doctorService = doctorService;
             _service = service;
         }
 
@@ -26,18 +26,28 @@ namespace Application.Pages.Appointments
 
         public async Task<IActionResult> OnGetAsync()
         {
-            Role = HttpContext.Session.GetString("Role");
+            var role= HttpContext.Session.GetString("Role");
             var userIdStr = HttpContext.Session.GetString("Account");
-            if (string.IsNullOrEmpty(Role) || string.IsNullOrEmpty(userIdStr))
+            if (string.IsNullOrEmpty(role) || string.IsNullOrEmpty(userIdStr))
             {
                 return RedirectToPage("/Login");
             }
 
-            if (Role != "Admin" && Guid.TryParse(userIdStr, out var userId))
+            if (role == "User" && Guid.TryParse(userIdStr, out var userId))
             {
                Appointment = await _service.GetAppointmentByUserId(userId);
             }
-            else
+
+            if (role == "Doctor")
+            {
+                var doctor = await _doctorService.GetDoctorByUserIdAsync(Guid.Parse(userIdStr));
+                if (doctor == null)
+                {
+                    return RedirectToPage("/Error");
+                }
+                Appointment = await _service.GetAppointmentByDoctorId(doctor.Id);
+            }
+            if(role == "Admin")
             {
                 Appointment = await _service.GetAllAppointments();
             }

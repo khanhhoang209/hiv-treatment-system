@@ -55,5 +55,14 @@ public class AppointmentOffRepository : GenericRepository<Appointment>, IAppoint
         _dbContext.Appointments.Update(appointment);
         return await _dbContext.SaveChangesAsync() > 0;
     }
+    public async Task<List<Appointment>> GetAppointmentByDoctorId(Guid doctorId)
+    {
+        return await _dbContext.Appointments
+            .Include(a => a.Doctor)
+            .Include(a => a.User)
+            .Where(a => a.DoctorId == doctorId)
+            .OrderByDescending(a => a.AppointmentDate)
+            .ToListAsync();
+    }
     
 }

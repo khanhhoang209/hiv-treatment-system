@@ -24,4 +24,12 @@ public class DoctorRepository : GenericRepository<Doctor>, IDoctorRepository
             .Include(d => d.Employee)
             .FirstOrDefaultAsync(d => d.Id == id);
     }
+    
+    public Task<Doctor?> GetDoctorByUserIdAsync(Guid id)
+    {
+        return _dbContext.Doctors
+            .Include(d => d.Employee)
+            .ThenInclude(e => e.User)
+            .FirstOrDefaultAsync(d => d.Employee.UserId == id);
+    }
 }

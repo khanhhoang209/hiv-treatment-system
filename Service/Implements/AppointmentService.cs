@@ -38,4 +38,8 @@ public class AppointmentService : IAppointmentService
     {   
         return await _unitOfWork.AppointmentOffRepository.UpdateAppointmentFields(updated);
     }
+    public async Task<List<Appointment>> GetAppointmentByDoctorId(Guid doctorId)
+    {
+        return await _unitOfWork.AppointmentOffRepository.GetAppointmentByDoctorId(doctorId);
+    }
 }
