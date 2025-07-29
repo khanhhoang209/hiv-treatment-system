@@ -6,6 +6,7 @@ using Repository.Implements;
 using Repository.Interfaces;
 using Service.Implements;
 using Service.Interfaces;
+using Service.Mapping;
 
 namespace Application;
 
@@ -23,6 +24,9 @@ public class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
+        // AutoMapper
+        builder.Services.AddAutoMapper(typeof(PrescriptionMappingProfile));
+
         // Services
         builder.Services.AddScoped<ITestResultService, TestResultService>();
         builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
@@ -37,6 +41,8 @@ public class Program
         builder.Services.AddScoped<IClinicService, ClinicService>();
         builder.Services.AddScoped<IDashboardService, DashboardService>();
         builder.Services.AddScoped<ITestTypeService, TestTypeService>();
+        builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
+        builder.Services.AddScoped<IPrescriptionMedicineService, PrescriptionMedicineService>();
 
 
         // Repositories
@@ -72,8 +78,6 @@ public class Program
         app.UseRouting();
 
         app.UseSession();
-
-        app.UseAuthorization();
 
         app.MapHub<NotificationHub>("/hubs/notifications");
 
