@@ -14,14 +14,15 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Appointment.Status" value="Pending" />
             <div class="form-group">
                 <label asp-for="Appointment.AppointmentDate" class="control-label"></label>
-                <input asp-for="Appointment.AppointmentDate" class="form-control" />
+                <input asp-for="Appointment.AppointmentDate" class="form-control"/>
                 <span asp-validation-for="Appointment.AppointmentDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Appointment.Notes" class="control-label"></label>
-                <input asp-for="Appointment.Notes" class="form-control" />
+                <input asp-for="Appointment.Notes" class="form-control"/>
                 <span asp-validation-for="Appointment.Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -30,7 +31,7 @@
                 <span asp-validation-for="Appointment.DoctorId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary"/>
             </div>
         </form>
     </div>

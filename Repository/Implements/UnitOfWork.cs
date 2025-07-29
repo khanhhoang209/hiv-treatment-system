@@ -11,9 +11,10 @@ public class UnitOfWork : IUnitOfWork
     public IArvRepository ArvRepository { get;  }
     public INotificationRepository NotificationRepository { get;  }
     public IUserNotificationRepository UserNotificationRepository { get;  }
+    public IAppointmentOffRepository AppointmentOffRepository { get; }
     public IPrescriptionRepository PrescriptionRepository { get;  }
-    public IDoctorRepository DoctorRepository { get;  }
-    public IEmployeeRepository EmployeeRepository { get;  }
+    public IDoctorRepository DoctorRepository { get; }
+    public IEmployeeRepository EmployeeRepository { get; }
     public IClinicRepository ClinicRepository { get; }
 
     public UnitOfWork(ApplicationDbContext dbContext, IConfiguration configuration)
@@ -35,10 +36,12 @@ public class UnitOfWork : IUnitOfWork
         EmployeeRepository = new EmployeeRepository(dbContext);
 
         ClinicRepository = new ClinicRepository(dbContext);
+        AppointmentOffRepository = new AppointmentOffRepository(dbContext);
     }
 
     public async Task<bool> SaveChangesAsync()
     {
         return await _dbContext.SaveChangesAsync() > 0;
     }
-}
+
+  }

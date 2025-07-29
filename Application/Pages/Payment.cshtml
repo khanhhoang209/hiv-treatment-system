@@ -1,0 +1,26 @@
+﻿@page
+@model Application.Pages.Payment
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div>
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <h2>@Model.Message</h2>
+    }
+    <form method="post">
+        <button type="submit">Pay with PayPal</button>
+    </form>
+
+</div>
+</body>
+</html>

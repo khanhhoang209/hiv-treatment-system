@@ -11,4 +11,7 @@ public interface IArvService
     Task<ArvRegimen> UpdateAsync(ArvRegimen arvRegimen);
     Task DeleteAsync(Guid id);
     Task<List<ArvRegimen>> GetSuggestedRegimensAsync(PatientCondition patientCondition);
+    Task<List<Medicine>> GetAllMedicinesAsync();
+    Task UpdateComboMedicinesAsync(Guid arvId, List<ComboMedicine> comboMedicines);
+
 }

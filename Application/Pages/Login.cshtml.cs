@@ -20,7 +20,7 @@ public class LoginModel : PageModel
         var loginId = HttpContext.Session.GetString("Account");
         if (!string.IsNullOrEmpty(loginId))
         {
-            return RedirectToPage("/Appointments");
+            return RedirectToPage("/Login");
         }
         return Page();
     }
@@ -33,7 +33,7 @@ public class LoginModel : PageModel
         var loginId = HttpContext.Session.GetString("Account");
         if (!string.IsNullOrEmpty(loginId))
         {
-            return RedirectToPage("/Appointments/Create");
+            return RedirectToPage("/Login");
         }
 
         var user = _userService.GetAccountByUserName(User.Username);
@@ -50,10 +50,14 @@ public class LoginModel : PageModel
             return Page();
         }
         
-        var redirectUrl = "/Appointments/Index";
+        var redirectUrl = "/Index";
         if (user.Role.Name.ToLower() == Roles.Admin.ToLower())
         {
             redirectUrl = "/Dashboard/Index";
+        }
+        else if (user.Role.Name.ToLower() == Roles.Doctor.ToLower())
+        {
+            redirectUrl = "/Appointments/Index";
         }
         
         HttpContext.Session.SetString("Role", user.Role.Name);

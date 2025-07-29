@@ -51,6 +51,7 @@ namespace Application.Pages.Appointments
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            ModelState.Remove("Appointment.Doctor");
             if (!ModelState.IsValid)
             {
                 LoadSelectLists();
@@ -75,8 +76,9 @@ namespace Application.Pages.Appointments
         }
         private void LoadSelectLists()
         {
-            ViewData["DoctorId"] = new SelectList(_context.Doctors, "Id", "LicenseNumber", Appointment.DoctorId);
-            //   ViewData["UserId"] = new SelectList(_context.Users, "Id", "Username", Appointment.UserId);
+            var doctors = _doctorService.GetAllDoctors();
+
+            ViewData["DoctorId"] = new SelectList(doctors, "Id", "LicenseNumber", Appointment.DoctorId);
         }
     }
 
