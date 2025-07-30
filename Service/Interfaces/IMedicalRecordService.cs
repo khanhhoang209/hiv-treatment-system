@@ -15,5 +15,7 @@ namespace Service.Interfaces
         Task<List<MedicalRecord>> GetMedicalRecordsByDoctorId(Guid userId);
         Task<List<MedicalRecord>> GetMedicalRecordsByUserId(Guid userId);
         Task<MedicalRecord> GetMedicalRecordDetail(Guid recordId);
+        Task<IList<MedicalRecord>> GetMedicalRecordsAsync();
+        Task<IList<MedicalRecord>> GetMedicalRecordsByUserIdAsync(Guid userId);
     }
 }

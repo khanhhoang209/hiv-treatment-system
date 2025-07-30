@@ -121,4 +121,8 @@ public class PrescriptionService : IPrescriptionService
         _unitOfWork.PrescriptionRepository.Remove(prescription);
         return await _unitOfWork.SaveChangesAsync();
     }
+    public async Task<bool> GetPrescriptionByMedicalRecordId(Guid medicalRecordId)
+    {
+        return await _unitOfWork.PrescriptionRepository.GetPrescriptionByMedicalRecordId(medicalRecordId);
+    }
 }

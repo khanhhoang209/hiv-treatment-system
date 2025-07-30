@@ -59,7 +59,7 @@ public class Program
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
         builder.Services.AddScoped<IComboMedicineRepository, ComboMedicineRepository>();
         builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
+        builder.Services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
         builder.Services.AddSession(options =>
         {
             options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout to 30 minutes
