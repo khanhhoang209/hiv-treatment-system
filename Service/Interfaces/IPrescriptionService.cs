@@ -11,4 +11,6 @@ public interface IPrescriptionService
     Task<PrescriptionDto> UpdatePrescriptionAsync(UpdatePrescriptionDto updateDto);
     Task<bool> DeletePrescriptionAsync(Guid id);
     Task<PrescriptionDto?> GetPrescriptionWithMedicinesAsync(Guid id);
+    Task<bool> GetPrescriptionByMedicalRecordId(Guid medicalRecordId);
+    
 }

@@ -55,4 +55,9 @@ public class PrescriptionRepository : GenericRepository<Prescription>, IPrescrip
                 .ThenInclude(pm => pm.Medicine)
             .FirstOrDefaultAsync(p => p.Id == id);
     }
+    public async Task<bool> GetPrescriptionByMedicalRecordId(Guid medicalRecordId)
+    {
+        return await _dbContext.Set<Prescription>()
+            .AnyAsync(p => p.MedicalRecordId == medicalRecordId);
+    }
 }

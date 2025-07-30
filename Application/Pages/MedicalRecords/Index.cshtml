@@ -181,7 +181,10 @@
             color: white;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-
+        .action-btn.create-prescription {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+        }
         .no-data {
             text-align: center;
             padding: 40px;
@@ -284,6 +287,10 @@
                         Kết Quả Xét Nghiệm
                     </th>
                     <th>
+                        <i class="fas fa-vial"></i>
+                        Đơn Thuốc
+                    </th>
+                    <th>
                         <i class="fas fa-cogs"></i>
                         Thao Tác
                     </th>
@@ -322,6 +329,45 @@
                             </a>
                         </td>
                         <td>
+                            @if (HttpContext.Session.GetString("Role") == "Doctor")
+                            {
+                                @if (item.Prescription != null)
+                                {
+                                    <a asp-page="/Prescriptions/Details"
+                                       asp-route-id="@item.Prescription.Id"
+                                       class="action-btn test-result">
+                                        <i class="fas fa-vial"></i>
+                                        Xem Đơn Thuốc
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-page="/Prescriptions/Create"
+                                       asp-route-recordId="@item.Id"
+                                       class="action-btn create-prescription">
+                                        <i class="fas fa-plus-circle"></i>
+                                        Tạo Đơn Thuốc
+                                    </a>
+                                }
+                            }
+                            else
+                            {
+                                @if (item.Prescription != null)
+                                {
+                                    <a asp-page="/Prescriptions/Details"
+                                       asp-route-id="@item.Prescription.Id"
+                                       class="action-btn test-result">
+                                        <i class="fas fa-vial"></i>
+                                        Xem Đơn Thuốc
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span style="color: #aaa;">Chưa có đơn thuốc</span>
+                                }
+                            }
+                        </td>
+                        <td>
                             <div class="action-buttons-cell">
                                 @if (HttpContext.Session.GetString("Role") != "User")
                                 {
@@ -352,4 +398,4 @@
 </div>
 
 <!-- Font Awesome (for icons) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+@* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" /> *@

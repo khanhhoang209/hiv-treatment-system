@@ -6,17 +6,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repository.Implements;
 
 namespace Service.Implements
 {
     public class MedicalRecordService : IMedicalRecordService
     {
         private readonly IGenericRepository<MedicalRecord> _repo;
+        private readonly IMedicalRecordRepository _medicalRecordRepository;
 
-        public MedicalRecordService(IGenericRepository<MedicalRecord> medicalRecordRepo)
+        public MedicalRecordService(IGenericRepository<MedicalRecord> medicalRecordRepo,
+            IMedicalRecordRepository medicalRecordRepository)
         {
             _repo = medicalRecordRepo;
+            _medicalRecordRepository = medicalRecordRepository;
         }
+
         public async Task<MedicalRecord> CreateMedicalRecord(MedicalRecord record)
         {
             record.Id = Guid.NewGuid();
@@ -48,6 +53,16 @@ namespace Service.Implements
         public async Task<bool> UpdateMedicalRecord(MedicalRecord record)
         {
             return await _repo.UpdateAsync(record);
+        }
+
+        public async Task<IList<MedicalRecord>> GetMedicalRecordsAsync()
+        {
+            return await _medicalRecordRepository.GetMedicalRecordsAsync();
+        }
+
+        public async Task<IList<MedicalRecord>> GetMedicalRecordsByUserIdAsync(Guid userId)
+        {
+            return await _medicalRecordRepository.GetMedicalRecordsByUserIdAsync(userId);
         }
     }
 }

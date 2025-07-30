@@ -23,12 +23,7 @@ public class DetailsModel : AuthorizedPageModel
         {
             return RedirectToPage("/Login");
         }
-
-        if (!HasPrescriptionAccess)
-        {
-            return RedirectToPage("/AccessDenied");
-        }
-
+        
         try
         {
             Prescription = await _prescriptionService.GetPrescriptionByIdAsync(id);
