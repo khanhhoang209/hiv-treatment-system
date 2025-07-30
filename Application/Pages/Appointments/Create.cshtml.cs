@@ -56,6 +56,13 @@ namespace Application.Pages.Appointments
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            var doctorsVb = await _doctorService.GetDoctors();
+            ViewData["DoctorId"] = new SelectList(
+                doctorsVb.Select(d => new {
+                    d.Id,
+                    FullName = d.Employee.FirstName + " " + d.Employee.LastName + " (" + d.LicenseNumber + ")"
+                }),
+                "Id", "FullName", Appointment?.DoctorId);
             ModelState.Remove("Appointment.Doctor");
             if (!ModelState.IsValid)
             {
