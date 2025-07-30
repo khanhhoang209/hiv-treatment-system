@@ -2,56 +2,303 @@
 @model Application.Pages.Appointments.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+ViewData["Title"] = "Chi Tiết Lịch Hẹn";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Appointment</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Appointment.AppointmentDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Appointment.AppointmentDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Appointment.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Appointment.Status)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Appointment.Notes)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Appointment.Notes)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Appointment.Doctor)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Appointment.Doctor.LicenseNumber)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Appointment.User)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Appointment.User.Email)
-        </dd>
-    </dl>
-</div>
-<div>
-    @if (Model.Role == "Admin")
-    {
-        <a asp-page="./Edit" asp-route-id="@Model.Appointment.Id">Edit</a> 
-        <a asp-page="./Index">Back to List</a>
+<style>
+    .details-container {
+        max-width: 1050px;
+        margin: 40px auto 0 auto;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 6px 32px rgba(56, 189, 248, 0.10);
+        padding: 36px 40px 28px 40px;
+        position: relative;
     }
-    else
-    {
-        <a asp-page="./Index">Back to List</a>
+    .page-header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
+    .page-subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin-bottom: 30px;
+    }
+    .summary-date {
+        background: #f1f5f9;
+        border-radius: 12px;
+        padding: 18px 24px;
+        margin-bottom: 32px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #0ea5e9;
+    }
+    .details-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px 32px;
+        margin-bottom: 32px;
+    }
+    .info-card {
+        background: #f9fafb;
+        border-radius: 14px;
+        padding: 20px 18px 16px 18px;
+        box-shadow: 0 1px 6px rgba(56, 189, 248, 0.04);
+        min-height: 120px;
+        position: relative;
+    }
+    .info-title {
+        font-size: 1.08rem;
+        font-weight: 700;
+        color: #2563eb;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .user-info-flex, .doctor-info-flex {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+    .user-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #38bdf8 60%, #6366f1 100%);
+        color: #fff;
+        font-size: 1.8rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(56, 189, 248, 0.12);
+    }
+    .user-details h4 {
+        margin: 0 0 2px 0;
+        font-size: 1.08rem;
+        font-weight: 700;
+        color: #0f172a;
+    }
+    .user-details p {
+        margin: 0;
+        color: #64748b;
+        font-size: 0.98rem;
+    }
+    .doctor-info-flex h4 {
+        margin: 0 0 2px 0;
+        font-size: 1.08rem;
+        font-weight: 700;
+        color: #0f172a;
+    }
+    .doctor-license {
+        font-size: 0.97rem;
+        color: #64748b;
+        margin-bottom: 2px;
+    }
+    .notes-box {
+        background: #e0f2fe;
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: #334155;
+        font-size: 1.02rem;
+        min-height: 40px;
+        margin-top: 4px;
+        word-break: break-word;
+    }
+    .status-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 8px;
+    }
+    .status-badge {
+        display: inline-block;
+        padding: 7px 20px;
+        border-radius: 16px;
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        box-shadow: 0 1px 4px rgba(56, 189, 248, 0.07);
+    }
+    .status-badge.pending {
+        background: #fef9c3;
+        color: #b45309;
+    }
+    .status-badge.confirmed {
+        background: #d1fae5;
+        color: #047857;
+    }
+    .status-badge.completed {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+    .status-badge.cancelled {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+    .action-buttons {
+        text-align: right;
+        margin-top: 18px;
+    }
+    .btn-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 28px;
+        font-size: 1.08rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s;
+        box-shadow: 0 2px 8px rgba(56, 189, 248, 0.10);
+    }
+    .btn-action:hover {
+        background: #1e40af;
+        color: #fff;
+        text-decoration: none;
+    }
+</style>
+
+<div class="page-header">
+    <h1 class="page-title">
+        <i class="fas fa-calendar-check"></i>
+        Chi Tiết Lịch Hẹn
+    </h1>
+    <p class="page-subtitle">Thông tin chi tiết về lịch hẹn khám bệnh</p>
 </div>
+
+@if (Model.Appointment != null)
+{
+<div class="details-container">
+    <div class="summary-date">
+        <i class="fas fa-calendar"></i>
+        @Model.Appointment.AppointmentDate.ToString("dd/MM/yyyy HH:mm")
+    </div>
+    <div class="details-grid">
+        <!-- Patient Info -->
+        <div class="info-card">
+            <div class="info-title">
+                <i class="fas fa-user"></i> Thông tin bệnh nhân
+            </div>
+            <div class="user-info-flex">
+                <div class="user-avatar">
+                    @Model.Appointment.User?.Username?.Substring(0, 1).ToUpper()
+                </div>
+                <div class="user-details">
+                    <h4>@Model.Appointment.User?.Username</h4>
+                    <p>@Model.Appointment.User?.Email</p>
+                </div>
+            </div>
+        </div>
+        <!-- Doctor Info -->
+        <div class="info-card">
+            <div class="info-title">
+                <i class="fas fa-user-md"></i> Bác sĩ phụ trách
+            </div>
+            <div class="doctor-info-flex">
+                <div style="font-size:1.7rem; color:#2563eb;">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div>
+                    <h4>
+                        @Model.Appointment.Doctor?.Employee?.FirstName @Model.Appointment.Doctor?.Employee?.LastName
+                    </h4>
+                    <div class="doctor-license">
+                        Mã số: @Model.Appointment.Doctor?.LicenseNumber
+                    </div>
+                    <div>
+                        Chuyên khoa: @Model.Appointment.Doctor?.Specialization
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Notes -->
+        <div class="info-card">
+            <div class="info-title">
+                <i class="fas fa-sticky-note"></i> Ghi chú
+            </div>
+            <div class="notes-box">
+                @(string.IsNullOrEmpty(Model.Appointment.Notes) ? "Không có ghi chú" : Model.Appointment.Notes)
+            </div>
+        </div>
+        <!-- Status -->
+        <div class="info-card">
+            <div class="info-title">
+                <i class="fas fa-info-circle"></i> Trạng thái
+            </div>
+            <div class="status-box">
+                    <span class="status-badge @Model.Appointment.Status.ToLower()">
+                        @switch (Model.Appointment.Status.ToLower())
+                        {
+                        case "pending":
+                        @:Chờ Xác Nhận
+                        break;
+                        case "confirmed":
+                        @:Đã Xác Nhận
+                        break;
+                        case "completed":
+                        @:Hoàn Thành
+                        break;
+                        case "cancelled":
+                        @:Đã Hủy
+                        break;
+                        default:
+                        @Model.Appointment.Status
+                        break;
+                        }
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="action-buttons">
+        <a asp-page="./Index" class="btn-action btn-back">
+            <i class="fas fa-arrow-left"></i>
+            Quay lại danh sách
+        </a>
+    </div>
+</div>
+}
+else
+{
+<div style="text-align: center; padding: 60px 20px; color: #6b7280;">
+    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+    <h3>Không tìm thấy thông tin lịch hẹn</h3>
+    <p>Lịch hẹn không tồn tại hoặc đã bị xóa.</p>
+    <a asp-page="./Index" class="btn-action btn-back">
+        <i class="fas fa-arrow-left"></i>
+        Quay lại danh sách
+    </a>
+</div>
+}
+
+@section Scripts {
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Animate cards on load
+        const cards = document.querySelectorAll('.info-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.transition = 'all 0.6s cubic-bezier(.4,2,.3,1)';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 120 * index);
+        });
+    });
+</script>
+}

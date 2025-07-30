@@ -33,7 +33,7 @@ namespace Application.Pages.MedicalRecords
 
         public MedicalRecord MedicalRecord { get; set; } = default!;
         public decimal TotalPrice { get; set; }
-
+        public bool HasOrder { get; set; }
         public async Task<IActionResult> OnGetAsync(Guid? id)
         {
             var role = HttpContext.Session.GetString("Role");
@@ -47,8 +47,10 @@ namespace Application.Pages.MedicalRecords
             {
                 return NotFound();
             }
-           
+            HasOrder = await _orderService.GetOrderByMedicalRecordId(medicalrecord.Id);
+
             MedicalRecord = medicalrecord;
+            
             var doctor = await _doctorService.GetDoctor(medicalrecord.DoctorId);
             var employee = await _employeeService.GetEmployee(doctor.EmployeeId);
             var user = await _userService.GetApplicationUserById(medicalrecord.UserId);

@@ -2,59 +2,139 @@
 @model Application.Pages.Appointments.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Chỉnh sửa lịch hẹn";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+@section Styles {
+    <style>
+        .edit-container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            padding: 32px 28px 24px 28px;
+        }
+        .edit-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .edit-subtitle {
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        .form-control[readonly] {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+        .btn-save {
+            background: #2563eb;
+            color: #fff;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 24px;
+            transition: background 0.2s;
+        }
+        .btn-save:hover {
+            background: #1d4ed8;
+        }
+        .btn-back {
+            background: #f3f4f6;
+            color: #374151;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .btn-back:hover {
+            background: #e5e7eb;
+        }
+    </style>
+}
 
-<h4>Appointment</h4>
-<hr />
-@* <div asp-validation-summary="All" class="text-danger"></div> *@
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <input type="hidden" asp-for="Appointment.Id" />
-            <input type="hidden" asp-for="Appointment.DoctorId" />
-            <input type="hidden" asp-for="Appointment.UserId" />
-
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Appointment.Id"/>
-            <div class="form-group">
-                <label asp-for="Appointment.AppointmentDate" class="control-label"></label>
-                <input asp-for="Appointment.AppointmentDate" class="form-control"/>
-                <span asp-validation-for="Appointment.AppointmentDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Appointment.Status" class="control-label"></label>
-                <select asp-for="Appointment.Status" class="form-control">
-                    <option value="Pending">Pending</option>
-                    <option value="Confirmed">Confirmed</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Cancelled">Cancelled</option>
-                </select>
-                <span asp-validation-for="Appointment.Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Appointment.Notes" class="control-label"></label>
-                <input asp-for="Appointment.Notes" class="form-control" readonly />
-            </div>
-            <div class="form-group">
-                <label asp-for="Appointment.DoctorId" class="control-label"></label>
-                <input class="form-control" value="@Model.Appointment.Doctor?.LicenseNumber" readonly />
-            </div>
-            <div class="form-group">
-                <label asp-for="Appointment.UserId" class="control-label">Email</label>
-                <input class="form-control" value="@Model.Appointment.User?.Email" readonly />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary"/>
-            </div>
-        </form>
+<div class="edit-container">
+    <div class="edit-title">
+        <i class="fas fa-calendar-edit me-2"></i>Chỉnh sửa lịch hẹn
     </div>
-</div>
+    <div class="edit-subtitle">
+        Cập nhật thông tin lịch hẹn của bệnh nhân
+    </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
+    <form method="post">
+        <input type="hidden" asp-for="Appointment.Id" />
+        <input type="hidden" asp-for="Appointment.DoctorId" />
+        <input type="hidden" asp-for="Appointment.UserId" />
+
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="Appointment.AppointmentDate" class="form-label">
+                <i class="fas fa-calendar-alt me-1"></i>Ngày & giờ hẹn
+            </label>
+            <input asp-for="Appointment.AppointmentDate" class="form-control" type="datetime-local" />
+            <span asp-validation-for="Appointment.AppointmentDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Appointment.Status" class="form-label">
+                <i class="fas fa-toggle-on me-1"></i>Trạng thái
+            </label>
+            <select asp-for="Appointment.Status" class="form-control">
+                <option value="Pending">Chờ xác nhận</option>
+                <option value="Confirmed">Đã xác nhận</option>
+                <option value="Completed">Đã hoàn thành</option>
+                <option value="Cancelled">Đã hủy</option>
+            </select>
+            <span asp-validation-for="Appointment.Status" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Appointment.Notes" class="form-label">
+                <i class="fas fa-sticky-note me-1"></i>Ghi chú của bệnh nhân
+            </label>
+            <textarea asp-for="Appointment.Notes" class="form-control" rows="2" readonly></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                <i class="fas fa-user-md me-1"></i>Bác sĩ phụ trách
+            </label>
+            <input class="form-control" value="@Model.Appointment.Doctor?.LicenseNumber" readonly />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                <i class="fas fa-user me-1"></i>Email bệnh nhân
+            </label>
+            <input class="form-control" value="@Model.Appointment.User?.Email" readonly />
+        </div>
+
+        <div class="action-buttons">
+            <button type="submit" class="btn-save">
+                <i class="fas fa-save me-1"></i>Lưu thay đổi
+            </button>
+            <a asp-page="./Index" class="btn-back">
+                <i class="fas fa-arrow-left me-1"></i>Quay lại
+            </a>
+        </div>
+    </form>
 </div>
 
 @section Scripts {

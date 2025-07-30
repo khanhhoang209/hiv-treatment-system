@@ -15,6 +15,7 @@ public class AppointmentOffRepository : GenericRepository<Appointment>, IAppoint
     {
         
         var appointmnet = await _dbContext.Appointments.Include(a => a.Doctor)
+            .ThenInclude(d => d.Employee)
             .Include(a=> a.User)
             .FirstOrDefaultAsync(a => a.Id == id);
         return appointmnet!;

@@ -28,7 +28,7 @@ namespace Application.Pages.Appointments
             _doctorService = doctorService;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
             var role = HttpContext.Session.GetString("Role");
             var userIdStr = HttpContext.Session.GetString("Account");
@@ -40,8 +40,13 @@ namespace Application.Pages.Appointments
             {
                 return RedirectToPage("/Appointments/Index");
             }
-            ViewData["DoctorId"] = new SelectList(_doctorService.GetAllDoctors(), "Id", "LicenseNumber");
-            //  ViewData["UserId"] = new SelectList(_context.Users, "Id", "Username");
+            var doctors = await _doctorService.GetDoctors();
+            ViewData["DoctorId"] = new SelectList(
+                doctors.Select(d => new {
+                    d.Id,
+                    FullName = d.Employee.FirstName + " " + d.Employee.LastName + " (" + d.LicenseNumber + ")"
+                }),
+                "Id", "FullName", Appointment?.DoctorId);
             return Page();
         }
 
@@ -74,11 +79,15 @@ namespace Application.Pages.Appointments
 
             return RedirectToPage("./Index");
         }
-        private void LoadSelectLists()
+        private async Task LoadSelectLists()
         {
-            var doctors = _doctorService.GetAllDoctors();
-
-            ViewData["DoctorId"] = new SelectList(doctors, "Id", "LicenseNumber", Appointment.DoctorId);
+            var doctors = await _doctorService.GetDoctors();
+            ViewData["DoctorId"] = new SelectList(
+                doctors.Select(d => new {
+                    d.Id,
+                    FullName = d.Employee.FirstName + " " + d.Employee.LastName + " (" + d.LicenseNumber + ")"
+                }),
+                "Id", "FullName", Appointment?.DoctorId);
         }
     }
 
