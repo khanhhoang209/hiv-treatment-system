@@ -14,12 +14,14 @@ namespace Application.Pages.AppointmentsOnline
     {
         private readonly IAppointmentOnlService _appointmentService;
         private readonly ApplicationDbContext _context;
+        private readonly IDoctorService _doctorService;
         private readonly IConfiguration _configuration;
 
-        public CreateModel(IAppointmentOnlService appointmentService, ApplicationDbContext context, IConfiguration configuration)
+        public CreateModel(IAppointmentOnlService appointmentService, ApplicationDbContext context, IDoctorService doctorService, IConfiguration configuration)
         {
             _appointmentService = appointmentService;
             _context = context;
+            _doctorService = doctorService;
             _configuration = configuration;
         }
 
@@ -30,13 +32,25 @@ namespace Application.Pages.AppointmentsOnline
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var doctors = await _context.Doctors.ToListAsync();
-            DoctorList = new SelectList(doctors, "Id", "Specialization");
+            var doctors = await _doctorService.GetDoctors();
+            ViewData["DoctorId"] = new SelectList(
+                doctors.Select(d => new {
+                    d.Id,
+                    FullName = d.Employee.FirstName + " " + d.Employee.LastName + " (" + d.LicenseNumber + ")"
+                }),
+                "Id", "FullName", Appointment?.DoctorId);
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
+            var doctorsVb = await _doctorService.GetDoctors();
+            ViewData["DoctorId"] = new SelectList(
+                doctorsVb.Select(d => new {
+                    d.Id,
+                    FullName = d.Employee.FirstName + " " + d.Employee.LastName + " (" + d.LicenseNumber + ")"
+                }),
+                "Id", "FullName", Appointment?.DoctorId);
             // Validate appointment date - must be at least 1 day from now
             var minDate = DateTime.Today.AddDays(1);
             if (Appointment.AppointmentDate.Date < minDate)
@@ -88,7 +102,7 @@ namespace Application.Pages.AppointmentsOnline
                 Notes = $"{notesWithLink}"
             };
             await _appointmentService.CreateAppointmentAsync(appointment);
-            return RedirectToPage("../AppointmentsOnline/List");
+            return RedirectToPage("../Appointments/Index");
         }
     }
 }
