@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Service.Implements
 {
@@ -20,9 +21,8 @@ namespace Service.Implements
         }
         public List<Doctor> GetAllDoctors()
         {
-            return _repo.GetAll();
+            return _repo.Query().Include(d => d.Employee).ThenInclude(e => e.User).ToList();
         }
-
         public async Task<Doctor> GetDoctor(Guid id)
         {
             return await _repo.GetByIdAsync(id);

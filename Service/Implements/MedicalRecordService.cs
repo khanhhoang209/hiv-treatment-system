@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Repository.Implements;
 
 namespace Service.Implements
@@ -32,7 +33,7 @@ namespace Service.Implements
 
         public async Task<List<MedicalRecord>> GetAllMedicalRecords()
         {
-            return await _repo.GetAllAsync();
+            return await _repo.Query().Include(mr => mr.User).Include(mr => mr.Doctor).ToListAsync();
         }
 
         public async Task<List<MedicalRecord>> GetMedicalRecordsByDoctorId(Guid userId)
