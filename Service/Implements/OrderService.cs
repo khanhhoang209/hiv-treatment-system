@@ -33,5 +33,9 @@ public class OrderService : IOrderService
     {
         return await _orderRepository.GetAllOrdersAsync();
     }
+    public async Task<bool> GetOrderByMedicalRecordId(Guid medicalRecordId)
+    {
+        return await _orderRepository.GetOrderByMedicalRecordId(medicalRecordId);
+    }
     
 }

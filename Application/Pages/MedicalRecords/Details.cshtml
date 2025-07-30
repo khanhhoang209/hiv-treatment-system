@@ -57,7 +57,7 @@
         </div>
         <div class="card-footer bg-light d-flex justify-content-between">
             <div>
-                @if (HttpContext.Session.GetString("Role") == "User")
+                @if (HttpContext.Session.GetString("Role") == "User" && !Model.HasOrder)
                 {
                     <form method="post" asp-page-handler="CreatePaypalOrder">
                         <input type="hidden" name="doctorId" value="@Model.MedicalRecord.DoctorId" />

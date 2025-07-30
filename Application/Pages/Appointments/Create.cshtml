@@ -2,43 +2,122 @@
 @model Application.Pages.Appointments.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Tạo Lịch Hẹn";
 }
 
-<h1>Create</h1>
+<style>
+    .create-container {
+        max-width: 480px;
+        margin: 48px auto 0 auto;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 6px 32px rgba(56, 189, 248, 0.10);
+        padding: 36px 32px 28px 32px;
+    }
+    .create-title {
+        text-align: center;
+        font-size: 2.1rem;
+        font-weight: 800;
+        color: #2563eb;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+    }
+    .create-subtitle {
+        text-align: center;
+        color: #64748b;
+        font-size: 1.08rem;
+        margin-bottom: 26px;
+    }
+    .form-label {
+        font-weight: 600;
+        color: #2563eb;
+        margin-bottom: 6px;
+        display: block;
+    }
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #e0e7ef;
+        font-size: 1.08rem;
+        padding: 10px 14px;
+        margin-bottom: 8px;
+        background: #f9fafb;
+        transition: border 0.2s;
+    }
+    .form-control:focus {
+        border: 1.5px solid #38bdf8;
+        outline: none;
+        background: #fff;
+    }
+    .text-danger {
+        font-size: 0.97rem;
+        margin-bottom: 8px;
+        display: block;
+    }
+    .btn-submit {
+        width: 100%;
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 0;
+        font-size: 1.08rem;
+        font-weight: 700;
+        margin-top: 10px;
+        transition: background 0.2s;
+        box-shadow: 0 2px 8px rgba(56, 189, 248, 0.10);
+    }
+    .btn-submit:hover {
+        background: #1e40af;
+    }
+    .back-link {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 18px;
+        color: #2563eb;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.2s;
+        justify-content: center;
+    }
+    .back-link:hover {
+        color: #1e40af;
+        text-decoration: underline;
+    }
+</style>
 
-<h4>Appointment</h4>
-<hr />
-@* <div asp-validation-summary="All" class="text-danger"></div> *@
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Appointment.Status" value="Pending" />
-            <div class="form-group">
-                <label asp-for="Appointment.AppointmentDate" class="control-label"></label>
-                <input asp-for="Appointment.AppointmentDate" class="form-control"/>
-                <span asp-validation-for="Appointment.AppointmentDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Appointment.Notes" class="control-label"></label>
-                <input asp-for="Appointment.Notes" class="form-control"/>
-                <span asp-validation-for="Appointment.Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Appointment.DoctorId" class="control-label"></label>
-                <select asp-for="Appointment.DoctorId" class="form-control" asp-items="ViewBag.DoctorId"></select>
-                <span asp-validation-for="Appointment.DoctorId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary"/>
-            </div>
-        </form>
+<div class="create-container">
+    <div class="create-title">
+        <i class="fas fa-calendar-plus"></i> Tạo Lịch Hẹn Mới
     </div>
-</div>
-
-<div>
-    <a asp-page="Index">Back to List</a>
+    <div class="create-subtitle">
+        Điền thông tin để đặt lịch hẹn khám bệnh
+    </div>
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Appointment.Status" value="Pending" />
+        <div class="form-group">
+            <label asp-for="Appointment.AppointmentDate" class="form-label"></label>
+            <input asp-for="Appointment.AppointmentDate" class="form-control" type="datetime-local"/>
+            <span asp-validation-for="Appointment.AppointmentDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Appointment.Notes" class="form-label"></label>
+            <textarea asp-for="Appointment.Notes" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Appointment.Notes" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Appointment.DoctorId" class="form-label"></label>
+            <select asp-for="Appointment.DoctorId" class="form-control" asp-items="ViewBag.DoctorId"></select>
+            <span asp-validation-for="Appointment.DoctorId" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn-submit">
+            <i class="fas fa-plus-circle"></i> Tạo lịch hẹn
+        </button>
+    </form>
+    <a asp-page="Index" class="back-link">
+        <i class="fas fa-arrow-left"></i> Quay lại danh sách
+    </a>
 </div>
 
 @section Scripts {
