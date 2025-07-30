@@ -24,11 +24,9 @@
                     <form method="post">
                         <div asp-validation-summary="All" class="text-danger mb-3"></div>
                         
-                        <div class="mb-3">
-                            <label asp-for="Appointment.DoctorId" class="form-label">Chọn bác sĩ</label>
-                            <select asp-for="Appointment.DoctorId" asp-items="Model.DoctorList" class="form-select">
-                                <option value="">-- Chọn bác sĩ --</option>
-                            </select>
+                        <div class="form-group">
+                            <label asp-for="Appointment.DoctorId" class="form-label"></label>
+                            <select asp-for="Appointment.DoctorId" class="form-control" asp-items="ViewBag.DoctorId"></select>
                             <span asp-validation-for="Appointment.DoctorId" class="text-danger"></span>
                         </div>
 

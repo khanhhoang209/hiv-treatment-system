@@ -35,12 +35,15 @@ namespace Application.Pages.MedicalRecords
             {
                 var employee = await _employeeService.GetEmployee(doctor.EmployeeId);
                 var user = await _userService.GetApplicationUserById(employee.UserId);
-
-                doctorList.Add(new
+                if (employee.UserId == user.Id)
                 {
-                    Id = doctor.Id,
-                    Name = $"{employee.FirstName} {employee.LastName}"
-                });
+                    doctorList.Add(new
+                    {
+                        Id = doctor.Id,
+                        Name = $"{employee.FirstName} {employee.LastName}"
+                    });
+                    break;
+                }
             }
 
             ViewData["DoctorId"] = new SelectList(doctorList, "Id", "Name");
