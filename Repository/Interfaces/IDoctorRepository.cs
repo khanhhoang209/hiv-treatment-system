@@ -6,5 +6,7 @@ public interface IDoctorRepository : IGenericRepository<Doctor>
 {
     Task<IList<Doctor>> GetDoctorsAsync();
     Task<Doctor?> GetDoctorByIdAsync(Guid id);
+    Task<Doctor?> GetDoctorByUserIdAsync(Guid id);
+
 
 }

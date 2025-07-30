@@ -9,4 +9,5 @@ public interface IAppointmentOffRepository : IGenericRepository<Appointment>
     Task<List<Appointment>> GetAppointmentByUserId(Guid userId);
     Task<List<Appointment>> GetAllAppointments();
     Task<bool> UpdateAppointmentFields(Appointment updated);
+    Task<List<Appointment>> GetAppointmentByDoctorId(Guid doctorId);
 }

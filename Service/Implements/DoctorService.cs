@@ -59,5 +59,9 @@ namespace Service.Implements
         {
             return await _unitOfWork.DoctorRepository.GetDoctorByIdAsync(id)!;
         }
+        public async Task<Doctor?> GetDoctorByUserIdAsync(Guid id)
+        {
+            return await _unitOfWork.DoctorRepository.GetDoctorByUserIdAsync(id)!;
+        }
     }
 }

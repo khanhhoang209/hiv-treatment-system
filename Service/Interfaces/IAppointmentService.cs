@@ -10,4 +10,5 @@ public interface IAppointmentService
     Task<List<Appointment>> GetAppointmentByUserId(Guid userId);
     Task<List<Appointment>> GetAllAppointments();
     Task<bool> UpdateAppointmentFields(Appointment appointment);
+    Task<List<Appointment>> GetAppointmentByDoctorId(Guid doctorId);
 }
