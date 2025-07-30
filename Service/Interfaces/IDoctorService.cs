@@ -16,5 +16,6 @@ namespace Service.Interfaces
         Task<Doctor> UpdateDoctor(Doctor doctor);
         Task<bool> DeleteDoctor(Doctor doctor);
         Task<Doctor?> GetDoctorById(Guid id);
+        Task<Doctor?> GetDoctorByUserIdAsync(Guid id);
     }
 }
