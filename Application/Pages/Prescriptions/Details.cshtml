@@ -11,7 +11,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Prescription Details</h3>
                     <div class="card-tools">
-                        <a asp-page="./Index" class="btn btn-secondary">
+                        <a asp-page="/MedicalRecords/Index" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Back to List
                         </a>
                         @if (HttpContext.Session.GetString("Role") == "Doctor")

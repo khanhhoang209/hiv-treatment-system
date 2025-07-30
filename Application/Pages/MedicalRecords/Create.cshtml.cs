@@ -28,14 +28,15 @@ namespace Application.Pages.MedicalRecords
 
         public async Task<IActionResult> OnGet()
         {
+            var currentUserId = HttpContext.Session.GetString("Account");
             var doctors = _doctorService.GetAllDoctors();
             var doctorList = new List<dynamic>();
 
             foreach (var doctor in doctors)
             {
                 var employee = await _employeeService.GetEmployee(doctor.EmployeeId);
-                var user = await _userService.GetApplicationUserById(employee.UserId);
-                if (employee.UserId == user.Id)
+                // var user = await _userService.GetApplicationUserById(employee.UserId);
+                if (employee.UserId.ToString() == currentUserId)
                 {
                     doctorList.Add(new
                     {
