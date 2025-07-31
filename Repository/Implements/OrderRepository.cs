@@ -122,4 +122,9 @@ public class OrderRepository : IOrderRepository
                             .ThenInclude(cm => cm.Medicine)
             .ToListAsync();
     }
+    public async Task<bool> GetOrderByMedicalRecordId(Guid medicalRecordId)
+    {
+        return await _context.Orders
+            .AnyAsync(o => o.MedicalRecordId == medicalRecordId);
+    }
 }

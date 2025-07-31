@@ -551,7 +551,7 @@ namespace Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ArvRegimentId")
+                    b.Property<Guid?>("ArvRegimentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("MedicalRecordId")
@@ -839,9 +839,7 @@ namespace Repository.Migrations
                 {
                     b.HasOne("Repository.Models.ArvRegimen", "ArvRegimen")
                         .WithMany("TestResults")
-                        .HasForeignKey("ArvRegimentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ArvRegimentId");
 
                     b.HasOne("Repository.Models.MedicalRecord", "MedicalRecord")
                         .WithMany("TestResults")

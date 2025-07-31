@@ -435,7 +435,7 @@ namespace Repository.Migrations
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MedicalRecordId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ArvRegimentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ArvRegimentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -444,8 +444,7 @@ namespace Repository.Migrations
                         name: "FK_TestResult_ArvRegimen_ArvRegimentId",
                         column: x => x.ArvRegimentId,
                         principalTable: "ArvRegimen",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_TestResult_MedicalRecord_MedicalRecordId",
                         column: x => x.MedicalRecordId,

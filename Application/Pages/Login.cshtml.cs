@@ -77,7 +77,7 @@ public class LoginModel : PageModel
         }
         else if (user.Role.Name == Roles.Doctor)
         {
-            return RedirectToPage("/Dashboard/Index");
+            return RedirectToPage("/MedicalRecords/Index");
         }
         else if (user.Role.Name == Roles.Staff)
         {

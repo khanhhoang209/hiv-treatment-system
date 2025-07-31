@@ -2,44 +2,138 @@
 @model Application.Pages.Regimens.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Tạo phác đồ mới";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+@section Styles {
+    <style>
+        .regimen-create-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(31, 41, 55, 0.09);
+            margin: 40px auto 0 auto;
+            max-width: 600px;
+            padding: 0;
+            overflow: hidden;
+        }
 
-<h4>ArvRegimen</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+        .regimen-create-header {
+            background: linear-gradient(90deg, #6366f1 0%, #2563eb 100%);
+            color: #fff;
+            padding: 28px 36px 18px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .regimen-create-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .regimen-create-body {
+            padding: 36px 36px 28px 36px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #2563eb;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            padding: 10px 14px;
+            font-size: 1.08rem;
+            margin-bottom: 10px;
+        }
+
+        .btn-save {
+            background: linear-gradient(90deg, #6366f1 0%, #2563eb 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-weight: 500;
+            margin-right: 10px;
+            transition: background 0.2s;
+        }
+
+        .btn-save:hover {
+            background: #2563eb;
+        }
+
+        .btn-cancel {
+            background: #f3f4f6;
+            color: #374151;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .btn-cancel:hover {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .text-danger {
+            font-size: 0.95rem;
+        }
+    </style>
+}
+
+<div class="regimen-create-card shadow">
+    <div class="regimen-create-header">
+        <h2>
+            <i class="fas fa-pills"></i>
+            Tạo phác đồ điều trị mới
+        </h2>
+    </div>
+    <div class="regimen-create-body">
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ArvRegimen.Name" class="control-label"></label>
-                <input asp-for="ArvRegimen.Name" class="form-control" />
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            <div class="mb-3">
+                <label asp-for="ArvRegimen.Name" class="form-label">
+                    <i class="fas fa-tag me-1"></i>Tên phác đồ
+                </label>
+                <input asp-for="ArvRegimen.Name" class="form-control" placeholder="Nhập tên phác đồ..." />
                 <span asp-validation-for="ArvRegimen.Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ArvRegimen.Description" class="control-label"></label>
-                <input asp-for="ArvRegimen.Description" class="form-control" />
+            <div class="mb-3">
+                <label asp-for="ArvRegimen.Description" class="form-label">
+                    <i class="fas fa-file-alt me-1"></i>Mô tả
+                </label>
+                <textarea asp-for="ArvRegimen.Description" class="form-control" rows="3"
+                    placeholder="Nhập mô tả chi tiết..."></textarea>
                 <span asp-validation-for="ArvRegimen.Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ArvRegimen.Level" class="control-label"></label>
-                <input asp-for="ArvRegimen.Level" class="form-control" />
+            <div class="mb-4">
+                <label asp-for="ArvRegimen.Level" class="form-label">
+                    <i class="fas fa-layer-group me-1"></i>Cấp độ
+                </label>
+                <input asp-for="ArvRegimen.Level" class="form-control" placeholder="Nhập cấp độ (ví dụ: 1, 2, 3...)" />
                 <span asp-validation-for="ArvRegimen.Level" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn-save">
+                    <i class="fas fa-save me-1"></i>Lưu phác đồ
+                </button>
+                <a asp-page="./Index" class="btn-cancel">Hủy</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -11,12 +11,15 @@
                 <div class="card-header">
                     <h3 class="card-title">Prescription Details</h3>
                     <div class="card-tools">
-                        <a asp-page="./Index" class="btn btn-secondary">
+                        <a asp-page="/MedicalRecords/Index" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Back to List
                         </a>
-                        <a asp-page="./Edit" asp-route-id="@Model.Prescription.Id" class="btn btn-warning">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
+                        @if (HttpContext.Session.GetString("Role") == "Doctor")
+                        {
+                            <a asp-page="./Edit" asp-route-id="@Model.Prescription.Id" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                        }
                     </div>
                 </div>
                 <div class="card-body">
@@ -58,9 +61,12 @@
                             <div class="col-12">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h5>Prescribed Medicines</h5>
-                                    <a asp-page="../PrescriptionMedicines/Index" asp-route-prescriptionId="@Model.Prescription.Id" class="btn btn-info btn-sm">
-                                        <i class="fas fa-pills"></i> Manage Medicines
-                                    </a>
+                                    @if (HttpContext.Session.GetString("Role") == "Doctor")
+                                    {
+                                        <a asp-page="../PrescriptionMedicines/Index" asp-route-prescriptionId="@Model.Prescription.Id" class="btn btn-info btn-sm">
+                                            <i class="fas fa-pills"></i> Manage Medicines
+                                        </a>
+                                    }
                                 </div>
                                 @if (Model.Prescription.PrescriptionMedicines?.Any() == true)
                                 {
