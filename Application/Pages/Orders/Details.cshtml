@@ -463,10 +463,13 @@
                 <i class="fas fa-file-medical"></i>
                 Xem hồ sơ bệnh án
             </a>
-            <a asp-page="./Index" class="btn-action btn-back">
-                <i class="fas fa-arrow-left"></i>
-                Quay lại danh sách
-            </a>
+            @if (HttpContext.Session.GetString("Role") != "User")
+            {
+                <a asp-page="./Index" class="btn-action btn-back">
+                    <i class="fas fa-arrow-left"></i>
+                    Quay lại danh sách
+                </a>
+            }
         </div>
     }
     else

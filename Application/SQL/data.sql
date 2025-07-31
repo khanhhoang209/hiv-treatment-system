@@ -198,13 +198,13 @@ INSERT INTO [MedicalRecord] (Id, RecordDate, Diagnosis, Treatment, Notes, Doctor
     ('6789ABCD-EF12-89AB-278E-123456789ABC', DATEADD(DAY, -18, CAST(GETDATE() AS DATE)), N'HIV với tổn thương da', N'Điều trị ARV theo phác đồ', N'Bệnh nhân tuân thủ điều trị tốt', @DoctorId2, '78901234-56AB-7834-6789-012345678901'),
     ('789ABCDE-F123-9ABC-389F-23456789ABCD', DATEADD(DAY, -14, CAST(GETDATE() AS DATE)), N'HIV kèm nhiễm trùng cơ hội', N'Điều trị ARV theo phác đồ', N'Bệnh nhân tuân thủ điều trị tốt', @DoctorId3, '89012345-67BC-8945-7890-123456789012'),
     ('89ABCDEF-1234-ABCD-49A0-3456789ABCDE', DATEADD(DAY, -6, CAST(GETDATE() AS DATE)), N'HIV giai đoạn mãn tính', N'Điều trị ARV theo phác đồ', N'Bệnh nhân tuân thủ điều trị tốt', @DoctorId1, '90123456-78CD-9056-8901-234567890123'),
-    ('9ABCDEF1-2345-BCDE-5AB1-456789ABCDEF', DATEADD(DAY, -22, CAST(GETDATE() AS DATE)), 'HIV điều trị ổn định', 'Điều trị ARV theo phác đồ', 'Bệnh nhân tuân thủ điều trị tốt', @DoctorId2, '01234567-89DE-0167-9012-345678901234'),
-    ('ABCDEF12-3456-CDEF-6BC2-56789ABCDEF1', DATEADD(DAY, -9, CAST(GETDATE() AS DATE)), 'HIV với tổn thương da', 'Điều trị ARV theo phác đồ', 'Bệnh nhân tuân thủ điều trị tốt', @DoctorId3, '12345678-90EF-1278-0123-456789012345'),
-    ('BCDEF123-4567-DEF1-7CD3-6789ABCDEF12', DATEADD(DAY, -16, CAST(GETDATE() AS DATE)), 'HIV kèm nhiễm trùng cơ hội', 'Điều trị ARV theo phác đồ', 'Bệnh nhân tuân thủ điều trị tốt', @DoctorId1, '23456789-01F0-2389-1234-567890123456'),
-    ('CDEF1234-5678-EF12-8DE4-789ABCDEF123', DATEADD(DAY, -11, CAST(GETDATE() AS DATE)), 'HIV giai đoạn mãn tính', 'Điều trị ARV theo phác đồ', 'Bệnh nhân tuân thủ điều trị tốt', @DoctorId2, '34567890-1201-349A-2345-678901234567'),
-    ('DEF12345-6789-F123-9EF5-89ABCDEF1234', DATEADD(DAY, -4, CAST(GETDATE() AS DATE)), 'HIV điều trị ổn định', 'Điều trị ARV theo phác đồ', 'Bệnh nhân tuân thủ điều trị tốt', @DoctorId3, '45678901-2312-45AB-3456-789012345678'),
-    ('EF123456-789A-1234-AF06-9ABCDEF12345', DATEADD(DAY, -19, CAST(GETDATE() AS DATE)), 'HIV với tổn thương da', 'Điều trị ARV theo phác đồ', 'Bệnh nhân tuân thủ điều trị tốt', @DoctorId1, '56789012-3423-56BC-4567-890123456789'),
-    ('F1234567-89AB-2345-B017-ABCDEF123456', DATEADD(DAY, -13, CAST(GETDATE() AS DATE)), 'HIV kèm nhiễm trùng cơ hội', 'Điều trị ARV theo phác đồ', 'Bệnh nhân tuân thủ điều trị tốt', @DoctorId2, '67890123-4534-67CD-5678-901234567890');
+    ('9ABCDEF1-2345-BCDE-5AB1-456789ABCDEF', DATEADD(DAY, -22, CAST(GETDATE() AS DATE)), N'HIV điều trị ổn định', N'Điều trị ARV theo phác đồ', N'Bệnh nhân tuân thủ điều trị tốt', @DoctorId2, '01234567-89DE-0167-9012-345678901234'),
+    ('ABCDEF12-3456-CDEF-6BC2-56789ABCDEF1', DATEADD(DAY, -9, CAST(GETDATE() AS DATE)), N'HIV với tổn thương da', N'Điều trị ARV theo phác đồ', N'Bệnh nhân tuân thủ điều trị tốt', @DoctorId3, '12345678-90EF-1278-0123-456789012345'),
+    ('BCDEF123-4567-DEF1-7CD3-6789ABCDEF12', DATEADD(DAY, -16, CAST(GETDATE() AS DATE)), N'HIV kèm nhiễm trùng cơ hội', N'Điều trị ARV theo phác đồ', N'Bệnh nhân tuân thủ điều trị tốt', @DoctorId1, '23456789-01F0-2389-1234-567890123456'),
+    ('CDEF1234-5678-EF12-8DE4-789ABCDEF123', DATEADD(DAY, -11, CAST(GETDATE() AS DATE)), N'HIV giai đoạn mãn tính', N'Điều trị ARV theo phác đồ', N'Bệnh nhân tuân thủ điều trị tốt', @DoctorId2, '34567890-1201-349A-2345-678901234567'),
+    ('DEF12345-6789-F123-9EF5-89ABCDEF1234', DATEADD(DAY, -4, CAST(GETDATE() AS DATE)), N'HIV điều trị ổn định', N'Điều trị ARV theo phác đồ', N'Bệnh nhân tuân thủ điều trị tốt', @DoctorId3, '45678901-2312-45AB-3456-789012345678'),
+    ('EF123456-789A-1234-AF06-9ABCDEF12345', DATEADD(DAY, -19, CAST(GETDATE() AS DATE)), N'HIV với tổn thương da', N'Điều trị ARV theo phác đồ', N'Bệnh nhân tuân thủ điều trị tốt', @DoctorId1, '56789012-3423-56BC-4567-890123456789'),
+    ('F1234567-89AB-2345-B017-ABCDEF123456', DATEADD(DAY, -13, CAST(GETDATE() AS DATE)), N'HIV kèm nhiễm trùng cơ hội', N'Điều trị ARV theo phác đồ', N'Bệnh nhân tuân thủ điều trị tốt', @DoctorId2, '67890123-4534-67CD-5678-901234567890');
 
 -- ================================================
 -- 10. TEST RESULTS DATA
@@ -228,10 +228,10 @@ INSERT INTO [TestResult] (Id, TestDate, Result, Notes, MedicalRecordId, TypeId, 
     (NEWID(), DATEADD(DAY, -4, GETDATE()), 'Positive', N'Phản ứng tốt với thuốc', '9ABCDEF1-2345-BCDE-5AB1-456789ABCDEF', @TypeId4, @ArvId2),
     (NEWID(), DATEADD(DAY, -5, GETDATE()), 'Pending', N'Đang xử lý mẫu', 'ABCDEF12-3456-CDEF-6BC2-56789ABCDEF1', @TypeId5, @ArvId1),
     (NEWID(), DATEADD(DAY, -6, GETDATE()), 'Negative', N'Không phát hiện virus', 'BCDEF123-4567-DEF1-7CD3-6789ABCDEF12', @TypeId2, @ArvId2),
-    (NEWID(), DATEADD(DAY, -7, GETDATE()), 'Positive', 'Có tải lượng HIV', 'CDEF1234-5678-EF12-8DE4-789ABCDEF123', @TypeId3, @ArvId1),
-    (NEWID(), DATEADD(DAY, -8, GETDATE()), 'Negative', 'Đáp ứng điều trị', 'DEF12345-6789-F123-9EF5-89ABCDEF1234', @TypeId1, @ArvId2),
-    (NEWID(), DATEADD(DAY, -9, GETDATE()), 'Pending', 'Đang chờ xử lý', 'EF123456-789A-1234-AF06-9ABCDEF12345', @TypeId4, @ArvId1),
-    (NEWID(), DATEADD(DAY, -10, GETDATE()), 'Negative', 'Ổn định', 'F1234567-89AB-2345-B017-ABCDEF123456', @TypeId5, @ArvId2);
+    (NEWID(), DATEADD(DAY, -7, GETDATE()), 'Positive', N'Có tải lượng HIV', 'CDEF1234-5678-EF12-8DE4-789ABCDEF123', @TypeId3, @ArvId1),
+    (NEWID(), DATEADD(DAY, -8, GETDATE()), 'Negative', N'Đáp ứng điều trị', 'DEF12345-6789-F123-9EF5-89ABCDEF1234', @TypeId1, @ArvId2),
+    (NEWID(), DATEADD(DAY, -9, GETDATE()), 'Pending', N'Đang chờ xử lý', 'EF123456-789A-1234-AF06-9ABCDEF12345', @TypeId4, @ArvId1),
+    (NEWID(), DATEADD(DAY, -10, GETDATE()), 'Negative', N'Ổn định', 'F1234567-89AB-2345-B017-ABCDEF123456', @TypeId5, @ArvId2);
 
 -- ================================================
 -- 14. MEDICINES DATA (50 loại thuốc)
@@ -239,14 +239,14 @@ INSERT INTO [TestResult] (Id, TestDate, Result, Notes, MedicalRecordId, TypeId, 
 PRINT 'Inserting Medicines...';
 
 INSERT INTO [Medicine] (Id, Name, Description, Price, Stock) VALUES
-    ('11111111-1111-1111-1111-111111111111', 'Efavirenz 600mg', 'Thuốc ARV nhóm NNRTI', 25000, 100),
-    ('22222222-2222-2222-2222-222222222222', 'Tenofovir 300mg', 'Thuốc ARV nhóm NRTI', 30000, 100),
-    ('33333333-3333-3333-3333-333333333333', 'Emtricitabine 200mg', 'Thuốc ARV nhóm NRTI', 28000, 100),
-    ('44444444-4444-4444-4444-444444444444', 'Dolutegravir 50mg', 'Thuốc ARV nhóm INSTI', 45000, 100),
-    ('55555555-5555-5555-5555-555555555555', 'Rilpivirine 25mg', 'Thuốc ARV nhóm NNRTI', 35000, 100),
-    ('66666666-6666-6666-6666-666666666666', 'Abacavir 600mg', 'Thuốc ARV nhóm NRTI', 40000, 100),
-    ('77777777-7777-7777-7777-777777777777', 'Lamivudine 150mg', 'Thuốc ARV nhóm NRTI', 20000, 100),
-    ('88888888-8888-8888-8888-888888888888', 'Zidovudine 300mg', 'Thuốc ARV nhóm NRTI', 22000, 100),
+    ('11111111-1111-1111-1111-111111111111', 'Efavirenz 600mg', N'Thuốc ARV nhóm NNRTI', 25000, 100),
+    ('22222222-2222-2222-2222-222222222222', 'Tenofovir 300mg', N'Thuốc ARV nhóm NRTI', 30000, 100),
+    ('33333333-3333-3333-3333-333333333333', 'Emtricitabine 200mg', N'Thuốc ARV nhóm NRTI', 28000, 100),
+    ('44444444-4444-4444-4444-444444444444', 'Dolutegravir 50mg', N'Thuốc ARV nhóm INSTI', 45000, 100),
+    ('55555555-5555-5555-5555-555555555555', 'Rilpivirine 25mg', N'Thuốc ARV nhóm NNRTI', 35000, 100),
+    ('66666666-6666-6666-6666-666666666666', 'Abacavir 600mg', N'Thuốc ARV nhóm NRTI', 40000, 100),
+    ('77777777-7777-7777-7777-777777777777', 'Lamivudine 150mg', N'Thuốc ARV nhóm NRTI', 20000, 100),
+    ('88888888-8888-8888-8888-888888888888', 'Zidovudine 300mg', N'Thuốc ARV nhóm NRTI', 22000, 100),
     ('99999999-9999-9999-9999-999999999999', 'Atazanavir 300mg', N'Thuốc ARV nhóm PI', 50000, 100),
     ('AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA', 'Ritonavir 100mg', N'Thuốc ARV nhóm PI', 25000, 100),
     ('BBBBBBBB-BBBB-BBBB-BBBB-BBBBBBBBBBBB', 'Darunavir 800mg', N'Thuốc ARV nhóm PI', 55000, 100),
@@ -278,18 +278,18 @@ INSERT INTO [Medicine] (Id, Name, Description, Price, Stock) VALUES
     ('78787878-7878-7878-7878-787878787878', 'Dolutegravir/Abacavir/Lamivudine', N'Thuốc ARV phối hợp 3 trong 1', 105000, 100),
     ('89898989-8989-8989-8989-898989898989', 'Rilpivirine/Emtricitabine/Tenofovir', N'Thuốc ARV phối hợp 3 trong 1', 95000, 100),
     ('9A9A9A9A-9A9A-9A9A-9A9A-9A9A9A9A9A9A', 'Darunavir/Cobicistat', N'Thuốc ARV phối hợp', 78000, 100),
-    ('ABABABAB-ABAB-ABAB-ABAB-ABABABABABAB', 'Atazanavir/Cobicistat', 'Thuốc ARV phối hợp', 72000, 100),
-    ('BCBCBCBC-BCBC-BCBC-BCBC-BCBCBCBCBCBC', 'Paracetamol 500mg', 'Thuốc giảm đau, hạ sốt', 2000, 100),
-    ('CDCDCDCD-CDCD-CDCD-CDCD-CDCDCDCDCDCD', 'Ibuprofen 400mg', 'Thuốc chống viêm', 3500, 100),
-    ('DEDEDEDE-DEDE-DEDE-DEDE-DEDEDEDEDEDE', 'Fluconazole 150mg', 'Thuốc chống nấm', 15000, 100),
-    ('EFEFEFEF-EFEF-EFEF-EFEF-EFEFEFEFEFEF', 'Metronidazole 500mg', 'Thuốc kháng sinh', 8000, 100),
-    ('F0F0F0F0-F0F0-F0F0-F0F0-F0F0F0F0F0F0', 'Ciprofloxacin 500mg', 'Thuốc kháng sinh', 12000, 100),
-    ('01010101-0101-0101-0101-010101010101', 'Azithromycin 250mg', 'Thuốc kháng sinh', 18000, 100),
-    ('02020202-0202-0202-0202-020202020202', 'Trimethoprim/Sulfamethoxazole', 'Thuốc kháng sinh phối hợp', 9500, 100),
-    ('03030303-0303-0303-0303-030303030303', 'Vitamin B Complex', 'Vitamin tổng hợp nhóm B', 5000, 100),
-    ('04040404-0404-0404-0404-040404040404', 'Vitamin C 1000mg', 'Vitamin tăng cường miễn dịch', 4000, 100),
-    ('05050505-0505-0505-0505-050505050505', 'Omega-3 Fish Oil', 'Bổ sung axit béo omega-3', 25000, 100),
-    ('06060606-0606-0606-0606-060606060606', 'Calcium + Vitamin D3', 'Bổ sung canxi và vitamin D', 15000, 100);
+    ('ABABABAB-ABAB-ABAB-ABAB-ABABABABABAB', 'Atazanavir/Cobicistat', N'Thuốc ARV phối hợp', 72000, 100),
+    ('BCBCBCBC-BCBC-BCBC-BCBC-BCBCBCBCBCBC', 'Paracetamol 500mg', N'Thuốc giảm đau, hạ sốt', 2000, 100),
+    ('CDCDCDCD-CDCD-CDCD-CDCD-CDCDCDCDCDCD', 'Ibuprofen 400mg', N'Thuốc chống viêm', 3500, 100),
+    ('DEDEDEDE-DEDE-DEDE-DEDE-DEDEDEDEDEDE', 'Fluconazole 150mg', N'Thuốc chống nấm', 15000, 100),
+    ('EFEFEFEF-EFEF-EFEF-EFEF-EFEFEFEFEFEF', 'Metronidazole 500mg', N'Thuốc kháng sinh', 8000, 100),
+    ('F0F0F0F0-F0F0-F0F0-F0F0-F0F0F0F0F0F0', 'Ciprofloxacin 500mg', N'Thuốc kháng sinh', 12000, 100),
+    ('01010101-0101-0101-0101-010101010101', 'Azithromycin 250mg', N'Thuốc kháng sinh', 18000, 100),
+    ('02020202-0202-0202-0202-020202020202', 'Trimethoprim/Sulfamethoxazole', N'Thuốc kháng sinh phối hợp', 9500, 100),
+    ('03030303-0303-0303-0303-030303030303', 'Vitamin B Complex', N'Vitamin tổng hợp nhóm B', 5000, 100),
+    ('04040404-0404-0404-0404-040404040404', 'Vitamin C 1000mg', N'Vitamin tăng cường miễn dịch', 4000, 100),
+    ('05050505-0505-0505-0505-050505050505', 'Omega-3 Fish Oil', N'Bổ sung axit béo omega-3', 25000, 100),
+    ('06060606-0606-0606-0606-060606060606', 'Calcium + Vitamin D3', N'Bổ sung canxi và vitamin D', 15000, 100);
 
 -- ================================================
 -- 15. PRESCRIPTIONS DATA (Đơn thuốc cho 20 bệnh nhân)
@@ -297,26 +297,26 @@ INSERT INTO [Medicine] (Id, Name, Description, Price, Stock) VALUES
 PRINT 'Inserting Prescriptions...';
 
 INSERT INTO [Prescription] (Id, PrescriptionDate, Notes, MedicalRecordId) VALUES
-    ('0A1B2C3D-4E5F-6789-ABCD-1234567890AB', DATEADD(DAY, -5, CAST(GETDATE() AS DATE)), 'Uống theo chỉ định, không được bỏ liều', 'BCDEF123-4567-8901-8DE4-6789ABCDEF12'),
-    ('1B2C3D4E-5F60-789A-BCDE-2345678901BC', DATEADD(DAY, -10, CAST(GETDATE() AS DATE)), 'Uống đúng giờ, theo dõi tác dụng phụ', 'CDEF1234-5678-9012-9EF5-789ABCDEF123'),
-    ('2C3D4E5F-6071-89AB-CDEF-3456789012CD', DATEADD(DAY, -15, CAST(GETDATE() AS DATE)), 'Uống sau ăn 30 phút, đủ nước',  'DEF12345-6789-0123-AF06-89ABCDEF1234'),
-    ('3D4E5F60-7182-9ABC-DEFA-4567890123DE', DATEADD(DAY, -8, CAST(GETDATE() AS DATE)), 'Uống hàng ngày cùng giờ', 'EF123456-789A-1234-B017-9ABCDEF12345'),
-    ('4E5F6071-8293-ABCD-EFAB-5678901234EF', DATEADD(DAY, -12, CAST(GETDATE() AS DATE)), 'Không uống cùng với thuốc khác', 'F1234567-89AB-2345-C128-ABCDEF123456'),
-    ('5F607182-9304-BCDE-FABC-6789012345F0', DATEADD(DAY, -3, CAST(GETDATE() AS DATE)), 'Uống theo chỉ định bác sĩ',  '12345678-9ABC-3456-D239-BCDEF1234567'),
-    ('60718293-0415-CDEF-ABCD-7890123456A1', DATEADD(DAY, -7, CAST(GETDATE() AS DATE)), 'Tăng liều dần theo hướng dẫn',  '23456789-ABCD-4567-E34A-CDEF12345678'),
-    ('71829304-1526-DEFA-BCDE-8901234567B2', DATEADD(DAY, -20, CAST(GETDATE() AS DATE)), 'Uống trước ăn 1 tiếng',  '3456789A-BCDE-5678-F45B-DEF123456789'),
-    ('82930415-2637-EFAB-CDEF-9012345678C3', DATEADD(DAY, -25, CAST(GETDATE() AS DATE)), 'Kiểm tra gan thận định kỳ',  '456789AB-CDEF-6789-056C-EF123456789A'),
-    ('93041526-3748-FABC-DEFA-0123456789D4', DATEADD(DAY, -2, CAST(GETDATE() AS DATE)), 'Uống với thức ăn để giảm kích ứng dạ dày', '56789ABC-DEF1-789A-167D-F123456789AB'),
-    ('04152637-4859-ABCD-EFAB-1234567890E5', DATEADD(DAY, -18, CAST(GETDATE() AS DATE)), 'Theo dõi các triệu chứng bất thường', '6789ABCD-EF12-89AB-278E-123456789ABC'),
-    ('15263748-5960-BCDE-FABC-2345678901F6', DATEADD(DAY, -14, CAST(GETDATE() AS DATE)), 'Uống đều đặn để duy trì nồng độ thuốc', '789ABCDE-F123-9ABC-389F-23456789ABCD'),
-    ('26374859-6071-CDEF-ABCD-345678901207', DATEADD(DAY, -6, CAST(GETDATE() AS DATE)), 'Tránh uống với rượu bia', '89ABCDEF-1234-ABCD-49A0-3456789ABCDE'),
-    ('37485960-7182-DEFA-BCDE-456789012318', DATEADD(DAY, -22, CAST(GETDATE() AS DATE)), 'Bảo quản thuốc nơi khô ráo, thoáng mát',  '9ABCDEF1-2345-BCDE-5AB1-456789ABCDEF'),
-    ('48596071-8293-EFAB-CDEF-567890123429', DATEADD(DAY, -9, CAST(GETDATE() AS DATE)), 'Uống đúng liều, không tự ý thay đổi',  'ABCDEF12-3456-CDEF-6BC2-56789ABCDEF1'),
-    ('59607182-9304-FABC-DEFA-67890123453A', DATEADD(DAY, -16, CAST(GETDATE() AS DATE)), 'Thông báo ngay nếu có phản ứng dị ứng',  'BCDEF123-4567-DEF1-7CD3-6789ABCDEF12'),
-    ('60718293-0415-ABCD-EFAB-78901234564B', DATEADD(DAY, -11, CAST(GETDATE() AS DATE)), 'Uống cùng giờ mỗi ngày',  'CDEF1234-5678-EF12-8DE4-789ABCDEF123'),
-    ('71829304-1526-BCDE-FABC-89012345675C', DATEADD(DAY, -4, CAST(GETDATE() AS DATE)), 'Tránh tiếp xúc với ánh nắng mặt trời', 'DEF12345-6789-F123-9EF5-89ABCDEF1234'),
-    ('82930415-2637-CDEF-ABCD-90123456786D', DATEADD(DAY, -19, CAST(GETDATE() AS DATE)), 'Kiểm tra sức khỏe định kỳ',  'EF123456-789A-1234-AF06-9ABCDEF12345'),
-    ('93041526-3748-DEFA-BCDE-01234567897E', DATEADD(DAY, -13, CAST(GETDATE() AS DATE)), 'Uống nhiều nước trong ngày', 'F1234567-89AB-2345-B017-ABCDEF123456');
+    ('0A1B2C3D-4E5F-6789-ABCD-1234567890AB', DATEADD(DAY, -5, CAST(GETDATE() AS DATE)), N'Uống theo chỉ định, không được bỏ liều', 'BCDEF123-4567-8901-8DE4-6789ABCDEF12'),
+    ('1B2C3D4E-5F60-789A-BCDE-2345678901BC', DATEADD(DAY, -10, CAST(GETDATE() AS DATE)), N'Uống đúng giờ, theo dõi tác dụng phụ', 'CDEF1234-5678-9012-9EF5-789ABCDEF123'),
+    ('2C3D4E5F-6071-89AB-CDEF-3456789012CD', DATEADD(DAY, -15, CAST(GETDATE() AS DATE)), N'Uống sau ăn 30 phút, đủ nước',  'DEF12345-6789-0123-AF06-89ABCDEF1234'),
+    ('3D4E5F60-7182-9ABC-DEFA-4567890123DE', DATEADD(DAY, -8, CAST(GETDATE() AS DATE)), N'Uống hàng ngày cùng giờ', 'EF123456-789A-1234-B017-9ABCDEF12345'),
+    ('4E5F6071-8293-ABCD-EFAB-5678901234EF', DATEADD(DAY, -12, CAST(GETDATE() AS DATE)), N'Không uống cùng với thuốc khác', 'F1234567-89AB-2345-C128-ABCDEF123456'),
+    ('5F607182-9304-BCDE-FABC-6789012345F0', DATEADD(DAY, -3, CAST(GETDATE() AS DATE)), N'Uống theo chỉ định bác sĩ',  '12345678-9ABC-3456-D239-BCDEF1234567'),
+    ('60718293-0415-CDEF-ABCD-7890123456A1', DATEADD(DAY, -7, CAST(GETDATE() AS DATE)), N'Tăng liều dần theo hướng dẫn',  '23456789-ABCD-4567-E34A-CDEF12345678'),
+    ('71829304-1526-DEFA-BCDE-8901234567B2', DATEADD(DAY, -20, CAST(GETDATE() AS DATE)), N'Uống trước ăn 1 tiếng',  '3456789A-BCDE-5678-F45B-DEF123456789'),
+    ('82930415-2637-EFAB-CDEF-9012345678C3', DATEADD(DAY, -25, CAST(GETDATE() AS DATE)), N'Kiểm tra gan thận định kỳ',  '456789AB-CDEF-6789-056C-EF123456789A'),
+    ('93041526-3748-FABC-DEFA-0123456789D4', DATEADD(DAY, -2, CAST(GETDATE() AS DATE)), N'Uống với thức ăn để giảm kích ứng dạ dày', '56789ABC-DEF1-789A-167D-F123456789AB'),
+    ('04152637-4859-ABCD-EFAB-1234567890E5', DATEADD(DAY, -18, CAST(GETDATE() AS DATE)), N'Theo dõi các triệu chứng bất thường', '6789ABCD-EF12-89AB-278E-123456789ABC'),
+    ('15263748-5960-BCDE-FABC-2345678901F6', DATEADD(DAY, -14, CAST(GETDATE() AS DATE)), N'Uống đều đặn để duy trì nồng độ thuốc', '789ABCDE-F123-9ABC-389F-23456789ABCD'),
+    ('26374859-6071-CDEF-ABCD-345678901207', DATEADD(DAY, -6, CAST(GETDATE() AS DATE)), N'Tránh uống với rượu bia', '89ABCDEF-1234-ABCD-49A0-3456789ABCDE'),
+    ('37485960-7182-DEFA-BCDE-456789012318', DATEADD(DAY, -22, CAST(GETDATE() AS DATE)), N'Bảo quản thuốc nơi khô ráo, thoáng mát',  '9ABCDEF1-2345-BCDE-5AB1-456789ABCDEF'),
+    ('48596071-8293-EFAB-CDEF-567890123429', DATEADD(DAY, -9, CAST(GETDATE() AS DATE)), N'Uống đúng liều, không tự ý thay đổi',  'ABCDEF12-3456-CDEF-6BC2-56789ABCDEF1'),
+    ('59607182-9304-FABC-DEFA-67890123453A', DATEADD(DAY, -16, CAST(GETDATE() AS DATE)), N'Thông báo ngay nếu có phản ứng dị ứng',  'BCDEF123-4567-DEF1-7CD3-6789ABCDEF12'),
+    ('60718293-0415-ABCD-EFAB-78901234564B', DATEADD(DAY, -11, CAST(GETDATE() AS DATE)), N'Uống cùng giờ mỗi ngày',  'CDEF1234-5678-EF12-8DE4-789ABCDEF123'),
+    ('71829304-1526-BCDE-FABC-89012345675C', DATEADD(DAY, -4, CAST(GETDATE() AS DATE)), N'Tránh tiếp xúc với ánh nắng mặt trời', 'DEF12345-6789-F123-9EF5-89ABCDEF1234'),
+    ('82930415-2637-CDEF-ABCD-90123456786D', DATEADD(DAY, -19, CAST(GETDATE() AS DATE)), N'Kiểm tra sức khỏe định kỳ',  'EF123456-789A-1234-AF06-9ABCDEF12345'),
+    ('93041526-3748-DEFA-BCDE-01234567897E', DATEADD(DAY, -13, CAST(GETDATE() AS DATE)), N'Uống nhiều nước trong ngày', 'F1234567-89AB-2345-B017-ABCDEF123456');
 
 
 -- ================================================

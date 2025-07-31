@@ -95,24 +95,24 @@
                                                         <td><strong>@medicine.MedicineName</strong></td>
                                                         <td>@medicine.MedicineDescription</td>
                                                         <td>
-                                                            <span class="badge badge-primary">@medicine.Quantity</span>
+                                                            <span class="badge text-dark bg-light">@medicine.Quantity</span>
                                                         </td>
                                                         <td>
-                                                            <span class="badge badge-info">@medicine.Dosage mg</span>
+                                                            <span class="badge text-dark bg-light">@medicine.Dosage mg</span>
                                                         </td>
                                                         <td>@medicine.Instructions</td>
                                                         <td>
-                                                            <span class="badge badge-success">@medicine.SumOfMedicationTime times/day</span>
+                                                            <span class="badge text-dark bg-light">@medicine.SumOfMedicationTime times/day</span>
                                                         </td>
-                                                        <td>@medicine.BoughtPrice.ToString("C")</td>
-                                                        <td><strong>@medicine.TotalPrice.ToString("C")</strong></td>
+                                                        <td>@medicine.BoughtPrice.ToString("N0") VNĐ</td>
+                                                        <td><strong>@medicine.TotalPrice.ToString("N0") VNĐ</strong></td>
                                                     </tr>
                                                 }
                                             </tbody>
                                             <tfoot>
                                                 <tr class="table-info">
                                                     <td colspan="7"><strong>Total Cost:</strong></td>
-                                                    <td><strong>@grandTotal.ToString("C")</strong></td>
+                                                    <td><strong>@grandTotal.ToString("N0") VNĐ</strong></td>
                                                 </tr>
                                             </tfoot>
                                         </table>
